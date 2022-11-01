@@ -4,6 +4,9 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import SampleList from './component/SampleList';
 import { getAlllNews } from './services/NewsService';
 
+// Import Navigator from navigator.js
+import Navigator from './navigation/navigator';
+
 const App = () => {
   const [news, setNews] = useState([]);
   //getAlllNews(setNews);
