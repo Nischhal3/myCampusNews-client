@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// npx expo install expo-font
+import React from 'react';
+import {useFonts} from 'expo-font';
 
-export default function App() {
+// Import Navigator from navigator.js
+import Navigator from './navigation/navigator';
+
+const App = () => {
+
+  let [fontsLoaded] = useFonts({
+    "Goldman-regular": require("./assets/fonts/Goldman-Regular.ttf"),
+    "Goldman-bold": require("./assets/fonts/Goldman-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Navigator />
   );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
+
+export default App;
