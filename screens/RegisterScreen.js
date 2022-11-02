@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   ImageBackground,
@@ -6,14 +6,24 @@ import {
   View,
   TextInput,
   Button,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Controller, useForm } from 'react-hook-form';
 import FormInput from '../component/FormInput';
 import ErrorMessage from '../component/ErrorMessage';
+import { getAllUsers, register } from '../services/UserService';
 
 const Register = () => {
-  const [text, onChangeText] = useState('Useless Text');
+  const [user, setUser] = useState([]);
+  //getAlllNews(setNews);
+  console.log('App', user);
+
+  // getAlllNews function is called once after the page is rendered
+  useEffect(() => {
+    getAllUsers(setUser);
+  }, []);
+
   const {
     control,
     handleSubmit,
@@ -22,7 +32,7 @@ const Register = () => {
     getValues,
   } = useForm({
     defaultValues: {
-      username: '',
+      fullName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -30,13 +40,24 @@ const Register = () => {
     mode: 'onBlur',
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log('Form data', data);
-    resetField('username');
-    resetField('email');
-    resetField('password');
-    resetField('confirmPassword');
+
+    try {
+      delete data.confirmPassword;
+      const userData = await register(data);
+      if (userData) {
+        Alert.alert('Success', 'Successfully signed up.');
+        resetField('fullName');
+        resetField('email');
+        resetField('password');
+        resetField('confirmPassword');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <SafeAreaView>
       <Text>Register</Text>
@@ -58,12 +79,12 @@ const Register = () => {
             value={value}
           />
         )}
-        name="username"
+        name="fullName"
       />
 
       <ErrorMessage
-        error={errors?.username}
-        message={errors?.username?.message}
+        error={errors?.fullName}
+        message={errors?.fullName?.message}
       />
 
       <Controller
