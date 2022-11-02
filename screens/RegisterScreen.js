@@ -124,14 +124,13 @@ const Register = () => {
         control={control}
         rules={{
           required: { value: true, message: 'This field cannot be empty' },
-          pattern: {
-            /**
-             *  Password criteria
-             *  Minimum length 8 , atlease 1 digit
-             *  Atleast 1 upper case of lower case character
-             */
-            value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-            message: 'Min 8 characters, uppercase & number',
+          validate: (value) => {
+            const { password } = getValues();
+            if (value === password) {
+              return true;
+            } else {
+              return 'Passwords do not match.';
+            }
           },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -150,11 +149,7 @@ const Register = () => {
         error={errors?.confirmPassword}
         message={errors?.confirmPassword?.message}
       />
-      <Button
-        title="Press me"
-        color="#f194ff"
-        onPress={handleSubmit(onSubmit)}
-      />
+      <Button title="Submit" color="#f194ff" onPress={handleSubmit(onSubmit)} />
     </SafeAreaView>
   );
 };

@@ -3,11 +3,7 @@ import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ErrorMessage = (props) => {
-  return (
-    <SafeAreaView>
-      <Text>{props.error && props.message} </Text>
-    </SafeAreaView>
-  );
+  return <Text>{props.error && props.message} </Text>;
 };
 
 export default ErrorMessage;
