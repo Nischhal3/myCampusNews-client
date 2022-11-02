@@ -1,41 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
-import SampleList from './component/SampleList';
-import { getAlllNews } from './services/NewsService';
+// npx expo install expo-font
+import React from 'react';
+import {useFonts} from 'expo-font';
 
 // Import Navigator from navigator.js
 import Navigator from './navigation/navigator';
 
 const App = () => {
-  const [news, setNews] = useState([]);
-  //getAlllNews(setNews);
-  console.log('App', news);
 
-  // getAlllNews function is called once after the page is rendered
-  useEffect(() => {
-    getAlllNews(setNews);
-  }, []);
+  let [fontsLoaded] = useFonts({
+    "Goldman-regular": require("./assets/fonts/Goldman-Regular.ttf"),
+    "Goldman-bold": require("./assets/fonts/Goldman-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <View style={styles.container}>
-      <Text>News List!</Text>
-      <FlatList
-        data={news}
-        renderItem={({ item }) => <SampleList news={item} />}
-      />
-      <StatusBar style="auto" />
-    </View>
+    <Navigator />
   );
-};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
 
 export default App;

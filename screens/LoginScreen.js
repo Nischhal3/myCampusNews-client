@@ -1,11 +1,12 @@
 import React from 'react';
-import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function LoginScreen() {
     return (
-        <div>
-            
-        </div>
+        <SafeAreaView>
+            <Text>LoginScreen</Text>
+        </SafeAreaView>
     );
 }
 
