@@ -7,8 +7,9 @@ import Navigator from './navigation/navigator';
 
 const App = () => {
 
-  let [fontsLoaded] = useFonts(
-    {"Goldman-regular": require("./assets/fonts/Goldman-Regular.ttf"),
+  let [fontsLoaded] = useFonts({
+    "Goldman-regular": require("./assets/fonts/Goldman-Regular.ttf"),
+    "Goldman-bold": require("./assets/fonts/Goldman-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
