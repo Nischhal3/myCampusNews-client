@@ -19,7 +19,7 @@ import ErrorMessage from '../component/ErrorMessage';
 import { getAllUsers, register } from '../services/UserService';
 import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
-import {SubmitButton} from '../component/AppButtons';
+import { SubmitButton } from '../component/AppButtons';
 
 const Register = ({ navigation }) => {
   const [user, setUser] = useState([]);
