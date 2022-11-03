@@ -1,17 +1,20 @@
+// npm install react-hook-form
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView, ImageBackground, StyleSheet, View, Text, Platform, StatusBar } from 'react-native';
 
 function LoginScreen() {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.androidSafeArea}>
             <Text>LoginScreen</Text>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    
+    androidSafeArea: {
+        flex: 1,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    },
 })
 
 export default LoginScreen;

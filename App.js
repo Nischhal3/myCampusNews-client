@@ -10,6 +10,7 @@ const App = () => {
   let [fontsLoaded] = useFonts({
     "Goldman-regular": require("./assets/fonts/Goldman-Regular.ttf"),
     "Goldman-bold": require("./assets/fonts/Goldman-Bold.ttf"),
+    "IBM": require("./assets/fonts/IBMPlexSansHebrew-Regular.ttf"),
   });
 
   if (!fontsLoaded) {

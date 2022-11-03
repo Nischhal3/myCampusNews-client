@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
+  SafeAreaView,
+  Platform,
+  StatusBar,
   Text,
   ImageBackground,
   StyleSheet,
@@ -8,18 +11,18 @@ import {
   Button,
   Alert,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Controller, useForm } from 'react-hook-form';
-import FormInput from '../component/FormInput';
+import FormInput from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
 import { getAllUsers, register } from '../services/UserService';
+import fontSize from '../utils/fontSize';
+import colors from '../utils/colors';
+import {SubmitButton} from '../component/AppButtons';
 
 const Register = () => {
   const [user, setUser] = useState([]);
-  //getAlllNews(setNews);
   console.log('App', user);
 
-  // getAlllNews function is called once after the page is rendered
   useEffect(() => {
     getAllUsers(setUser);
   }, []);
@@ -32,7 +35,7 @@ const Register = () => {
     getValues,
   } = useForm({
     defaultValues: {
-      fullName: '',
+      userName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -48,7 +51,7 @@ const Register = () => {
       const userData = await register(data);
       if (userData) {
         Alert.alert('Success', 'Successfully signed up.');
-        resetField('fullName');
+        resetField('userName');
         resetField('email');
         resetField('password');
         resetField('confirmPassword');
@@ -59,120 +62,163 @@ const Register = () => {
   };
 
   return (
-    <SafeAreaView>
-      <Text>Register</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: { value: true, message: 'This is required.' },
-          minLength: {
-            value: 3,
-            message: 'Username has to be at least 3 characters.',
-          },
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <FormInput
-            name="Username"
-            textEntry={false}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
+    <SafeAreaView style={styles.androidSafeArea}>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerTitle}>Register</Text>
+          <Text style={styles.headerContent}>Please fill in your details below</Text>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Controller
+            control={control}
+            rules={{
+              required: { value: true, message: 'This is required.' },
+              minLength: {
+                value: 3,
+                message: 'Username has to be at least 3 characters.',
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormInput
+                name="Username"
+                textEntry={false}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+            name="userName"
           />
-        )}
-        name="fullName"
-      />
 
-      <ErrorMessage
-        error={errors?.fullName}
-        message={errors?.fullName?.message}
-      />
+          <ErrorMessage
+            error={errors?.fullName}
+            message={errors?.fullName?.message}
+          />
 
-      <Controller
-        control={control}
-        rules={{
-          required: { value: true, message: 'This is required.' },
-          pattern: {
-            value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
-            message: 'Not valid email.',
-          },
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <FormInput
+          <Controller
+            control={control}
+            rules={{
+              required: { value: true, message: 'This is required.' },
+              pattern: {
+                value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
+                message: 'Not valid email.',
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormInput
+                name="email"
+                textEntry={false}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
             name="email"
-            textEntry={false}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
           />
-        )}
-        name="email"
-      />
 
-      <ErrorMessage error={errors?.email} message={errors?.email?.message} />
+          <ErrorMessage error={errors?.email} message={errors?.email?.message} />
 
-      <Controller
-        control={control}
-        rules={{
-          required: { value: true, message: 'This field cannot be empty' },
-          pattern: {
-            /**
-             *  Password criteria
-             *  Minimum length 8 , atlease 1 digit
-             *  Atleast 1 upper case of lower case character
-             */
-            value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-            message: 'Min 8 characters, uppercase & number',
-          },
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <FormInput
-            name="Password"
-            onBlur={onBlur}
-            onChange={onChange}
-            value={value}
-            textEntry={true}
+          <Controller
+            control={control}
+            rules={{
+              required: { value: true, message: 'This field cannot be empty' },
+              pattern: {
+                /**
+                 *  Password criteria
+                 *  Minimum length 8 , atlease 1 digit
+                 *  Atleast 1 upper case of lower case character
+                 */
+                value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                message: 'Min 8 characters, uppercase & number',
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormInput
+                name="Password"
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value}
+                textEntry={true}
+              />
+            )}
+            name="password"
           />
-        )}
-        name="password"
-      />
 
-      <ErrorMessage
-        error={errors?.password}
-        message={errors?.password?.message}
-      />
+          <ErrorMessage
+            error={errors?.password}
+            message={errors?.password?.message}
+          />
 
-      <Controller
-        control={control}
-        rules={{
-          required: { value: true, message: 'This field cannot be empty' },
-          validate: (value) => {
-            const { password } = getValues();
-            if (value === password) {
-              return true;
-            } else {
-              return 'Passwords do not match.';
-            }
-          },
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <FormInput
+          <Controller
+            control={control}
+            rules={{
+              required: { value: true, message: 'This field cannot be empty' },
+              validate: (value) => {
+                const { password } = getValues();
+                if (value === password) {
+                  return true;
+                } else {
+                  return 'Passwords do not match.';
+                }
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormInput
+                name="confirmPassword"
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value}
+                textEntry={true}
+              />
+            )}
             name="confirmPassword"
-            onBlur={onBlur}
-            onChange={onChange}
-            value={value}
-            textEntry={true}
           />
-        )}
-        name="confirmPassword"
-      />
 
-      <ErrorMessage
-        error={errors?.confirmPassword}
-        message={errors?.confirmPassword?.message}
-      />
-      <Button title="Submit" color="#f194ff" onPress={handleSubmit(onSubmit)} />
+          <ErrorMessage
+            error={errors?.confirmPassword}
+            message={errors?.confirmPassword?.message}
+          />
+        </View>
+    
+        <SubmitButton title="Register" onPress={handleSubmit(onSubmit)}/>
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  androidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  container: {
+    flex: 1,
+    margin: 30,
+  },
+  headerContainer: {
+    marginTop: "20%",
+    height: "10%",
+    // marginBottom: "10%",
+    // justifyContent: "space-around",
+  },
+  headerTitle: {
+    fontSize: fontSize.ultra,
+    fontWeight: "bold",
+    fontFamily: "IBM",
+    color: colors.dark_text,
+    marginBottom: 5,
+  },
+  headerContent: {
+    fontSize: fontSize.caption,
+    fontFamily: "IBM",
+    color: colors.dark_grey,
+  },
+  inputContainer: {
+    marginHorizontal: 10,
+    height: 300,
+    justifyContent: "center",
+  },
+})
 
 export default Register;
