@@ -4,12 +4,14 @@ import {
   Platform,
   StatusBar,
   Text,
-  ImageBackground,
+  Image,
   StyleSheet,
   View,
   TextInput,
   Button,
   Alert,
+  Pressable,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import FormInput from '../component/AppInputs';
@@ -19,7 +21,7 @@ import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
 import {SubmitButton} from '../component/AppButtons';
 
-const Register = () => {
+const Register = ({ navigation }) => {
   const [user, setUser] = useState([]);
   console.log('App', user);
 
@@ -73,7 +75,7 @@ const Register = () => {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: 'This is required.' },
+              required: { value: true, message: 'Please enter your username' },
               minLength: {
                 value: 3,
                 message: 'Username has to be at least 3 characters.',
@@ -86,6 +88,7 @@ const Register = () => {
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
+                leftIcon="account-outline"
               />
             )}
             name="userName"
@@ -99,7 +102,7 @@ const Register = () => {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: 'This is required.' },
+              required: { value: true, message: 'Please enter your email' },
               pattern: {
                 value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
                 message: 'Not valid email.',
@@ -107,11 +110,12 @@ const Register = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <FormInput
-                name="email"
+                name="Email Address"
                 textEntry={false}
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
+                leftIcon="email-outline"
               />
             )}
             name="email"
@@ -122,7 +126,7 @@ const Register = () => {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: 'This field cannot be empty' },
+              required: { value: true, message: 'Password cannot be empty' },
               pattern: {
                 /**
                  *  Password criteria
@@ -140,6 +144,7 @@ const Register = () => {
                 onChange={onChange}
                 value={value}
                 textEntry={true}
+                leftIcon="lock-outline"
               />
             )}
             name="password"
@@ -153,7 +158,7 @@ const Register = () => {
           <Controller
             control={control}
             rules={{
-              required: { value: true, message: 'This field cannot be empty' },
+              required: { value: true, message: 'Password not match' },
               validate: (value) => {
                 const { password } = getValues();
                 if (value === password) {
@@ -165,11 +170,12 @@ const Register = () => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <FormInput
-                name="confirmPassword"
+                name="Confirm Password"
                 onBlur={onBlur}
                 onChange={onChange}
                 value={value}
                 textEntry={true}
+                leftIcon="lock-check-outline"
               />
             )}
             name="confirmPassword"
@@ -182,6 +188,15 @@ const Register = () => {
         </View>
     
         <SubmitButton title="Register" onPress={handleSubmit(onSubmit)}/>
+        <View style={styles.footerContainer}>
+          <Image style={styles.footerImage} source={require("../assets/nokia/nokiawhite.png")} />
+          <Text style={styles.footerText}>
+            <Text style={styles.footerText1}>Already have an account? </Text>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")} >
+                <Text style={styles.footerText2}> Log In</Text>
+            </TouchableWithoutFeedback>
+          </Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -194,10 +209,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    margin: 30,
+    marginHorizontal: "12%",
   },
   headerContainer: {
-    marginTop: "20%",
+    marginTop: "25%",
     height: "10%",
     // marginBottom: "10%",
     // justifyContent: "space-around",
@@ -210,14 +225,39 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   headerContent: {
-    fontSize: fontSize.caption,
+    fontSize: fontSize.small,
     fontFamily: "IBM",
     color: colors.dark_grey,
   },
   inputContainer: {
-    marginHorizontal: 10,
-    height: 300,
+    height: 350,
     justifyContent: "center",
+  },
+  footerContainer: {
+    marginBottom: "10%",
+    alignItems: "center",
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+  footerImage: {
+    width: "35%",
+  },
+  footerText: {
+    flexDirection: 'column',
+    flax: 1,
+    justifyContent: 'space-around',
+    top: "-5%",
+  },
+  footerText1: {
+    fontFamily: "IBM",
+    color: colors.dark_text,
+  },
+  footerText2Container: {
+    // marginLeft: 5,
+  },
+  footerText2: {
+    fontFamily: "IBM",
+    color: colors.nokia_blue,
   },
 })
 

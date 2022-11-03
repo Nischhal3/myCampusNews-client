@@ -1,3 +1,4 @@
+// npm i @expo/vector-icons
 // npx expo install expo-font
 import React from 'react';
 import {useFonts} from 'expo-font';
