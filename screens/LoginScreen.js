@@ -18,16 +18,19 @@ import {
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import { Context } from '../contexts/Context';
-import FormInput from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
 import { login } from '../services/UserService';
+// Components
+import FormInput from '../component/AppInputs';
+import { SubmitButton } from '../component/AppButtons';
+// UI
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
-import { SubmitButton } from '../component/AppButtons';
 
 const LoginScreen = ({ navigation }) => {
     // Password visible
-    const [visible, setVisible] = useState([true]);
+    const [visible, setVisible] = useState([false]);
   
     const toggleVisible = () => {
         setVisible(!visible)
@@ -122,14 +125,19 @@ const LoginScreen = ({ navigation }) => {
                             },
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
-                            <FormInput
-                            name="Password"
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            value={value}
-                            textEntry={true}
-                            leftIcon="lock-outline"
-                            />
+                            <View style={styles.passwordInputWrap}>
+                                <FormInput
+                                name="Password"
+                                onBlur={onBlur}
+                                onChange={onChange}
+                                value={value}
+                                textEntry={visible? true : false}
+                                leftIcon="lock-outline"
+                                />
+                            <TouchableWithoutFeedback onPress={toggleVisible}>
+                                <McIcons name={visible? "eye-off-outline" : "eye-outline"} size={20} color={colors.light_grey} style={styles.visibleIcon}/>
+                            </TouchableWithoutFeedback>
+                            </View>
                         )}
                         name="password"
                         />
@@ -185,6 +193,15 @@ const LoginScreen = ({ navigation }) => {
     inputContainer: {
       height: 350,
       justifyContent: "center",
+    },
+    passwordInputWrap: {
+        width: "100%",
+        flexDirection: 'row',
+    },
+    visibleIcon: {
+        position: 'absolute',
+        alignSelf: 'center',
+        right: 5,
     },
     footerContainer: {
         marginTop: "35%",

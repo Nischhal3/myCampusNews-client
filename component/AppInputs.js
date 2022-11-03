@@ -12,11 +12,12 @@ const FormInput = (props) => {
             <TextInput
                 placeholder={props.name}
                 name={props.name}
-                textEntry={props.textEntry}
+                secureTextEntry={props.textEntry}
                 onChangeText={props.onChange}
                 onBlur={props.onBlur}
                 value={props.value}
                 style={styles.formInputText}
+                keyboardType="default"
             />
             <McIcons name={rightIcon} size={28} color='#000000' />
         </View>
@@ -29,6 +30,7 @@ const FormInput = (props) => {
         borderBottomWidth: 0.5,
         flexDirection: "row",
         alignItems: 'center',
+        width: "100%",
     },
     formInputText: {
         marginLeft: 5,
