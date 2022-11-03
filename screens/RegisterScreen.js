@@ -12,6 +12,9 @@ import {
   Alert,
   Pressable,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import FormInput from '../component/AppInputs';
@@ -65,139 +68,143 @@ const Register = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.androidSafeArea}>
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerTitle}>Register</Text>
-          <Text style={styles.headerContent}>Please fill in your details below</Text>
-        </View>
+      <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerTitle}>Register</Text>
+              <Text style={styles.headerContent}>Please fill in your details below</Text>
+            </View>
 
-        <View style={styles.inputContainer}>
-          <Controller
-            control={control}
-            rules={{
-              required: { value: true, message: 'Please enter your username' },
-              minLength: {
-                value: 3,
-                message: 'Username has to be at least 3 characters.',
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput
-                name="Username"
-                textEntry={false}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                leftIcon="account-outline"
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{
+                  required: { value: true, message: 'Please enter your username' },
+                  minLength: {
+                    value: 3,
+                    message: 'Username has to be at least 3 characters.',
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormInput
+                    name="Username"
+                    textEntry={false}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    leftIcon="account-outline"
+                  />
+                )}
+                name="userName"
               />
-            )}
-            name="userName"
-          />
 
-          <ErrorMessage
-            error={errors?.fullName}
-            message={errors?.fullName?.message}
-          />
-
-          <Controller
-            control={control}
-            rules={{
-              required: { value: true, message: 'Please enter your email' },
-              pattern: {
-                value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
-                message: 'Not valid email.',
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput
-                name="Email Address"
-                textEntry={false}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                leftIcon="email-outline"
+              <ErrorMessage
+                error={errors?.fullName}
+                message={errors?.fullName?.message}
               />
-            )}
-            name="email"
-          />
 
-          <ErrorMessage error={errors?.email} message={errors?.email?.message} />
-
-          <Controller
-            control={control}
-            rules={{
-              required: { value: true, message: 'Password cannot be empty' },
-              pattern: {
-                /**
-                 *  Password criteria
-                 *  Minimum length 8 , atlease 1 digit
-                 *  Atleast 1 upper case of lower case character
-                 */
-                value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-                message: 'Min 8 characters, uppercase & number',
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput
-                name="Password"
-                onBlur={onBlur}
-                onChange={onChange}
-                value={value}
-                textEntry={true}
-                leftIcon="lock-outline"
+              <Controller
+                control={control}
+                rules={{
+                  required: { value: true, message: 'Please enter your email' },
+                  pattern: {
+                    value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
+                    message: 'Not valid email.',
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormInput
+                    name="Email Address"
+                    textEntry={false}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    leftIcon="email-outline"
+                  />
+                )}
+                name="email"
               />
-            )}
-            name="password"
-          />
 
-          <ErrorMessage
-            error={errors?.password}
-            message={errors?.password?.message}
-          />
+              <ErrorMessage error={errors?.email} message={errors?.email?.message} />
 
-          <Controller
-            control={control}
-            rules={{
-              required: { value: true, message: 'Password not match' },
-              validate: (value) => {
-                const { password } = getValues();
-                if (value === password) {
-                  return true;
-                } else {
-                  return 'Passwords do not match.';
-                }
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput
-                name="Confirm Password"
-                onBlur={onBlur}
-                onChange={onChange}
-                value={value}
-                textEntry={true}
-                leftIcon="lock-check-outline"
+              <Controller
+                control={control}
+                rules={{
+                  required: { value: true, message: 'Password cannot be empty' },
+                  pattern: {
+                    /**
+                     *  Password criteria
+                     *  Minimum length 8 , atlease 1 digit
+                     *  Atleast 1 upper case of lower case character
+                     */
+                    value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                    message: 'Min 8 characters, uppercase & number',
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormInput
+                    name="Password"
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    value={value}
+                    textEntry={true}
+                    leftIcon="lock-outline"
+                  />
+                )}
+                name="password"
               />
-            )}
-            name="confirmPassword"
-          />
 
-          <ErrorMessage
-            error={errors?.confirmPassword}
-            message={errors?.confirmPassword?.message}
-          />
-        </View>
-    
-        <SubmitButton title="Register" onPress={handleSubmit(onSubmit)}/>
-        <View style={styles.footerContainer}>
-          <Image style={styles.footerImage} source={require("../assets/nokia/nokiawhite.png")} />
-          <Text style={styles.footerText}>
-            <Text style={styles.footerText1}>Already have an account? </Text>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")} >
-                <Text style={styles.footerText2}> Log In</Text>
-            </TouchableWithoutFeedback>
-          </Text>
-        </View>
-      </View>
+              <ErrorMessage
+                error={errors?.password}
+                message={errors?.password?.message}
+              />
+
+              <Controller
+                control={control}
+                rules={{
+                  required: { value: true, message: 'Password not match' },
+                  validate: (value) => {
+                    const { password } = getValues();
+                    if (value === password) {
+                      return true;
+                    } else {
+                      return 'Passwords do not match.';
+                    }
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormInput
+                    name="Confirm Password"
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    value={value}
+                    textEntry={true}
+                    leftIcon="lock-check-outline"
+                  />
+                )}
+                name="confirmPassword"
+              />
+
+              <ErrorMessage
+                error={errors?.confirmPassword}
+                message={errors?.confirmPassword?.message}
+              />
+            </View>
+        
+            <SubmitButton title="Register" onPress={handleSubmit(onSubmit)}/>
+            <View style={styles.footerContainer}>
+              <Image style={styles.footerImage} source={require("../assets/nokia/nokia.png")} />
+              <Text style={styles.footerText}>
+                <Text style={styles.footerText1}>Already have an account? </Text>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")} >
+                    <Text style={styles.footerText2}> Log In</Text>
+                </TouchableWithoutFeedback>
+              </Text>
+            </View>
+          </View>
+          </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -214,8 +221,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginTop: "25%",
     height: "10%",
-    // marginBottom: "10%",
-    // justifyContent: "space-around",
   },
   headerTitle: {
     fontSize: fontSize.ultra,
@@ -234,26 +239,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   footerContainer: {
-    marginBottom: "10%",
-    alignItems: "center",
-    justifyContent: 'flex-end',
-    flex: 1,
+      marginTop: "35%",
+      alignItems: "center",
   },
   footerImage: {
-    width: "35%",
-  },
-  footerText: {
-    flexDirection: 'column',
-    flax: 1,
-    justifyContent: 'space-around',
-    top: "-5%",
+    height: 35,
+    width: "30%",
+    resizeMode: 'contain',
   },
   footerText1: {
     fontFamily: "IBM",
     color: colors.dark_text,
-  },
-  footerText2Container: {
-    // marginLeft: 5,
   },
   footerText2: {
     fontFamily: "IBM",
