@@ -1,9 +1,16 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, StyleSheet } from 'react-native';
+import colors from '../utils/colors';
 
 const ErrorMessage = (props) => {
-  return <Text>{props.error && props.message} </Text>;
+  return <Text style={styles.errorText}>{props.error && props.message}</Text>;
 };
 
+const styles = StyleSheet.create({
+  errorText: {
+    color: colors.danger,
+    fontFamily: 'IBM',
+    marginBottom: 5,
+  },
+})
 export default ErrorMessage;

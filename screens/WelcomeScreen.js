@@ -4,7 +4,7 @@ import { ImageBackground, SafeAreaView, StyleSheet, View, Text, Image, Pressable
 import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-import WelcomeScreenButton from '../component/AppButtons';
+import { WelcomeScreenButton } from '../component/AppButtons';
 
 const WelcomeScreen = ( {navigation} ) => {
     return (

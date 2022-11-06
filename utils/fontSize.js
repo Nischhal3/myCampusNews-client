@@ -1,9 +1,10 @@
 export default {
-    title: 22,
-    subtitle: 20,
+    ultra: 32,
+    title: 24,
+    subtitle: 22,
     regular: 16,
-    caption: 10,
-    large: 18,
-    medium: 14,
-    small: 12,
+    caption: 12,
+    large: 20,
+    medium: 16,
+    small: 14,
 };

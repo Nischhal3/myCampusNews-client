@@ -1,46 +1,81 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 
 const WelcomeScreenButton = (props) => {
-const {onPress, title, color, textColor, outline} = props;
-    return (
-      <TouchableOpacity 
-      onPress={onPress} 
+  const {onPress, title, color, textColor} = props;
+  return (
+    <TouchableOpacity 
+    onPress={onPress} 
+    style={[
+      styles.welcomeBtnContainer,
+      {backgroundColor: color},
+    ]}
+    >
+      <Text 
       style={[
-        styles.appBtnContainer,
-        {backgroundColor: color},
+        styles.welcomeBtnTxt,
+        {color: textColor},
       ]}
       >
-        <Text 
-        style={[
-          styles.appBtnTxt,
-          {color: textColor},
-        ]}
-        >
-          {title}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+const SubmitButton = (props) => {
+  const {onPress, title} = props;
+  return (
+    <TouchableOpacity 
+      onPress={onPress} 
+      style={
+        styles.submitBtnContainer
+      }
+    >
+      <Text 
+        style={
+          styles.submitBtnTxt
+        }
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+};
   
-  const styles = StyleSheet.create({
-    appBtnContainer: {
-      backgroundColor: "#124191",
-      width: "80%",
-      height: 50,
-      borderColor: "#fff",
-      borderWidth: 2,
-      borderRadius: 10,
-    },
-    appBtnTxt: {
-      color: colors.light_text,
-      height: "105%",
-      textAlign: "center",
-      textAlignVertical: "center",
-      fontSize: fontSize.subtitle,
-      fontFamily: "Goldman-regular",
-    },
-  })
-  export default WelcomeScreenButton;
+const styles = StyleSheet.create({
+  welcomeBtnContainer: {
+    backgroundColor: "#124191",
+    width: "75%",
+    height: 50,
+    borderColor: "#fff",
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+  welcomeBtnTxt: {
+    color: colors.light_text,
+    height: "105%",
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontSize: fontSize.subtitle,
+    fontFamily: "Goldman-regular",
+  },
+  submitBtnContainer: {
+    backgroundColor: "#124191",
+    width: "100%",
+    height: 45,
+    borderRadius: 10,
+  },
+  submitBtnTxt: {
+    color: colors.light_text,
+    height: "105%",
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontSize: fontSize.subtitle,
+    fontFamily: "Goldman-regular",
+  },
+})
+export {WelcomeScreenButton, SubmitButton};
+// export default WelcomeScreenButton;
