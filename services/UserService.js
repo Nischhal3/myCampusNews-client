@@ -21,8 +21,20 @@ const register = async (data) => {
     },
     body: JSON.stringify(data),
   };
-  
-  return await fetchData(`${baseUrl}auth/register`, options)
+
+  return await fetchData(`${baseUrl}auth/register`, options);
+};
+
+// Function for user login
+const login = async (data) => {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+  return await fetchData(`${baseUrl}auth/login`, options);
 };
 
 // Communicating with server
@@ -42,4 +54,5 @@ const fetchData = async (url, options = {}) => {
     throw new Error(error.message);
   }
 };
-export { getAllUsers, register };
+
+export { getAllUsers, register, login };
