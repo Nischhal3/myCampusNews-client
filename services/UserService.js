@@ -55,4 +55,4 @@ const fetchData = async (url, options = {}) => {
   }
 };
 
-export { getAllUsers, register, login, getAllEmail };
+export { getAllUsers, register, login};
