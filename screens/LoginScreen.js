@@ -27,7 +27,7 @@ import { SubmitButton } from '../component/AppButtons';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   // Password visible
@@ -59,11 +59,12 @@ const LoginScreen = ({ navigation }) => {
       console.log('login form ', userData.token);
       if (userData) {
         // need token
-        //await AsyncStorage.setItem('userToken', userData.token);
+        await AsyncStorage.setItem('userToken', userData.token);
         //setUser(userData.user);
         // setIsLoggedIn(true);
         // resetField('userName');
         // resetField('password');
+      
       }
     } catch (error) {
       Alert.alert('Username or password is incorrect.');
