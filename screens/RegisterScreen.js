@@ -26,7 +26,6 @@ import { SubmitButton } from '../component/AppButtons';
 
 const Register = ({ navigation }) => {
   const [user, setUser] = useState([]);
-  console.log('App', user);
 
   useEffect(() => {
     getAllUsers(setUser);
@@ -49,10 +48,9 @@ const Register = ({ navigation }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log('Form data', data);
-
     try {
       delete data.confirmPassword;
+    
       const userData = await register(data);
       if (userData) {
         Alert.alert('Success', 'Successfully signed up.');

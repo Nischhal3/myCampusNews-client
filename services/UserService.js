@@ -1,6 +1,7 @@
 import React from 'react';
 
 const baseUrl = 'http://10.0.2.2:3000/';
+
 const getAllUsers = async (setUser) => {
   try {
     const response = await fetch(`${baseUrl}user`);
@@ -20,8 +21,8 @@ const register = async (data) => {
     },
     body: JSON.stringify(data),
   };
-
-  return await fetchData(`${baseUrl}user`, options)
+  
+  return await fetchData(`${baseUrl}auth/register`, options)
 };
 
 // Communicating with server
