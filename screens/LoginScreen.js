@@ -64,7 +64,6 @@ const LoginScreen = ({ navigation }) => {
         // setIsLoggedIn(true);
         // resetField('userName');
         // resetField('password');
-      
       }
     } catch (error) {
       Alert.alert('Username or password is incorrect.');
@@ -96,14 +95,14 @@ const LoginScreen = ({ navigation }) => {
                     value: true,
                     message: 'Please enter your username',
                   },
-                  minLength: {
-                    value: 3,
-                    message: 'Username has to be at least 3 characters.',
+                  pattern: {
+                    value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
+                    message: 'Not valid email.',
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <FormInput
-                    name="Username"
+                    name="email"
                     textEntry={false}
                     onChange={onChange}
                     onBlur={onBlur}
