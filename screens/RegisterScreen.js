@@ -40,7 +40,7 @@ const Register = ({ navigation }) => {
     getValues,
   } = useForm({
     defaultValues: {
-      userName: '',
+      fullName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -96,7 +96,7 @@ const Register = ({ navigation }) => {
                     leftIcon="account-outline"
                   />
                 )}
-                name="userName"
+                name="fullName"
               />
 
               <ErrorMessage
