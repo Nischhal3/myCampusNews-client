@@ -19,18 +19,12 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import FormInput from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
-import { getAllUsers, register } from '../services/UserService';
+import { getAllEmail, getAllUsers, register } from '../services/UserService';
 import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
 import { SubmitButton } from '../component/AppButtons';
 
 const Register = ({ navigation }) => {
-  const [user, setUser] = useState([]);
-
-  useEffect(() => {
-    getAllUsers(setUser);
-  }, []);
-
   const {
     control,
     handleSubmit,
@@ -50,14 +44,18 @@ const Register = ({ navigation }) => {
   const onSubmit = async (data) => {
     try {
       delete data.confirmPassword;
-    
+
       const userData = await register(data);
-      if (userData) {
+      console.log('From register page', userData);
+
+      if (userData.status == 200) {
         Alert.alert('Success', 'Successfully signed up.');
-        resetField('userName');
+        resetField('fullName');
         resetField('email');
         resetField('password');
         resetField('confirmPassword');
+      } else {
+        Alert.alert(userData.message);
       }
     } catch (error) {
       console.error(error);
@@ -66,19 +64,30 @@ const Register = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.androidSafeArea}>
-      <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+      >
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
           <View style={styles.container}>
             <View style={styles.headerContainer}>
               <Text style={styles.headerTitle}>Register</Text>
-              <Text style={styles.headerContent}>Please fill in your details below</Text>
+              <Text style={styles.headerContent}>
+                Please fill in your details below
+              </Text>
             </View>
 
             <View style={styles.inputContainer}>
               <Controller
                 control={control}
                 rules={{
-                  required: { value: true, message: 'Please enter your username' },
+                  required: {
+                    value: true,
+                    message: 'Please enter your username',
+                  },
                   minLength: {
                     value: 3,
                     message: 'Username has to be at least 3 characters.',
@@ -124,12 +133,18 @@ const Register = ({ navigation }) => {
                 name="email"
               />
 
-              <ErrorMessage error={errors?.email} message={errors?.email?.message} />
+              <ErrorMessage
+                error={errors?.email}
+                message={errors?.email?.message}
+              />
 
               <Controller
                 control={control}
                 rules={{
-                  required: { value: true, message: 'Password cannot be empty' },
+                  required: {
+                    value: true,
+                    message: 'Password cannot be empty',
+                  },
                   pattern: {
                     /**
                      *  Password criteria
@@ -189,19 +204,26 @@ const Register = ({ navigation }) => {
                 message={errors?.confirmPassword?.message}
               />
             </View>
-        
-            <SubmitButton title="Register" onPress={handleSubmit(onSubmit)}/>
+
+            <SubmitButton title="Register" onPress={handleSubmit(onSubmit)} />
             <View style={styles.footerContainer}>
-              <Image style={styles.footerImage} source={require("../assets/nokia/nokia.png")} />
+              <Image
+                style={styles.footerImage}
+                source={require('../assets/nokia/nokia.png')}
+              />
               <Text style={styles.footerText}>
-                <Text style={styles.footerText1}>Already have an account? </Text>
-                <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")} >
-                    <Text style={styles.footerText2}> Log In</Text>
+                <Text style={styles.footerText1}>
+                  Already have an account?{' '}
+                </Text>
+                <TouchableWithoutFeedback
+                  onPress={() => navigation.navigate('Login')}
+                >
+                  <Text style={styles.footerText2}> Log In</Text>
                 </TouchableWithoutFeedback>
               </Text>
             </View>
           </View>
-          </ScrollView>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -214,45 +236,45 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginHorizontal: "12%",
+    marginHorizontal: '12%',
   },
   headerContainer: {
-    marginTop: "25%",
-    height: "10%",
+    marginTop: '25%',
+    height: '10%',
   },
   headerTitle: {
     fontSize: fontSize.ultra,
-    fontWeight: "bold",
-    fontFamily: "IBM",
+    fontWeight: 'bold',
+    fontFamily: 'IBM',
     color: colors.dark_text,
     marginBottom: 5,
   },
   headerContent: {
     fontSize: fontSize.small,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     color: colors.dark_grey,
   },
   inputContainer: {
     height: 350,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   footerContainer: {
-      marginTop: "35%",
-      alignItems: "center",
+    marginTop: '35%',
+    alignItems: 'center',
   },
   footerImage: {
     height: 35,
-    width: "30%",
+    width: '30%',
     resizeMode: 'contain',
   },
   footerText1: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     color: colors.dark_text,
   },
   footerText2: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     color: colors.nokia_blue,
   },
-})
+});
 
 export default Register;
