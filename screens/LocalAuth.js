@@ -6,6 +6,7 @@ const LocalAuth = async (setIsAuthenticated) => {
   const compatible = await LocalAuthentication.hasHardwareAsync();
   console.log('compatible', compatible);
 
+  // Authentication logic
   if (compatible) {
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: 'Authenticate using biometric password',

@@ -17,13 +17,13 @@ const Stack = createNativeStackNavigator();
 
 const StackScreen = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // User authentication via finger print or screen lock patter
+  // User authentication via finger print or screen lock pattern
   useEffect(() => {
     LocalAuth(setIsAuthenticated);
   }, []);
 
   console.log(isAuthenticated);
-  
+
   return (
     <Stack.Navigator>
       <>
