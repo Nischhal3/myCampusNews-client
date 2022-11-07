@@ -18,7 +18,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist":{
+          "NSFaceIDUsageDescription": "This app uses Touch ID to verify user!"
+      }
     },
     "android": {
       "adaptiveIcon": {
