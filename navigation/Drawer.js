@@ -14,6 +14,7 @@ import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import {color} from 'react-native-reanimated';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function CustomDrawerContent( props ) {
     const width = useWindowDimensions().width * 0.3
@@ -64,6 +65,9 @@ function CustomDrawerContent( props ) {
                 <DrawerItem
                 label="News"
                 labelStyle={{color: drawerFocus == "Home"? colors.primary : colors.light_text}}
+                icon={() => (
+                    <McIcons name="newspaper-variant-outline" size={24} color={drawerFocus == "Home"? colors.primary : colors.light_text} />
+                )}
                 style={[styles.drawerItem, {marginTop: "10%"}]}
                 onPress={() => {props.navigation.navigate("Home"); setDrawerFocus("Home")}}
                 activeBackgroundColor={colors.light_background}
@@ -74,6 +78,9 @@ function CustomDrawerContent( props ) {
                 label="Notifications"
                 style={styles.drawerItem}
                 labelStyle={{color: drawerFocus == "Notification"? colors.primary : colors.light_text}}
+                icon={() => (
+                    <McIcons name="bell" size={24} color={drawerFocus == "Notification"? colors.primary : colors.light_text} />
+                )}
                 onPress={() => {props.navigation.navigate("Notification"); setDrawerFocus("Notification")}}
                 activeBackgroundColor={colors.light_background}
                 inactiveTintColor={colors.dark_text}
@@ -88,22 +95,13 @@ function CustomDrawerContent( props ) {
                 alignSelf: 'center',
             }}/>
             <View style={styles.footer}>
-                <View>
-                    <DrawerItem 
-                    label="Settings"
-                    labelStyle={{color: colors.light_text}}
-                    style={styles.setting}
-                    onPress={() => {props.navigation.navigate("Setting"); setDrawerFocus("Setting")}}
-                    />
-                </View>
-                <View>
-                    <DrawerItem 
-                    label="Logout"
-                    labelStyle={{color: colors.light_text}}
-                    style={styles.logout}
-                    onPress={logout}
-                    />
-                </View>
+                <TouchableOpacity style={styles.settingContainer} onPress={() => {props.navigation.navigate("Setting"); setDrawerFocus("Setting")}}>
+                    <McIcons name="cog-outline" size={30} color={colors.light_text} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.logoutContainer} onPress={logout}>
+                    <McIcons name="logout" size={28} color={colors.light_text} />
+                    <Text style={styles.logout}>Logout</Text>
+                </TouchableOpacity>
             </View>
         </LinearGradient>
     );
@@ -115,6 +113,7 @@ const styles = StyleSheet.create({
     },
     header: {
         margin: "3%",
+        marginLeft: 15,
         flexDirection: 'row',
     },
     avatar: {
@@ -140,19 +139,22 @@ const styles = StyleSheet.create({
         fontFamily: "IBM",
     },
     footer: {
-        // flexDirection: 'row',
-        // justifyContent: 'space-between',
-        // width: "100%",
+        flexDirection: 'row',
+        margin: "5%",
+        justifyContent: 'space-between',
     },
-    setting: {
-        // width: "80%",
-        // flex: 1,
-        // alignSelf: 'center',
+    settingContainer: {
+        marginLeft: "5%",
+    },
+    logoutContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: "2%",
     },
     logout: {
-        // width: "80%",
-        // flex: 1,
-        // alignSelf: 'center',
+        color: colors.light_text,
+        fontSize: fontSize.medium,
+        fontFamily: "IBM",
     },
 })
 
