@@ -17,6 +17,9 @@ import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import NotificationScreen from "../screens/NotificationScreen";
 import SettingScreen from "../screens/SettingScreen";
+import ManageNewsScreen from "../screens/ManageNewsScreen";
+import ManageUsersScreen from "../screens/ManageUsersScreen";
+import PublishNewsScreen from "../screens/PublishNewsScreen";
 
 // UI Imports
 import colors from "../utils/colors";
@@ -49,6 +52,9 @@ const DrawerScreen = () => {
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Notification" component={NotificationScreen} />
         <Drawer.Screen name="Setting" component={SettingScreen} />
+        <Drawer.Screen name="MNews" component={ManageNewsScreen} />
+        <Drawer.Screen name="MUsers" component={ManageUsersScreen} />
+        <Drawer.Screen name="Publish" component={PublishNewsScreen} />
       </Drawer.Navigator>
     );
   };

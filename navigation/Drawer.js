@@ -45,15 +45,74 @@ function CustomDrawerContent( props ) {
         colors={['#004D9B', '#80A5CA']}
         style={styles.linearBackground}
         >
-            <DrawerContentScrollView {...props}>
-                <TouchableOpacity style={styles.header} onPress={() => {props.navigation.navigate("Profile"); setDrawerFocus("Profile")}}>
-                    <Image source={require('../assets/images/blank_avatar.jpg')} style={styles.avatar}/>
-                    <View style={styles.userContainer}>
-                        <Text numberOfLines={1} style={styles.username}>{user.full_name}</Text>
-                        <Text numberOfLines={1} style={styles.email}>{user.email}</Text>
-                    </View>
-                </TouchableOpacity>
-                {/* <DrawerItemList {...props} /> */}
+            {user.role == 0? (
+                <>
+                    <DrawerContentScrollView {...props}>
+                    <TouchableOpacity style={styles.header} onPress={() => {props.navigation.navigate("Profile"); setDrawerFocus("Profile")}}>
+                        <Image source={require('../assets/images/blank_avatar.jpg')} style={styles.avatar}/>
+                        <View style={styles.userContainer}>
+                            <Text numberOfLines={1} style={styles.username}>{user.full_name}</Text>
+                            <Text numberOfLines={1} style={styles.email}>{user.email}</Text>
+                        </View>
+                        <McIcons name="account-star" size={20} color={colors.light_text} style={{position: 'absolute', right: 5, top: 0,}}/>
+                    </TouchableOpacity>
+                    {/* <DrawerItemList {...props} /> */}
+                    <View style={{
+                        borderBottomColor: colors.light_background,
+                        borderBottomWidth: 2,
+                        paddingTop: "5%",
+                        width: "95%",
+                        alignSelf: 'center',
+                    }}/>
+                    <DrawerItem
+                    label="News"
+                    labelStyle={{color: drawerFocus == "Home"? colors.primary : colors.light_text}}
+                    icon={() => (
+                        <McIcons name="newspaper-variant-outline" size={24} color={drawerFocus == "Home"? colors.primary : colors.light_text} />
+                    )}
+                    style={[styles.drawerItem, {marginTop: "10%"}]}
+                    onPress={() => {props.navigation.navigate("Home"); setDrawerFocus("Home")}}
+                    activeBackgroundColor={colors.light_background}
+                    activeTintColor={colors.dark_text}
+                    focused={drawerFocus == "Home"? true : false}
+                    />
+                    <DrawerItem
+                    label="Manage News"
+                    style={styles.drawerItem}
+                    labelStyle={{color: drawerFocus == "MNews"? colors.primary : colors.light_text}}
+                    icon={() => (
+                        <McIcons name="newspaper-variant-multiple-outline" size={24} color={drawerFocus == "MNews"? colors.primary : colors.light_text} />
+                    )}
+                    onPress={() => {props.navigation.navigate("MNews"); setDrawerFocus("MNews")}}
+                    activeBackgroundColor={colors.light_background}
+                    inactiveTintColor={colors.dark_text}
+                    focused={drawerFocus == "MNews"? true : false}
+                    />
+                    <DrawerItem
+                    label="Manage Users"
+                    style={styles.drawerItem}
+                    labelStyle={{color: drawerFocus == "MUsers"? colors.primary : colors.light_text}}
+                    icon={() => (
+                        <McIcons name="account-details-outline" size={24} color={drawerFocus == "MUsers"? colors.primary : colors.light_text} />
+                    )}
+                    onPress={() => {props.navigation.navigate("MUsers"); setDrawerFocus("MUsers")}}
+                    activeBackgroundColor={colors.light_background}
+                    inactiveTintColor={colors.dark_text}
+                    focused={drawerFocus == "MUsers"? true : false}
+                    />
+                    <DrawerItem
+                    label="Publish News"
+                    style={styles.drawerItem}
+                    labelStyle={{color: drawerFocus == "Publish"? colors.primary : colors.light_text}}
+                    icon={() => (
+                        <McIcons name="publish" size={24} color={drawerFocus == "Publish"? colors.primary : colors.light_text} />
+                    )}
+                    onPress={() => {props.navigation.navigate("Publish"); setDrawerFocus("Publish")}}
+                    activeBackgroundColor={colors.light_background}
+                    inactiveTintColor={colors.dark_text}
+                    focused={drawerFocus == "Publish"? true : false}
+                    />
+                </DrawerContentScrollView>
                 <View style={{
                     borderBottomColor: colors.light_background,
                     borderBottomWidth: 2,
@@ -61,52 +120,82 @@ function CustomDrawerContent( props ) {
                     width: "95%",
                     alignSelf: 'center',
                 }}/>
-                <DrawerItem
-                label="News"
-                labelStyle={{color: drawerFocus == "Home"? colors.primary : colors.light_text}}
-                icon={() => (
-                    <McIcons name="newspaper-variant-outline" size={24} color={drawerFocus == "Home"? colors.primary : colors.light_text} />
-                )}
-                style={[styles.drawerItem, {marginTop: "10%"}]}
-                onPress={() => {props.navigation.navigate("Home"); setDrawerFocus("Home")}}
-                activeBackgroundColor={colors.light_background}
-                activeTintColor={colors.dark_text}
-                focused={drawerFocus == "Home"? true : false}
-                />
-                <DrawerItem
-                label="Notifications"
-                style={styles.drawerItem}
-                labelStyle={{color: drawerFocus == "Notification"? colors.primary : colors.light_text}}
-                icon={() => (
-                    <McIcons name="bell-outline" size={24} color={drawerFocus == "Notification"? colors.primary : colors.light_text} />
-                )}
-                onPress={() => {props.navigation.navigate("Notification"); setDrawerFocus("Notification")}}
-                activeBackgroundColor={colors.light_background}
-                inactiveTintColor={colors.dark_text}
-                focused={drawerFocus == "Notification"? true : false}
-                />
-                <TouchableOpacity style={styles.bookmarksContainer} onPress={() => {setExtended(!extended)}}>
-                    <McIcons name="bookmark-multiple-outline" size={24} color={colors.light_text} />
-                    <Text style={styles.bookmarks}>Bookmarks</Text>
-                    <McIcons name={extended? "chevron-up" : "chevron-down"} size={24} color={colors.light_text} style={{marginLeft: "34%"}}/>
-                </TouchableOpacity>
-            </DrawerContentScrollView>
-            <View style={{
-                borderBottomColor: colors.light_background,
-                borderBottomWidth: 2,
-                paddingTop: "5%",
-                width: "95%",
-                alignSelf: 'center',
-            }}/>
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.settingContainer} onPress={() => {props.navigation.navigate("Setting"); setDrawerFocus("Setting")}}>
-                    <McIcons name="cog-outline" size={30} color={colors.light_text} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.logoutContainer} onPress={logout}>
-                    <McIcons name="logout" size={28} color={colors.light_text} />
-                    <Text style={styles.logout}>Logout</Text>
-                </TouchableOpacity>
-            </View>
+                <View style={styles.footer}>
+                    <TouchableOpacity style={styles.settingContainer} onPress={() => {props.navigation.navigate("Setting"); setDrawerFocus("Setting")}}>
+                        <McIcons name="cog-outline" size={30} color={colors.light_text} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.logoutContainer} onPress={logout}>
+                        <McIcons name="logout" size={28} color={colors.light_text} />
+                        <Text style={styles.logout}>Logout</Text>
+                    </TouchableOpacity>
+                </View>
+                </>
+            ) : (
+                <>
+                    <DrawerContentScrollView {...props}>
+                    <TouchableOpacity style={styles.header} onPress={() => {props.navigation.navigate("Profile"); setDrawerFocus("Profile")}}>
+                        <Image source={require('../assets/images/blank_avatar.jpg')} style={styles.avatar}/>
+                        <View style={styles.userContainer}>
+                            <Text numberOfLines={1} style={styles.username}>{user.full_name}</Text>
+                            <Text numberOfLines={1} style={styles.email}>{user.email}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/* <DrawerItemList {...props} /> */}
+                    <View style={{
+                        borderBottomColor: colors.light_background,
+                        borderBottomWidth: 2,
+                        paddingTop: "5%",
+                        width: "95%",
+                        alignSelf: 'center',
+                    }}/>
+                    <DrawerItem
+                    label="News"
+                    labelStyle={{color: drawerFocus == "Home"? colors.primary : colors.light_text}}
+                    icon={() => (
+                        <McIcons name="newspaper-variant-outline" size={24} color={drawerFocus == "Home"? colors.primary : colors.light_text} />
+                    )}
+                    style={[styles.drawerItem, {marginTop: "10%"}]}
+                    onPress={() => {props.navigation.navigate("Home"); setDrawerFocus("Home")}}
+                    activeBackgroundColor={colors.light_background}
+                    activeTintColor={colors.dark_text}
+                    focused={drawerFocus == "Home"? true : false}
+                    />
+                    <DrawerItem
+                    label="Notifications"
+                    style={styles.drawerItem}
+                    labelStyle={{color: drawerFocus == "Notification"? colors.primary : colors.light_text}}
+                    icon={() => (
+                        <McIcons name="bell-outline" size={24} color={drawerFocus == "Notification"? colors.primary : colors.light_text} />
+                    )}
+                    onPress={() => {props.navigation.navigate("Notification"); setDrawerFocus("Notification")}}
+                    activeBackgroundColor={colors.light_background}
+                    inactiveTintColor={colors.dark_text}
+                    focused={drawerFocus == "Notification"? true : false}
+                    />
+                    <TouchableOpacity style={styles.bookmarksContainer} onPress={() => {setExtended(!extended)}}>
+                        <McIcons name="bookmark-multiple-outline" size={24} color={colors.light_text} />
+                        <Text style={styles.bookmarks}>Bookmarks</Text>
+                        <McIcons name={extended? "chevron-up" : "chevron-down"} size={24} color={colors.light_text} style={{marginLeft: "34%"}}/>
+                    </TouchableOpacity>
+                </DrawerContentScrollView>
+                <View style={{
+                    borderBottomColor: colors.light_background,
+                    borderBottomWidth: 2,
+                    paddingTop: "5%",
+                    width: "95%",
+                    alignSelf: 'center',
+                }}/>
+                <View style={styles.footer}>
+                    <TouchableOpacity style={styles.settingContainer} onPress={() => {props.navigation.navigate("Setting"); setDrawerFocus("Setting")}}>
+                        <McIcons name="cog-outline" size={30} color={colors.light_text} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.logoutContainer} onPress={logout}>
+                        <McIcons name="logout" size={28} color={colors.light_text} />
+                        <Text style={styles.logout}>Logout</Text>
+                    </TouchableOpacity>
+                </View>
+                </>
+            )}
         </LinearGradient>
     );
 }
