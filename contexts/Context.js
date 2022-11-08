@@ -5,7 +5,6 @@ const Context = React.createContext({});
 const MainProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-  const [formToggle, setFormToggle] = useState(true);
   const [update, setUpdate] = useState(0);
   const [loading, setLoading] = useState(false);
   const [updateMessage, setUpdateMessage] = useState(0);
@@ -19,8 +18,6 @@ const MainProvider = ({children}) => {
         setIsLoggedIn,
         user,
         setUser,
-        formToggle,
-        setFormToggle,
         update,
         setUpdate,
         loading,
