@@ -12,9 +12,33 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import Register from "../screens/RegisterScreen";
 import Home from "../screens/Home";
+import Profile from "../screens/Profile";
 import { Context } from "../contexts/Context";
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const DrawerScreen = () => {
+    return (
+      <Drawer.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          drawerType: 'slide',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            height: 80,
+            borderBottomLeftRadius: 10,
+            borderBottomRightRadius: 10,
+            backgroundColor: '#0496FF',
+          },
+        }}
+      >
+        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="Profile" component={Profile} />
+      </Drawer.Navigator>
+    );
+  };
 
 const StackScreen = () => {
   const { isLoggedIn } = useContext(Context);
@@ -23,10 +47,10 @@ const StackScreen = () => {
       {isLoggedIn ? (
         <>
           <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
+              name="Drawer"
+              component={DrawerScreen}
+              options={{headerShown: false}}
+            />
         </>
       ) : (
         <>
