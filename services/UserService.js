@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { fetchData } from './ApiService';
 
 const baseUrl = 'http://10.0.2.2:3000/';
 
@@ -35,24 +36,6 @@ const login = async (data) => {
     body: JSON.stringify(data),
   };
   return await fetchData(`${baseUrl}auth/login`, options);
-};
-
-// Communicating with server
-const fetchData = async (url, options = {}) => {
-  try {
-    const response = await fetch(url, options);
-    const json = await response.json();
-    if (response.ok) {
-      return json;
-    } else {
-      const message = json.error
-        ? `${json.message}: ${json.error}`
-        : json.message;
-      throw new Error(message || response.statusText);
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
 };
 
 // Fetching user token from async storage

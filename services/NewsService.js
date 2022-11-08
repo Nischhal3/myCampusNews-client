@@ -1,17 +1,17 @@
-const url = 'http://10.0.2.2:3000/';
+import { fetchData } from './ApiService';
+import { getToken } from './UserService';
 
-/**
- * Retrieving all news from backend
- * @param {*} setNews
- */
-const getAlllNews = async (setNews) => {
-  try {
-    const response = await fetch(`${url}news`);
-    const json = await response.json();
-    setNews(json);
-  } catch (error) {
-    console.log(error);
-  }
+const baseUrl = 'http://10.0.2.2:3000/';
+
+// Retrieving all news from backend
+const getAlllNews = async () => {
+  const token = await getToken();
+  const options = {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  return await fetchData(`${baseUrl}news`, options);
 };
 
 export { getAlllNews };

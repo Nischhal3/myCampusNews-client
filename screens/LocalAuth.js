@@ -9,8 +9,7 @@ const LocalAuth = async () => {
   if (compatible) {
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: 'Authenticate using biometric password',
-    })
-    console.log(result);
+    });
   }
 };
 
