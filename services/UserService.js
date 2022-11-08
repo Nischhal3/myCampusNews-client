@@ -1,4 +1,4 @@
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseUrl = 'http://10.0.2.2:3000/';
 
@@ -55,4 +55,10 @@ const fetchData = async (url, options = {}) => {
   }
 };
 
-export { getAllUsers, register, login};
+// Fetching user token from async storage
+const getToken = async () => {
+  const token = await AsyncStorage.getItem('userToken');
+  console.log(token);
+};
+
+export { getAllUsers, register, login, getToken };
