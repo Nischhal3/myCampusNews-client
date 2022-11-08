@@ -93,7 +93,7 @@ const LoginScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: 'Please enter your username',
+                    message: 'Please enter your email ends with "nokia.com"',
                   },
                   pattern: {
                     value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
@@ -102,7 +102,7 @@ const LoginScreen = ({ navigation }) => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <FormInput
-                    name="email"
+                    name="Email"
                     textEntry={false}
                     onChange={onChange}
                     onBlur={onBlur}
@@ -123,7 +123,7 @@ const LoginScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: 'Password cannot be empty',
+                    message: 'Please enter your password',
                   },
                   pattern: {
                     /**
