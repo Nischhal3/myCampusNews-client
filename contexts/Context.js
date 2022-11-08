@@ -5,10 +5,7 @@ const Context = React.createContext({});
 const MainProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-  const [update, setUpdate] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [updateMessage, setUpdateMessage] = useState(0);
-  const [media, setMedia] = useState([]);
+  const [drawerFocus, setDrawerFocus] = useState("Home");
   const [updateAvatar, setUpdateAvatar] = useState(0);
 
   return (
@@ -18,14 +15,8 @@ const MainProvider = ({children}) => {
         setIsLoggedIn,
         user,
         setUser,
-        update,
-        setUpdate,
-        loading,
-        setLoading,
-        updateMessage,
-        setUpdateMessage,
-        media,
-        setMedia,
+        drawerFocus,
+        setDrawerFocus,
         updateAvatar,
         setUpdateAvatar,
       }}

@@ -32,6 +32,7 @@ const DrawerScreen = () => {
       <Drawer.Navigator
         initialRouteName="Home"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
+        backBehavior="initialRoute"
         screenOptions={{
           drawerType: "front",
           headerTitleAlign: 'center',
@@ -39,11 +40,13 @@ const DrawerScreen = () => {
             height: "13%",
             backgroundColor: colors.backgroundColor,
           },
+          drawerActiveBackgroundColor: colors.light_background,
+          // drawerActiveTintColor: colors.light_text,
           // headerShown: false,
         }}
       >
-        <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Profile" component={Profile} />
+        <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Notification" component={NotificationScreen} />
         <Drawer.Screen name="Setting" component={SettingScreen} />
       </Drawer.Navigator>
