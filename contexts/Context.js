@@ -13,7 +13,7 @@ const MainProvider = ({children}) => {
   const [updateAvatar, setUpdateAvatar] = useState(0);
 
   return (
-    <MainContext.Provider
+    <Context.Provider
       value={{
         isLoggedIn,
         setIsLoggedIn,
@@ -34,7 +34,7 @@ const MainProvider = ({children}) => {
       }}
     >
       {children}
-    </MainContext.Provider>
+    </Context.Provider>
   );
 };
 

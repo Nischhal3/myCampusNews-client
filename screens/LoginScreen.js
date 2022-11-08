@@ -60,10 +60,10 @@ const LoginScreen = ({ navigation }) => {
       if (userData) {
         // need token
         await AsyncStorage.setItem('userToken', userData.token);
-        //setUser(userData.user);
-        // setIsLoggedIn(true);
-        // resetField('userName');
-        // resetField('password');
+        setUser(userData.user);
+        setIsLoggedIn(true);
+        resetField('email');
+        resetField('password');
       }
     } catch (error) {
       Alert.alert('Username or password is incorrect.');
