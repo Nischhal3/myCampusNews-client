@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import { Alert, useWindowDimensions, StyleSheet, View, Image, Text, BackHandler } from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import { Alert, useWindowDimensions, StyleSheet, View, Image, Text, BackHandler, TouchableOpacity } from 'react-native';
 import { Context } from '../contexts/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -13,12 +13,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import {color} from 'react-native-reanimated';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function CustomDrawerContent( props ) {
     const width = useWindowDimensions().width * 0.3
     const { user, setIsLoggedIn , drawerFocus, setDrawerFocus } = useContext(Context);
+    const [ extended, setExtended ] = useState([false]);
 
     const logout = () => {
         Alert.alert('Log Out', 'Confirm Logout?', [
@@ -47,13 +46,13 @@ function CustomDrawerContent( props ) {
         style={styles.linearBackground}
         >
             <DrawerContentScrollView {...props}>
-                <View style={styles.header}>
+                <TouchableOpacity style={styles.header} onPress={() => {props.navigation.navigate("Profile"); setDrawerFocus("Profile")}}>
                     <Image source={require('../assets/images/blank_avatar.jpg')} style={styles.avatar}/>
                     <View style={styles.userContainer}>
                         <Text numberOfLines={1} style={styles.username}>{user.full_name}</Text>
                         <Text numberOfLines={1} style={styles.email}>{user.email}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
                 {/* <DrawerItemList {...props} /> */}
                 <View style={{
                     borderBottomColor: colors.light_background,
@@ -79,13 +78,18 @@ function CustomDrawerContent( props ) {
                 style={styles.drawerItem}
                 labelStyle={{color: drawerFocus == "Notification"? colors.primary : colors.light_text}}
                 icon={() => (
-                    <McIcons name="bell" size={24} color={drawerFocus == "Notification"? colors.primary : colors.light_text} />
+                    <McIcons name="bell-outline" size={24} color={drawerFocus == "Notification"? colors.primary : colors.light_text} />
                 )}
                 onPress={() => {props.navigation.navigate("Notification"); setDrawerFocus("Notification")}}
                 activeBackgroundColor={colors.light_background}
                 inactiveTintColor={colors.dark_text}
                 focused={drawerFocus == "Notification"? true : false}
                 />
+                <TouchableOpacity style={styles.bookmarksContainer} onPress={() => {setExtended(!extended)}}>
+                    <McIcons name="bookmark-multiple-outline" size={24} color={colors.light_text} />
+                    <Text style={styles.bookmarks}>Bookmarks</Text>
+                    <McIcons name={extended? "chevron-up" : "chevron-down"} size={24} color={colors.light_text} style={{marginLeft: "34%"}}/>
+                </TouchableOpacity>
             </DrawerContentScrollView>
             <View style={{
                 borderBottomColor: colors.light_background,
@@ -137,6 +141,18 @@ const styles = StyleSheet.create({
         color: colors.light_grey,
         fontSize: fontSize.small,
         fontFamily: "IBM",
+    },
+    bookmarksContainer: {
+        flexDirection: 'row',
+        marginTop: 5,
+        marginHorizontal: "3%",
+        padding: "3%",
+    },
+    bookmarks: {
+        marginLeft: "14%",
+        color: colors.light_text,
+        fontSize: fontSize.small,
+        fontWeight: 'bold',
     },
     footer: {
         flexDirection: 'row',
