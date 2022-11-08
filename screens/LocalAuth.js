@@ -4,7 +4,6 @@ import * as LocalAuthentication from 'expo-local-authentication';
 const LocalAuth = async () => {
   // Checking if device supports biometric
   const compatible = await LocalAuthentication.hasHardwareAsync();
-  console.log('compatible', compatible);
 
   // Authentication logic
   if (compatible) {

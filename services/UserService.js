@@ -57,8 +57,7 @@ const fetchData = async (url, options = {}) => {
 
 // Fetching user token from async storage
 const getToken = async () => {
-  const token = await AsyncStorage.getItem('userToken');
-  console.log(token);
+  return await AsyncStorage.getItem('userToken');
 };
 
 export { getAllUsers, register, login, getToken };

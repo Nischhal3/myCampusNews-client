@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Text, View } from 'react-native';
+import { Context } from '../contexts/Context';
 import { getToken } from '../services/UserService';
 
 const Home = () => {
-  getToken();
+  const { token, setToken } = useContext(Context);
   return (
     <View
       style={{

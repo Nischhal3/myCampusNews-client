@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { getToken } from '../services/UserService';
 
 const Context = React.createContext({});
 
-const MainProvider = ({children}) => {
+const MainProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [formToggle, setFormToggle] = useState(true);
@@ -11,6 +12,15 @@ const MainProvider = ({children}) => {
   const [updateMessage, setUpdateMessage] = useState(0);
   const [media, setMedia] = useState([]);
   const [updateAvatar, setUpdateAvatar] = useState(0);
+  const [token, setToken] = useState(null);
+
+  // Fetching token from async storage
+  useEffect(() => {
+    async function fetchToken() {
+      setToken(await getToken());
+    }
+    fetchToken();
+  }, []);
 
   return (
     <Context.Provider
@@ -31,6 +41,8 @@ const MainProvider = ({children}) => {
         setMedia,
         updateAvatar,
         setUpdateAvatar,
+        token,
+        setToken,
       }}
     >
       {children}
@@ -38,4 +50,4 @@ const MainProvider = ({children}) => {
   );
 };
 
-export {Context, MainProvider};
+export { Context, MainProvider };
