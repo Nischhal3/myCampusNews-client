@@ -1,7 +1,9 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, View, Image } from 'react-native';
+import { Context } from '../contexts/Context';
 
 const Profile = () => {
+    const { user} = useContext(Context);
     return (
       <View
         style={{
@@ -9,7 +11,9 @@ const Profile = () => {
           justifyContent: "center",
           alignItems: "center"
         }}>
-        <Text>Profile screen</Text>
+        <Text>user id: {user.user_id}</Text>
+        <Text>user email: {user.email}</Text>
+        <Text>user full name: {user.full_name}</Text>
       </View>
     )
   }
