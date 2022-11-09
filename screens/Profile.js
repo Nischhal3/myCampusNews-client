@@ -4,7 +4,6 @@ import { Context } from '../contexts/Context';
 
 const Profile = () => {
     const { user, token} = useContext(Context);
-    console.log(user, token);
     return (
       <View
         style={{

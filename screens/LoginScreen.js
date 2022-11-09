@@ -19,7 +19,7 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { Context } from '../contexts/Context';
 import ErrorMessage from '../component/ErrorMessage';
-import { login } from '../services/UserService';
+import { getUserByToken, login } from '../services/UserService';
 // Components
 import FormInput from '../component/AppInputs';
 import { SubmitButton } from '../component/AppButtons';
@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }) => {
   // Password visible
   const [visible, setVisible] = useState([false]);
   const { setUser, setIsLoggedIn } = useContext(Context);
-
+  
   const toggleVisible = () => {
     setVisible(!visible);
   };

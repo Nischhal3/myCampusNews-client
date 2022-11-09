@@ -10,14 +10,6 @@ const MainProvider = ({ children }) => {
   const [updateAvatar, setUpdateAvatar] = useState(0);
   const [token, setToken] = useState(null);
 
-  // Fetching token from async storage
-  useEffect(() => {
-    async function fetchToken() {
-      setToken(await getToken());
-    }
-    fetchToken();
-  }, []);
-
   return (
     <Context.Provider
       value={{
