@@ -31,6 +31,9 @@ import colors from '../utils/colors';
 import CustomDrawerContent from './Drawer';
 import { getUserByToken } from '../services/UserService';
 
+// Import Custom Header
+import Header from '../component/Header';
+
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -65,6 +68,7 @@ const DrawerScreen = () => {
           height: '13%',
           backgroundColor: colors.backgroundColor,
         },
+        headerTitle: (props) => <Header {...props} />,
         drawerActiveBackgroundColor: colors.light_background,
         // drawerActiveTintColor: colors.light_text,
         // headerShown: false,
