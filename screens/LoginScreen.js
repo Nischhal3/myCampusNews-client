@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }) => {
   // Password visible
   const [visible, setVisible] = useState([false]);
   const { setUser, setIsLoggedIn } = useContext(Context);
-  
+
   const toggleVisible = () => {
     setVisible(!visible);
   };
@@ -55,11 +55,9 @@ const LoginScreen = ({ navigation }) => {
   const onSubmit = async (data) => {
     try {
       const userData = await login(data);
-      console.log('login form ', userData.token);
       if (userData) {
         // Storing token to async storage
         await AsyncStorage.setItem('userToken', userData.token);
-        console.log(userData.user);
         setUser(userData.user);
         setIsLoggedIn(true);
         resetField('email');

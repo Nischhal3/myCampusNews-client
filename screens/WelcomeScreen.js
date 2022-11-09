@@ -21,14 +21,13 @@ import { getToken } from '../services/UserService';
 const WelcomeScreen = ({ navigation }) => {
   const { setToken } = useContext(Context);
 
-  //Fetching and storing token from async storage
+  // Fetching and storing token from async storage
   useEffect(() => {
     async function fetchToken() {
       setToken(await getToken());
     }
     fetchToken();
   }, []);
-
   return (
     <LinearGradient
       start={{ x: 1, y: 0 }}
