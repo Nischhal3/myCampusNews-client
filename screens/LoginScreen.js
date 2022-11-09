@@ -19,7 +19,7 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { Context } from '../contexts/Context';
 import ErrorMessage from '../component/ErrorMessage';
-import { login } from '../services/UserService';
+import { getUserByToken, login } from '../services/UserService';
 // Components
 import FormInput from '../component/AppInputs';
 import { SubmitButton } from '../component/AppButtons';
@@ -32,7 +32,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = ({ navigation }) => {
   // Password visible
   const [visible, setVisible] = useState([false]);
-  const { setUser } = useContext(Context);
+  const { setUser, setIsLoggedIn } = useContext(Context);
 
   const toggleVisible = () => {
     setVisible(!visible);
@@ -55,11 +55,11 @@ const LoginScreen = ({ navigation }) => {
   const onSubmit = async (data) => {
     try {
       const userData = await login(data);
-      console.log('login form ', userData.token);
       if (userData) {
         // Storing token to async storage
         await AsyncStorage.setItem('userToken', userData.token);
         setUser(userData.user);
+        setIsLoggedIn(true);
         resetField('email');
         resetField('password');
       }
@@ -91,7 +91,7 @@ const LoginScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: 'Please enter your username',
+                    message: 'Please enter your email ends with "nokia.com"',
                   },
                   pattern: {
                     value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }) => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <FormInput
-                    name="email"
+                    name="Email"
                     textEntry={false}
                     onChange={onChange}
                     onBlur={onBlur}
@@ -121,7 +121,7 @@ const LoginScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: 'Password cannot be empty',
+                    message: 'Please enter your password',
                   },
                   pattern: {
                     /**

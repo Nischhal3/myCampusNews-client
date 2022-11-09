@@ -43,4 +43,14 @@ const getToken = async () => {
   return await AsyncStorage.getItem('userToken');
 };
 
-export { getAllUsers, register, login, getToken };
+//get user info by token
+const getUserByToken = async (token) => {
+  const options = {
+    // get method is default,not necessary to put it.
+    method: 'GET',
+    // if there is - like x-access-token  use {}
+    headers: {'Authorization': 'Bearer ' + token},
+  };
+  return await fetchData(`${baseUrl}user/token`, options);
+};
+export { getAllUsers, register, login, getToken, getUserByToken };

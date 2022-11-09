@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native';
 import { Context } from '../contexts/Context';
 
 const Profile = () => {
-    const { user} = useContext(Context);
+    const { user, token} = useContext(Context);
     return (
       <View
         style={{

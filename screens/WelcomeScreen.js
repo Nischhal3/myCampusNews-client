@@ -15,8 +15,19 @@ import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import { WelcomeScreenButton } from '../component/AppButtons';
 import LocalAuth from './LocalAuth';
+import { Context } from '../contexts/Context';
+import { getToken } from '../services/UserService';
 
 const WelcomeScreen = ({ navigation }) => {
+  const { setToken } = useContext(Context);
+
+  // Fetching and storing token from async storage
+  useEffect(() => {
+    async function fetchToken() {
+      setToken(await getToken());
+    }
+    fetchToken();
+  }, []);
   return (
     <LinearGradient
       start={{ x: 1, y: 0 }}
