@@ -17,9 +17,6 @@ import { WelcomeScreenButton } from '../component/AppButtons';
 import LocalAuth from './LocalAuth';
 
 const WelcomeScreen = ({ navigation }) => {
-  useEffect(() => {
-    LocalAuth();
-  }, []);
   return (
     <LinearGradient
       start={{ x: 1, y: 0 }}
