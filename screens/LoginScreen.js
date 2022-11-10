@@ -19,7 +19,7 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { Context } from '../contexts/Context';
 import ErrorMessage from '../component/ErrorMessage';
-import { getUserByToken, login } from '../services/UserService';
+import { getUserByToken, login, getUserById } from '../services/UserService';
 // Components
 import FormInput from '../component/AppInputs';
 import { SubmitButton } from '../component/AppButtons';
@@ -58,7 +58,9 @@ const LoginScreen = ({ navigation }) => {
       if (userData) {
         // Storing token to async storage
         await AsyncStorage.setItem('userToken', userData.token);
-        setUser(userData.user);
+        const user = await getUserById(userData.user.user_id,userData.token);
+        console.log(user)
+        setUser(user);
         setIsLoggedIn(true);
         resetField('email');
         resetField('password');

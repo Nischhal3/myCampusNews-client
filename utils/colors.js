@@ -6,7 +6,7 @@ export default {
     light_text: '#FCFCFC',
     dark_text: '#282726',
     light_background: '#f2f5fa',
-    dark_background: '#f2f5fa',
+    dark_background: '#121212',
     primary_btn: '#124191',
     secondary_btn: '#4A5746',
     nokia_blue: "#124191",

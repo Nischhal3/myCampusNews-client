@@ -1,6 +1,7 @@
 // npm install @react-navigation/native @react-navigation/native-stack
 // npm install react-native-screens react-native-safe-area-context
 import React, { useContext, useEffect, useState } from 'react';
+import { TouchableOpacity, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Import Navigations
@@ -26,10 +27,11 @@ import EditProfileScreen from '../screens/EditProfileScreen';
 
 // UI Imports
 import colors from '../utils/colors';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 // Import Custom Drawer
 import CustomDrawerContent from './Drawer';
-import { getUserByToken } from '../services/UserService';
+import { getUserByToken, getUserById } from '../services/UserService';
 
 // Import Custom Header
 import Header from '../component/Header';
@@ -45,7 +47,8 @@ const DrawerScreen = () => {
     if (token != null) {
       try {
         const userData = await getUserByToken(token);
-        setUser(userData.user);
+        const user = await getUserById(userData.user.user_id,token);
+        setUser(user);
       } catch (error) {
         console.error('Drawer error', error);
       }
@@ -75,13 +78,13 @@ const DrawerScreen = () => {
       }}
     >
       <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="EditProfile" component={EditProfileScreen} options={{headerShown: false}} />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Notification" component={NotificationScreen} />
       <Drawer.Screen name="Setting" component={SettingScreen} />
       <Drawer.Screen name="MNews" component={ManageNewsScreen} />
       <Drawer.Screen name="MUsers" component={ManageUsersScreen} />
       <Drawer.Screen name="Publish" component={PublishNewsScreen} />
-      <Drawer.Screen name="EditProfile" component={EditProfileScreen} />
     </Drawer.Navigator>
   );
 };
