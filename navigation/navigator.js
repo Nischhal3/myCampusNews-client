@@ -29,7 +29,7 @@ import colors from '../utils/colors';
 
 // Import Custom Drawer
 import CustomDrawerContent from './Drawer';
-import { getUserByToken } from '../services/UserService';
+import { getUserByToken, getUserById } from '../services/UserService';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,7 +42,8 @@ const DrawerScreen = () => {
     if (token != null) {
       try {
         const userData = await getUserByToken(token);
-        setUser(userData.user);
+        const user = await getUserById(userData.user.user_id,token);
+        setUser(user);
       } catch (error) {
         console.error('Drawer error', error);
       }

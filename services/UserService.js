@@ -53,4 +53,27 @@ const getUserByToken = async (token) => {
   };
   return await fetchData(`${baseUrl}user/token`, options);
 };
-export { getAllUsers, register, login, getToken, getUserByToken };
+
+//get user info by id
+const getUserById = async (userId,token) => {
+  const options = {
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + token},
+  };
+  return await fetchData(`${baseUrl}user/userid/${userId}`, options);
+};
+
+//update user info
+const putUser = async (formData, token) => {
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'multipart/form-data',
+    },
+    body: formData,
+  };
+  const result = await fetchData(`${baseUrl}user/update`, options);
+  return result;
+};
+export { getAllUsers, register, login, getToken, getUserByToken, putUser, getUserById };

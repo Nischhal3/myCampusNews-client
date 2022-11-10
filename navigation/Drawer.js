@@ -19,6 +19,15 @@ function CustomDrawerContent( props ) {
     const { user, setIsLoggedIn , drawerFocus, setDrawerFocus } = useContext(Context);
     const [ extended, setExtended ] = useState([false]);
 
+    const baseUrl = "http://10.0.2.2:3000/";
+    var url = "";
+
+  if (user.avatar_name == "unavailable") {
+    url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7HrjlxizejA_sfkfPhIaAdv5Cxy6A-HGFzA&usqp=CAU";
+  } else {
+    url = `${baseUrl}avatar/${user.avatar_name}`;
+  }
+
     const logout = () => {
         Alert.alert('Log Out', 'Confirm Logout?', [
             {text: 'Cancel'},
@@ -49,7 +58,7 @@ function CustomDrawerContent( props ) {
                 <>
                     <DrawerContentScrollView {...props}>
                     <TouchableOpacity style={styles.header} onPress={() => {props.navigation.navigate("Profile"); setDrawerFocus("Profile")}}>
-                        <Image source={require('../assets/images/blank_avatar.jpg')} style={styles.avatar}/>
+                        <Image source={{ uri: url }} style={styles.avatar}/>
                         <View style={styles.userContainer}>
                             <Text numberOfLines={1} style={styles.username}>{user.full_name}</Text>
                             <Text numberOfLines={1} style={styles.email}>{user.email}</Text>
@@ -134,7 +143,7 @@ function CustomDrawerContent( props ) {
                 <>
                     <DrawerContentScrollView {...props}>
                     <TouchableOpacity style={styles.header} onPress={() => {props.navigation.navigate("Profile"); setDrawerFocus("Profile")}}>
-                        <Image source={require('../assets/images/blank_avatar.jpg')} style={styles.avatar}/>
+                        <Image source={{ uri: url }} style={styles.avatar}/>
                         <View style={styles.userContainer}>
                             <Text numberOfLines={1} style={styles.username}>{user.full_name}</Text>
                             <Text numberOfLines={1} style={styles.email}>{user.email}</Text>
