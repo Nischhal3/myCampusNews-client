@@ -11,7 +11,6 @@ export default {
     secondary_btn: '#4A5746',
     nokia_blue: "#124191",
     container: '#FAFAFA',
-    active: '#58854A',
-    stroke: '#949393',
-    danger: '#FF5252',
+    positive: '#6BF6A3',
+    negative: '#FF7B7B',
 };
