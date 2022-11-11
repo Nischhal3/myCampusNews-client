@@ -8,7 +8,7 @@ const ErrorMessage = (props) => {
 
 const styles = StyleSheet.create({
   errorText: {
-    color: colors.danger,
+    color: colors.negative,
     fontFamily: 'IBM',
     marginBottom: 5,
   },
