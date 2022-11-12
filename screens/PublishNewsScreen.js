@@ -1,6 +1,6 @@
 // npx expo install expo-image-picker
 // npx expo install expo-av
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
   Text,
   View,
@@ -26,8 +26,8 @@ import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { postNews } from '../services/NewsService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../contexts/Context';
+import { useFocusEffect } from '@react-navigation/native';
 
 const PublishNewsScreen = ({ navigation }) => {
   const { token } = useContext(Context);
@@ -93,6 +93,12 @@ const PublishNewsScreen = ({ navigation }) => {
       console.log('Post news', error.message);
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => resetForm();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.androidSafeArea}>
