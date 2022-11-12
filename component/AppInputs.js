@@ -5,7 +5,7 @@ import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 
 const FormInput = (props) => {
-    const {leftIcon, rightIcon} = props;
+    const {leftIcon, rightIcon, textColor} = props;
     return (
         <View style={styles.formInputContainer}>
             <McIcons name={leftIcon} size={28} color='#000000' />
@@ -16,7 +16,7 @@ const FormInput = (props) => {
                 onChangeText={props.onChange}
                 onBlur={props.onBlur}
                 value={props.value}
-                style={styles.formInputText}
+                style={[styles.formInputText, {color: textColor}]}
                 keyboardType="default"
             />
             <McIcons name={rightIcon} size={28} color='#000000' />
@@ -26,7 +26,7 @@ const FormInput = (props) => {
 
   const styles = StyleSheet.create({
     formInputContainer: {
-        borderBottomColor: "#000000",
+        borderBottomColor: colors.dark_background,
         borderBottomWidth: 0.5,
         flexDirection: "row",
         alignItems: 'center',

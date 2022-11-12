@@ -24,7 +24,7 @@ const Profile = ({navigation}) => {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${user.avatar_name}`;
-    //url = uploadDefaultUri;
+    // url = uploadDefaultUri;
   }
 
   return (
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    margin: "5%",
+    padding: "5%",
   },
   editProfileIcon: {
     position: "absolute",
-    top: -8,
-    right: 0,
+    top: 0,
+    right: 15,
   },
   avatar: {
     width: 125,
