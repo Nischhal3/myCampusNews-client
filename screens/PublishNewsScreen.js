@@ -30,10 +30,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../contexts/Context';
 
 const PublishNewsScreen = ({ navigation }) => {
-  const { user, setIsLoggedIn } = useContext(Context);
+  const { token } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
-  const [imageSelected, setImageSelected] = useState(false);
   const [type, setType] = useState('image');
 
   const {
@@ -65,7 +64,6 @@ const PublishNewsScreen = ({ navigation }) => {
 
     if (!result.cancelled) {
       setImage(result.uri);
-      //setImageSelected(true);
       setType(result.type);
     }
   };
@@ -85,12 +83,11 @@ const PublishNewsScreen = ({ navigation }) => {
       type: type + '/' + fileExtension,
     });
 
-    console.log('data', formData);
     try {
-      const token = await AsyncStorage.getItem('userToken');
       const response = await postNews(formData, token);
       if (response.status == 200) {
         Alert.alert('News added');
+        resetForm();
       }
     } catch (error) {
       console.log('Post news', error.message);
