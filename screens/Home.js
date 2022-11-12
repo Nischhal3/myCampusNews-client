@@ -7,14 +7,14 @@ import { getAlllNews } from '../services/NewsService';
 
 const Home = () => {
   const [news, setNews] = useState([]);
-  const { user, updateNews } = useContext(Context);
-  const timeInterval = 6000;
+  const { user, token, updateNews } = useContext(Context);
+  const timeInterval = 3000;
 
-  // Fetch data from server every one minutes or whenever there si change in updateNews value
+  // Fetch data from server every 3 seconds or whenever there is change in updateNews value
   useEffect(() => {
     const interval = setInterval(() => {
       async function fetchNews() {
-        setNews(await getAlllNews());
+        setNews(await getAlllNews(token));
       }
       fetchNews();
     }, timeInterval);

@@ -115,10 +115,7 @@ const PublishNewsScreen = ({ navigation }) => {
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <TouchableOpacity
-            style={styles.resetContainer}
-            onPress={handleSubmit(onSubmit)}
-          >
+          <TouchableOpacity style={styles.resetContainer}>
             <McIcons name="autorenew" size={32} color={colors.negative} />
           </TouchableOpacity>
           <Text style={styles.header}>New Article</Text>
