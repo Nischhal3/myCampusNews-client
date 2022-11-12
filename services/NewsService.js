@@ -14,4 +14,17 @@ const getAlllNews = async () => {
   return await fetchData(`${baseUrl}news`, options);
 };
 
-export { getAlllNews };
+// Post news to the server
+const postNews = async (formData, token) => {
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'multipart/form-data',
+    },
+    body: formData,
+  };
+  return await fetchData(`${baseUrl}news`, options);
+};
+
+export { getAlllNews, postNews };
