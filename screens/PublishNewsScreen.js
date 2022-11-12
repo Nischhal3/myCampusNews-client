@@ -30,7 +30,7 @@ import { Context } from '../contexts/Context';
 import { useFocusEffect } from '@react-navigation/native';
 
 const PublishNewsScreen = ({ navigation }) => {
-  const { token } = useContext(Context);
+  const { token, newsUpdate, setNewsUpdate } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
   const [type, setType] = useState('image');
@@ -48,6 +48,7 @@ const PublishNewsScreen = ({ navigation }) => {
     mode: 'onBlur',
   });
 
+  // Resets form inputs
   const resetForm = () => {
     setImage(uploadDefaultUri);
     setValue('title', '');
@@ -55,6 +56,7 @@ const PublishNewsScreen = ({ navigation }) => {
     setType('image');
   };
 
+  // Picks image for news data
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -68,6 +70,7 @@ const PublishNewsScreen = ({ navigation }) => {
     }
   };
 
+  // Posting news to server
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append('title', data.title);
@@ -87,6 +90,7 @@ const PublishNewsScreen = ({ navigation }) => {
       const response = await postNews(formData, token);
       if (response.status == 200) {
         Alert.alert('News added');
+        setNewsUpdate(newsUpdate + 1);
         resetForm();
       }
     } catch (error) {
@@ -94,6 +98,7 @@ const PublishNewsScreen = ({ navigation }) => {
     }
   };
 
+  // Resets form input when user is off screen
   useFocusEffect(
     useCallback(() => {
       return () => resetForm();

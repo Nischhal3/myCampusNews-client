@@ -6,9 +6,10 @@ const Context = React.createContext({});
 const MainProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-  const [drawerFocus, setDrawerFocus] = useState("Home");
+  const [drawerFocus, setDrawerFocus] = useState('Home');
   const [updateAvatar, setUpdateAvatar] = useState(0);
   const [token, setToken] = useState(null);
+  const [newsUpdate, setNewsUpdate] = useState(0);
 
   return (
     <Context.Provider
@@ -23,6 +24,8 @@ const MainProvider = ({ children }) => {
         setUpdateAvatar,
         token,
         setToken,
+        newsUpdate,
+        setNewsUpdate,
       }}
     >
       {children}
