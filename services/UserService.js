@@ -76,4 +76,17 @@ const putUser = async (formData, token) => {
   const result = await fetchData(`${baseUrl}user/update`, options);
   return result;
 };
-export { getAllUsers, register, login, getToken, getUserByToken, putUser, getUserById };
+
+const putUserPassword = async (data, token) => {
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+  const result = await fetchData(`${baseUrl}user/password`, options);
+  return result;
+};
+export { getAllUsers, register, login, getToken, getUserByToken, putUser, getUserById,putUserPassword };
