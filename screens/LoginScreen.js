@@ -32,7 +32,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = ({ navigation }) => {
   // Password visible
   const [visible, setVisible] = useState([false]);
-  const { setUser, setIsLoggedIn } = useContext(Context);
+  const { setUser, setIsLoggedIn, setToken } = useContext(Context);
 
   const toggleVisible = () => {
     setVisible(!visible);
@@ -61,6 +61,7 @@ const LoginScreen = ({ navigation }) => {
         const user = await getUserById(userData.user.user_id,userData.token);
         console.log(user)
         setUser(user);
+        setToken(userData.token);
         setIsLoggedIn(true);
         resetField('email');
         resetField('password');
