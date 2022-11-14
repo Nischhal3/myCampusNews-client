@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 
-const SettingScreen = () => {
+const SettingScreen = ({ navigation }) => {
     return (
       <View
         style={{
@@ -10,6 +10,8 @@ const SettingScreen = () => {
           alignItems: "center"
         }}>
         <Text>Setting screen</Text>
+          <Button title="Change password"  onPress={() => {
+          navigation.navigate('EditPassword')}}/>
       </View>
     )
   }

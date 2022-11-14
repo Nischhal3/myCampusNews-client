@@ -25,6 +25,9 @@ import ManageNewsScreen from '../screens/ManageNewsScreen';
 import ManageUsersScreen from '../screens/ManageUsersScreen';
 import PublishNewsScreen from '../screens/PublishNewsScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import EditPasswordScreen from '../screens/EditPasswordScreen';
+
+
 
 // UI Imports
 import colors from '../utils/colors';
@@ -87,6 +90,7 @@ const DrawerScreen = () => {
       <Drawer.Screen name="MNews" component={ManageNewsScreen} />
       <Drawer.Screen name="MUsers" component={ManageUsersScreen} />
       <Drawer.Screen name="Publish" component={PublishNewsScreen} />
+      <Drawer.Screen name="EditPassword" component={EditPasswordScreen} />
     </Drawer.Navigator>
   );
 };
