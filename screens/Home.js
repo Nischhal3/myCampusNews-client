@@ -4,8 +4,14 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { getAlllNews } from '../services/NewsService';
 import SampleList from '../component/SampleList';
 import { Context } from '../contexts/Context';
+import NewsList from '../component/NewsList';
 
-const Home = () => {
+// UI Imports
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
+
+const Home = ( {navigation} ) => {
   const [news, setNews] = useState([]);
   const { user} = useContext(Context);
   // Fetching all news from database
@@ -20,11 +26,16 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <Text>News List!</Text>
-      <FlatList
-        data={news}
-        renderItem={({ item }) => <SampleList news={item} />}
-      />
+      <Text>News screen</Text>
+
+      <View style={styles.newsContainer}>
+        <FlatList
+          data={news}
+          renderItem={({ item }) => <NewsList navigation={navigation} news={item} />}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -33,9 +44,11 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.light_background,
+    padding: "5%",
+  },
+  newsContainer: {
+    marginTop: 50,
   },
 });
 export default Home;
