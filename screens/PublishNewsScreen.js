@@ -163,8 +163,8 @@ const PublishNewsScreen = ({ navigation }) => {
                       message: 'Title should have at least 3 characters.',
                     },
                     maxLength: {
-                      value: 50,
-                      message: 'Title cannot exceed 50 characters.',
+                      value: 150,
+                      message: 'Title cannot exceed 150 characters.',
                     },
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
   image: {
     zIndex: 2,
-    width: null,
+    width: "100%",
     height: '100%',
     resizeMode: 'contain',
     overflow: 'hidden',

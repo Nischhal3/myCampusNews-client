@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    padding: "5%",
+    paddingHorizontal: "5%",
   },
   editProfileIcon: {
     position: "absolute",

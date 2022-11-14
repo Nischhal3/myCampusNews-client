@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Icon,
   FlatList,
-  Alert
+  Alert,
+  ScrollView,
 } from "react-native";
 import { SwipeablePanel } from "rn-swipeable-panel";
 import { Controller, useForm } from "react-hook-form";
@@ -20,6 +21,9 @@ import { getAllCommentOfNews, postComment, postFavorite, removeFavorite, checkFa
 import { Context } from "../contexts/Context";
 import CommentList from '../component/CommentList';
 import {baseUrl} from '../utils/variables';
+
+// utils Imports
+import {formatToDate, formatToDistance} from "../utils/timestamp";
 
 // UI Imports
 import colors from '../utils/colors';
@@ -119,71 +123,114 @@ const SingleNews = ({ route, navigation }) => {
     }
   };
 
+  const noComments = () => {
+    return (
+      <View style={{ alignItems: "center" }}>
+      <Text style={styles.item}>No comment found</Text>
+      </View>
+    );
+  };
+
   useEffect(() => {
     getComments();
     getFavorite();
   }, [file.news_id,updateComment]);
 
   return (
-    <View style={styles.container}>
-      {/* <Text>{file.news_title}</Text>
-      <Text>{file.news_time}</Text> */}
-      {/* <Image
-        style={styles.image}
-        source={{ uri: `${baseUrl}/${file.photoName}` }}
-      /> */}
-      <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} />
-      <View style={styles.detailContainer}>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled={true}>
+
+      <View style={styles.container}>
+
+        <Image style={styles.image} source={{ uri: `${baseUrl}/${file.photoName}` }} />
+        {/* <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} /> */}
+
+        <View style={styles.detailContainer}>
+            <Text style={styles.title}>{file.news_title}</Text>
+
+            <View style={styles.dateContainer}>
+            <McIcons name="calendar-clock" size={18} color={colors.medium_grey} />
+                <Text style={styles.date}>{formatToDate(file.news_time)}</Text>
+            </View>
+            
+            <View style={styles.dateDistanceContainer}>
+                <McIcons name="update" size={18} color={colors.medium_grey} />
+                <Text style={styles.dateDistance}>{formatToDistance(file.news_time)}</Text>
+            </View>
+
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.bookmarkContainer} onPress={() => { userFavorite() }}>
+                    {favorite? (
+                        <McIcons name="bookmark" size={28} color={colors.primary} />
+                    ) : (
+                        <McIcons name="bookmark-outline" size={28} color={colors.dark_text} />
+                    )}
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.likesContainer} onPress={() => { setLiked(!liked) }}>
+                    {liked? (
+                        <McIcons name="thumb-up" size={18} color={colors.primary} />
+                    ) : (
+                        <McIcons name="thumb-up-outline" size={18} color={colors.dark_text} />
+                    )}
+                    <Text style={[styles.likeNumbers, {color: liked? colors.primary : colors.dark_text}]}>123</Text>
+                    {/* <Text>{file.likes}</Text> */}
+                </TouchableOpacity>
+            </View>
+        </View>
+
+        <View style={styles.contentContainer}>
+            <Text style={styles.content}>{file.news_content}</Text>
+        </View>
+
+        <View style={{
+            borderBottomColor: colors.light_grey,
+            borderBottomWidth: 1,
+            width: "100%",
+            alignSelf: 'center',
+            marginTop: 20,
+        }}/>
+
+        <View style={styles.commentContainer}>    
+            <View style={styles.commentHeaderContainer}>
+                <Text style={styles.commentHeader}>Comments ({comments.length})</Text>
+                <TouchableOpacity style={styles.addCommentContainer} onPress={() => { openPanel() }}>
+                    <McIcons name="comment-outline" size={20} color={colors.secondary} />
+                    <Text style={styles.addComment}>Add comment</Text>
+                </TouchableOpacity>
+            </View>
+
+            <FlatList
+                data={comments}
+                ListEmptyComponent={noComments}
+                showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
+                renderItem={({ item }) => <CommentList comment={item}/>}
+                maxHeight={200}
+            />
+        </View>
 
       </View>
-      <View style={styles.contentContainer}>
-        <Text>{file.news_content}</Text>
-      </View>
-      {favorite? (
-        <Button
-        title="Favorite"
-        color="#f194ff"
-        onPress={() => {
-          userFavorite();
-        }}
-      />
-      ):(
-        <Button
-        title="Favorite"
-        onPress={() => {
-          userFavorite();
-        }}
-      />
-      )
-
-      }
-      <Button
-        title="Add comment"
-        onPress={() => {
-          openPanel();
-        }}
-      />
-
-      <TouchableOpacity style={styles.likesContainer} onPress={() => { setLiked(!liked) }}>
-        {liked? (
-            <McIcons name="thumb-up" size={24} color={colors.primary} />
-        ) : (
-            <McIcons name="thumb-up-outline" size={24} color={colors.dark_text} />
-        )}
-        <Text>123</Text>
-        {/* <Text>{file.likes}</Text> */}
-      </TouchableOpacity>
-
-      <FlatList
-        data={comments}
-        renderItem={({ item }) => <CommentList comment={item}/>}
-      />
+      
       <SwipeablePanel
         style={styles.panel}
         {...panelProps}
         isActive={isPanelActive}
+        noBackgroundOpacity={true}
+        showCloseButton={true}
+        noBar={true}
+        closeRootStyle={{backgroundColor: colors.light_background}}
+        closeIconStyle={{backgroundColor: colors.dark_text}}
       >
-        <View style={{ alignItems: "center" }}>
+        <View style={styles.pannelContainer}>
+            <Text style={styles.pannelHeader}>Comments</Text>
+            <FlatList
+                data={comments}
+                ListEmptyComponent={noComments}
+                showsVerticalScrollIndicator={false}
+                // nestedScrollEnabled={true}
+                renderItem={({ item }) => <CommentList comment={item}/>}
+                maxHeight={200}
+            />
           <Controller
             control={control}
             rules={{
@@ -211,27 +258,118 @@ const SingleNews = ({ route, navigation }) => {
             error={errors?.comment}
             message={errors?.comment?.message}
           />
-        </View>
         <SubmitButton title="Send" onPress={handleSubmit(onSubmit)} />
+        </View>
       </SwipeablePanel>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    width: "100%",
-    height: undefined,
-    aspectRatio: 1.5,
-  },
-  likesContainer: {
-    alignItems: "center",
-  },
-  panel: {
-    maxHeight: "20%",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: colors.light_background,
+        paddingHorizontal: "5%",
+        minHeight: "100%",
+        borderWidth: 1,
+    },
+    image: {
+        width: "100%",
+        height: undefined,
+        aspectRatio: 1.5,
+    },
+    detailContainer: {
+        marginVertical: 10,
+    },
+    title: {
+        fontFamily: "IBM",
+        fontSize: fontSize.subtitle,
+        fontWeight: 'bold',
+        color: colors.dark_text,
+    },
+    dateContainer: {
+        marginTop: 10,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    date: {
+        marginLeft: 2,
+        fontFamily: "IBM",
+        fontSize: fontSize.small,
+        color: colors.medium_grey,
+    },
+    dateDistanceContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    dateDistance: {
+        marginLeft: 2,
+        fontFamily: "IBM",
+        fontSize: fontSize.small,
+        color: colors.medium_grey,
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        position: "absolute",
+        bottom: 0,
+        right: 2,
+    },
+    bookmarkContainer: {
+        height: 30,
+        alignItems: "center",
+        marginRight: 20,
+    },
+    likesContainer: {
+        height: 30,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    likeNumbers: {
+        fontFamily: "IBM",
+        fontSize: fontSize.caption,
+        color: colors.dark_text,
+    },
+    commentContainer: {
+        marginTop: 10,
+    },
+    commentHeaderContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 10,
+    },
+    commentHeader: {
+        fontFamily: "IBM",
+        fontSize: fontSize.large,
+        color: colors.dark_text,
+    },
+    addCommentContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    addComment: {
+        marginLeft: 2,
+        fontFamily: "IBM",
+        fontSize: fontSize.small,
+        color: colors.secondary,
+    },
+    panel: {
+        width: "98%",
+        height: "50%",
+        borderWidth: 2,
+        borderColor: colors.light_grey,
+    },
+    pannelContainer: {
+        height: "100%",
+        marginTop: 10,
+        padding: 10,
+        // borderWidth: 1,
+    },
+    pannelHeader: {
+        fontFamily: "IBM",
+        fontSize: fontSize.large,
+        color: colors.dark_text,
+        marginBottom: 20,
+    },
 });
 export default SingleNews;
