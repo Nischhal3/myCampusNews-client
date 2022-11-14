@@ -5,7 +5,7 @@ import SampleList from '../component/SampleList';
 import { Context } from '../contexts/Context';
 import { getAlllNews } from '../services/NewsService';
 
-const Home = () => {
+const Home = ({navigation }) => {
   const [news, setNews] = useState([]);
   const { user, token, updateNews } = useContext(Context);
   const timeInterval = 3000;
@@ -23,10 +23,9 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <Text>News List!</Text>
       <FlatList
-        data={news}
-        renderItem={({ item }) => <SampleList news={item} />}
+        data={news.reverse()}
+        renderItem={({ item }) => <SampleList news={item} navigation={navigation}/> }
       />
       <StatusBar style="auto" />
     </View>
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });
