@@ -72,7 +72,8 @@ const DrawerScreen = () => {
         drawerType: 'front',
         headerTitleAlign: 'center',
         headerStyle: {
-          height: '13%',
+          // minHeight: '13%',
+          maxHeight: 100,
           backgroundColor: colors.backgroundColor,
         },
         headerTitle: (props) => <Header {...props} />,

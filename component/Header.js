@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     container: {
         height: 20,
         width: 100,
+        bottom: 10,
     },
     nokia: {
         height: "100%",
