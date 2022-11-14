@@ -20,7 +20,7 @@ const NewsList = ({ navigation, news }) => {
       }
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => {navigation.navigate("SingleNews", {singleNews: news})}}>
+    <TouchableOpacity style={styles.container} onPress={() => {navigation.navigate("SingleNews", {file: news})}}>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: url }} />
         {/* <Text>{news.photoName}</Text> */}

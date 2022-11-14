@@ -10,6 +10,7 @@ const MainProvider = ({ children }) => {
   const [updateAvatar, setUpdateAvatar] = useState(0);
   const [token, setToken] = useState(null);
   const [newsUpdate, setNewsUpdate] = useState(0);
+  const [updateComment, setUpdateComment] = useState(0);
 
   return (
     <Context.Provider
@@ -26,6 +27,8 @@ const MainProvider = ({ children }) => {
         setToken,
         newsUpdate,
         setNewsUpdate,
+        updateComment,
+        setUpdateComment,
       }}
     >
       {children}
