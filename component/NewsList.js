@@ -15,7 +15,7 @@ const NewsList = ({ navigation, news }) => {
     if (news.photoName == "unavailable") {
         url = uploadDefaultUri;
       } else {
-        url = `${baseUrl}avatar/${news.photoName}`;
+        url = `${baseUrl}/${news.photoName}`;
         // url = uploadDefaultUri;
       }
 
