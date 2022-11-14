@@ -11,12 +11,15 @@ import {
   Button,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
 import { WelcomeScreenButton } from '../component/AppButtons';
 import LocalAuth from './LocalAuth';
 import { Context } from '../contexts/Context';
 import { getToken } from '../services/UserService';
+
+// UI Imports
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
+
 
 const WelcomeScreen = ({ navigation }) => {
   const { setToken } = useContext(Context);

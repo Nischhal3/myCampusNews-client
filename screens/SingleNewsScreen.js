@@ -16,12 +16,12 @@ import { Controller, useForm } from "react-hook-form";
 import FormInput from "../component/AppInputs";
 import { SubmitButton } from "../component/AppButtons";
 import ErrorMessage from "../component/ErrorMessage";
-import { getAllCommentOfNews, postComment,postFavorite,removeFavorite,checkFavorite } from "../services/NewsService";
+import { getAllCommentOfNews, postComment, postFavorite, removeFavorite, checkFavorite } from "../services/NewsService";
 import { Context } from "../contexts/Context";
 import CommentList from '../component/CommentList';
 import {baseUrl} from '../utils/variables';
 
-const SingleNews = ({ route,navigation }) => {
+const SingleNews = ({ route, navigation }) => {
   const { token, updateComment, setUpdateComment } = useContext(Context);
   const [comments, setComments] = useState([]);
   const [favorite, setFavorite] = useState(false);

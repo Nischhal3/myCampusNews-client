@@ -17,6 +17,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Register from '../screens/RegisterScreen';
 import Home from '../screens/Home';
+import SingleNewsScreen from '../screens/SingleNewsScreen';
 import Profile from '../screens/Profile';
 import NotificationScreen from '../screens/NotificationScreen';
 import SettingScreen from '../screens/SettingScreen';
@@ -25,7 +26,6 @@ import ManageUsersScreen from '../screens/ManageUsersScreen';
 import PublishNewsScreen from '../screens/PublishNewsScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import EditPasswordScreen from '../screens/EditPasswordScreen';
-import SingleNewsScreen from '../screens/SingleNewsScreen';
 
 
 
@@ -84,13 +84,13 @@ const DrawerScreen = () => {
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="EditProfile" component={EditProfileScreen} options={{headerShown: false}} />
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="SingleNews" component={SingleNewsScreen} />
       <Drawer.Screen name="Notification" component={NotificationScreen} />
       <Drawer.Screen name="Setting" component={SettingScreen} />
       <Drawer.Screen name="MNews" component={ManageNewsScreen} />
       <Drawer.Screen name="MUsers" component={ManageUsersScreen} />
       <Drawer.Screen name="Publish" component={PublishNewsScreen} />
       <Drawer.Screen name="EditPassword" component={EditPasswordScreen} />
-      <Drawer.Screen name="SingleNews" component={SingleNewsScreen} />
     </Drawer.Navigator>
   );
 };
