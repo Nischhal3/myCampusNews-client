@@ -21,10 +21,16 @@ import { Context } from "../contexts/Context";
 import CommentList from '../component/CommentList';
 import {baseUrl} from '../utils/variables';
 
+// UI Imports
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
+
 const SingleNews = ({ route, navigation }) => {
   const { token, updateComment, setUpdateComment } = useContext(Context);
   const [comments, setComments] = useState([]);
   const [favorite, setFavorite] = useState(false);
+  const [liked, setLiked] = useState(false);
   const [isPanelActive, setIsPanelActive] = useState(false);
   const { file } = route.params;
 
@@ -120,13 +126,19 @@ const SingleNews = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>{file.news_title}</Text>
-      <Text>{file.news_time}</Text>
-      <Image
+      {/* <Text>{file.news_title}</Text>
+      <Text>{file.news_time}</Text> */}
+      {/* <Image
         style={styles.image}
         source={{ uri: `${baseUrl}/${file.photoName}` }}
-      />
-      <Text>{file.news_content}</Text>
+      /> */}
+      <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} />
+      <View style={styles.detailContainer}>
+
+      </View>
+      <View style={styles.contentContainer}>
+        <Text>{file.news_content}</Text>
+      </View>
       {favorite? (
         <Button
         title="Favorite"
@@ -151,6 +163,17 @@ const SingleNews = ({ route, navigation }) => {
           openPanel();
         }}
       />
+
+      <TouchableOpacity style={styles.likesContainer} onPress={() => { setLiked(!liked) }}>
+        {liked? (
+            <McIcons name="thumb-up" size={24} color={colors.primary} />
+        ) : (
+            <McIcons name="thumb-up-outline" size={24} color={colors.dark_text} />
+        )}
+        <Text>123</Text>
+        {/* <Text>{file.likes}</Text> */}
+      </TouchableOpacity>
+
       <FlatList
         data={comments}
         renderItem={({ item }) => <CommentList comment={item}/>}
@@ -203,6 +226,9 @@ const styles = StyleSheet.create({
     width: "100%",
     height: undefined,
     aspectRatio: 1.5,
+  },
+  likesContainer: {
+    alignItems: "center",
   },
   panel: {
     maxHeight: "20%",
