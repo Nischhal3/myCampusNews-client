@@ -33,7 +33,7 @@ const Home = ( {navigation} ) => {
 
       <View style={styles.newsContainer}>
         <FlatList
-          data={news}
+          data={news.reverse()}
           renderItem={({ item }) => <NewsList navigation={navigation} news={item} />}
           showsVerticalScrollIndicator={false}
         />
