@@ -25,6 +25,7 @@ import ManageUsersScreen from '../screens/ManageUsersScreen';
 import PublishNewsScreen from '../screens/PublishNewsScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import EditPasswordScreen from '../screens/EditPasswordScreen';
+import SingleNewsScreen from '../screens/SingleNewsScreen';
 
 
 
@@ -89,6 +90,7 @@ const DrawerScreen = () => {
       <Drawer.Screen name="MUsers" component={ManageUsersScreen} />
       <Drawer.Screen name="Publish" component={PublishNewsScreen} />
       <Drawer.Screen name="EditPassword" component={EditPasswordScreen} />
+      <Drawer.Screen name="SingleNews" component={SingleNewsScreen} />
     </Drawer.Navigator>
   );
 };
