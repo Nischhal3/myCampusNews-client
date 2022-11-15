@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
+import React, { createRef, useContext, useEffect, useRef, useState } from "react";
 import {
   Text,
   View,
@@ -37,6 +37,7 @@ const SingleNews = ({ route, navigation }) => {
   const [liked, setLiked] = useState(false);
   const [isPanelActive, setIsPanelActive] = useState(false);
   const { file } = route.params;
+  const scrollViewRef = useRef();
 
   const {
     control,
@@ -137,7 +138,7 @@ const SingleNews = ({ route, navigation }) => {
   }, [file.news_id,updateComment]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled={true}>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled={true} ref={scrollViewRef}>
 
       <View style={styles.container}>
 
@@ -193,10 +194,10 @@ const SingleNews = ({ route, navigation }) => {
         <View style={styles.commentContainer}>    
             <View style={styles.commentHeaderContainer}>
                 <Text style={styles.commentHeader}>Comments ({comments.length})</Text>
-                {/* <TouchableOpacity style={styles.addCommentContainer} onPress={() => { openPanel() }}>
+                <TouchableOpacity style={styles.addCommentContainer} onPress={() => { scrollViewRef.current.scrollToEnd({ animated: true }) }}>
                     <McIcons name="comment-outline" size={20} color={colors.secondary} />
                     <Text style={styles.addComment}>Add comment</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
 
             <FlatList
@@ -205,7 +206,7 @@ const SingleNews = ({ route, navigation }) => {
                 showsVerticalScrollIndicator={false}
                 nestedScrollEnabled={true}
                 renderItem={({ item }) => <CommentList comment={item}/>}
-                maxHeight={250}
+                maxHeight={400}
             />
         </View>
 
@@ -239,7 +240,6 @@ const SingleNews = ({ route, navigation }) => {
                     value={value}
                     textAlign="top"
                     width="85%"
-                    height={35}
                 />
                 )}
                 name="content"
@@ -360,6 +360,11 @@ const styles = StyleSheet.create({
         fontSize: fontSize.caption,
         color: colors.dark_text,
     },
+    content: {
+        fontFamily: "IBM",
+        fontSize: fontSize.medium,
+        color: colors.dark_text,
+    },
     commentContainer: {
         marginTop: 10,
     },
@@ -367,7 +372,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 10,
+        marginBottom: 20,
     },
     commentHeader: {
         fontFamily: "IBM",
@@ -385,12 +390,14 @@ const styles = StyleSheet.create({
         color: colors.secondary,
     },
     inputContainer: {
-        marginVertical: "2%",
+        marginTop: "2%",
         flexDirection: "row",
         alignItems: "center",
         width: "100%",
     },
     sendButton: {
+        marginTop: 2,
+        alignSelf: "flex-start",
         width: "20%",
     },
 });

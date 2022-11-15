@@ -8,6 +8,8 @@ import {
     DrawerItem,
 } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
+import { baseUrl } from '../utils/variables';
+import defaultImage from "../assets/images/blank_avatar.jpg";
 
 // UI Imports
 import colors from '../utils/colors';
@@ -19,13 +21,14 @@ function CustomDrawerContent( props ) {
     const { user, setIsLoggedIn , drawerFocus, setDrawerFocus } = useContext(Context);
     const [ extended, setExtended ] = useState([false]);
 
-    const baseUrl = "http://10.0.2.2:3000/";
+    const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
     var url = "";
 
   if (user.avatar_name == "unavailable") {
-    url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7HrjlxizejA_sfkfPhIaAdv5Cxy6A-HGFzA&usqp=CAU";
+    url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${user.avatar_name}`;
+    // url = uploadDefaultUri;
   }
 
     const logout = () => {

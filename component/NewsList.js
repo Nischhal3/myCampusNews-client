@@ -34,7 +34,7 @@ const NewsList = ({ navigation, news }) => {
       </View>
 
       <View style={styles.sideContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={{}}>
           <McIcons name="bookmark-outline" size={24} color={colors.dark_text} />
         </TouchableOpacity>
       </View>
