@@ -25,9 +25,9 @@ const FormInput = (props) => {
   };
 
   const MultilineInput = (props) => {
-    const {leftIcon, textColor, width, height, textAlign} = props;
+    const {leftIcon, textColor, width, height, minHeight, maxHeight, textAlign} = props;
     return (
-        <View style={styles.multilineInputContainer}>
+        <View style={[styles.multilineInputContainer, {width: width, height: height, minHeight: minHeight, maxHeight: maxHeight}]}>
             <McIcons name={leftIcon} size={28} color='#000000' />
             <TextInput
                 placeholder={props.name}
@@ -36,7 +36,27 @@ const FormInput = (props) => {
                 onChangeText={props.onChange}
                 onBlur={props.onBlur}
                 value={props.value}
-                style={[styles.multilineInputText, {color: textColor, width: width, height: height}]}
+                style={[styles.multilineInputText, {color: textColor}]}
+                keyboardType="default"
+                multiline={true}
+                textAlignVertical={textAlign}
+            />
+        </View>
+    );
+  }
+  const MultilineInputNoBorder = (props) => {
+    const {leftIcon, textColor, width, height, minHeight, maxHeight, textAlign} = props;
+    return (
+        <View style={[styles.multilineInputNoBorderContainer, {width: width, height: height, minHeight: minHeight, maxHeight: maxHeight}]}>
+            <McIcons name={leftIcon} size={28} color='#000000' />
+            <TextInput
+                placeholder={props.name}
+                name={props.name}
+                secureTextEntry={props.textEntry}
+                onChangeText={props.onChange}
+                onBlur={props.onBlur}
+                value={props.value}
+                style={[styles.multilineInputText, {color: textColor}]}
                 keyboardType="default"
                 multiline={true}
                 textAlignVertical={textAlign}
@@ -64,9 +84,14 @@ const FormInput = (props) => {
         width: "100%",
         padding: 4,
     },
+    multilineInputNoBorderContainer: {
+        flexDirection: "row",
+        width: "100%",
+        padding: 4,
+    },
     multilineInputText: {
         marginLeft: 5,
     },
   })
   
-  export {FormInput, MultilineInput};
+  export {FormInput, MultilineInput, MultilineInputNoBorder};

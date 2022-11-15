@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { SwipeablePanel } from "rn-swipeable-panel";
 import { Controller, useForm } from "react-hook-form";
-import FormInput, {MultilineInput} from "../component/AppInputs";
+import FormInput, {MultilineInput, MultilineInputNoBorder} from "../component/AppInputs";
 import { SubmitButton } from "../component/AppButtons";
 import ErrorMessage from "../component/ErrorMessage";
 import { getAllCommentOfNews, postComment, postFavorite, removeFavorite, checkFavorite } from "../services/NewsService";
@@ -193,10 +193,10 @@ const SingleNews = ({ route, navigation }) => {
         <View style={styles.commentContainer}>    
             <View style={styles.commentHeaderContainer}>
                 <Text style={styles.commentHeader}>Comments ({comments.length})</Text>
-                <TouchableOpacity style={styles.addCommentContainer} onPress={() => { openPanel() }}>
+                {/* <TouchableOpacity style={styles.addCommentContainer} onPress={() => { openPanel() }}>
                     <McIcons name="comment-outline" size={20} color={colors.secondary} />
                     <Text style={styles.addComment}>Add comment</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
 
             <FlatList
@@ -209,9 +209,48 @@ const SingleNews = ({ route, navigation }) => {
             />
         </View>
 
+        <View style={{
+            borderBottomColor: colors.light_grey,
+            borderBottomWidth: 1,
+            width: "100%",
+            alignSelf: 'center',
+            marginTop: 20,
+        }}/>
+
+        <View style={styles.inputContainer}>
+            <Controller
+                control={control}
+                rules={{
+                required: {
+                    value: true,
+                    message: "Please enter your comment",
+                },
+                minLength: {
+                    value: 3,
+                    message: "Comment has to be at least 3 characters.",
+                },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                <MultilineInputNoBorder
+                    name="Share your thoughts..."
+                    textEntry={false}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    textAlign="top"
+                    width="85%"
+                    height={35}
+                />
+                )}
+                name="content"
+            />
+            <TouchableOpacity style={styles.sendButton} onPress={handleSubmit(onSubmit)}>
+                <McIcons name="send" size={24} color={colors.primary} style={{alignSelf: "center"}} />
+            </TouchableOpacity>
+        </View>
       </View>
       
-      <SwipeablePanel
+      {/* <SwipeablePanel
         style={styles.panel}
         {...panelProps}
         isActive={isPanelActive}
@@ -253,7 +292,7 @@ const SingleNews = ({ route, navigation }) => {
                 </TouchableOpacity>
             </View>
         </View>
-      </SwipeablePanel>
+      </SwipeablePanel> */}
     </ScrollView>
   );
 };
@@ -345,32 +384,14 @@ const styles = StyleSheet.create({
         fontSize: fontSize.small,
         color: colors.secondary,
     },
-    panel: {
-        width: "98%",
-        maxHeight: 125,
-        borderWidth: 2,
-        borderColor: colors.nokia_blue,
-    },
-    pannelContainer: {
-        height: "100%",
-        marginTop: 10,
-        padding: 10,
-    },
-    pannelHeader: {
-        fontFamily: "IBM",
-        fontSize: fontSize.large,
-        color: colors.dark_text,
-        marginBottom: 20,
-    },
     inputContainer: {
+        marginVertical: "2%",
         flexDirection: "row",
         alignItems: "center",
         width: "100%",
-        // borderWidth: 1,
     },
     sendButton: {
-        position: "absolute",
-        right: 5,
+        width: "20%",
     },
 });
 export default SingleNews;
