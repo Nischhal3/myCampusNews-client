@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import defaultImage from '../assets/images/blank_image.jpg';
-import FormInput from '../component/AppInputs';
+import { FormInput, MultilineInput } from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
 import * as ImagePicker from 'expo-image-picker';
 import { Video } from 'expo-av';
@@ -43,6 +43,7 @@ const PublishNewsScreen = ({ navigation }) => {
   } = useForm({
     defaultValues: {
       title: '',
+      lead: '',
       content: '',
     },
     mode: 'onBlur',
@@ -52,6 +53,7 @@ const PublishNewsScreen = ({ navigation }) => {
   const resetForm = () => {
     setImage(uploadDefaultUri);
     setValue('title', '');
+    setValue('lead', '')
     setValue('content', '');
     setType('image');
   };
@@ -106,9 +108,8 @@ const PublishNewsScreen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView style={styles.androidSafeArea}>
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: colors.light_background }}
         behavior={Platform.OS === 'ios' ? 'padding' : ''}
       >
         <ScrollView
@@ -118,7 +119,7 @@ const PublishNewsScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.resetContainer}>
             <McIcons name="autorenew" size={32} color={colors.negative} />
           </TouchableOpacity>
-          <Text style={styles.header}>New Article</Text>
+          <Text style={styles.header}>Create news</Text>
           <TouchableOpacity
             style={styles.publishContainer}
             onPress={handleSubmit(onSubmit)}
@@ -126,122 +127,150 @@ const PublishNewsScreen = ({ navigation }) => {
             <McIcons name="publish" size={32} color={colors.positive} />
           </TouchableOpacity>
           <View style={styles.container}>
-            <View style={styles.inputContainer}>
-              <View style={styles.imageContainer}>
-                <Text style={styles.selectImageText}>Select an image</Text>
-                {type === 'image' ? (
-                  <>
-                    <View style={styles.imageWrap}>
-                      <TouchableOpacity onPress={pickImage}>
-                        <Image source={{ uri: image }} style={styles.image} />
-                      </TouchableOpacity>
-                    </View>
-                  </>
-                ) : (
-                  <Video
-                    source={{ uri: image }}
-                    style={styles.image}
-                    useNativeControls={true}
-                    resizeMode="cover"
-                    onError={(err) => {
-                      console.error('video', err);
-                    }}
+            <View style={styles.imageContainer}>
+              <Text style={styles.selectImageText}>Select image cover</Text>
+              {type === 'image' ? (
+                <>
+                  <View style={styles.imageWrap}>
+                    <TouchableOpacity onPress={pickImage}>
+                      <Image source={{ uri: image }} style={styles.image} />
+                    </TouchableOpacity>
+                  </View>
+                </>
+              ) : (
+                <Video
+                  source={{ uri: image }}
+                  style={styles.image}
+                  useNativeControls={true}
+                  resizeMode="cover"
+                  onError={(err) => {
+                    console.error('video', err);
+                  }}
+                />
+              )}
+            </View>
+
+            <View style={styles.titleContainer}>
+              <Controller
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: 'Please enter a title.',
+                  },
+                  minLength: {
+                    value: 3,
+                    message: 'Title should have at least 3 characters.',
+                  },
+                  maxLength: {
+                    value: 150,
+                    message: 'Title cannot exceed 150 characters.',
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <MultilineInput
+                    name="News title"
+                    textEntry={false}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    textAlign="center"
+                    // leftIcon="pencil-outline"
                   />
                 )}
-              </View>
+                name="title"
+              />
 
-              <View style={styles.titleContainer}>
-                <Controller
-                  control={control}
-                  rules={{
-                    required: {
-                      value: true,
-                      message: 'Please enter a title.',
-                    },
-                    minLength: {
-                      value: 3,
-                      message: 'Title should have at least 3 characters.',
-                    },
-                    maxLength: {
-                      value: 150,
-                      message: 'Title cannot exceed 150 characters.',
-                    },
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <FormInput
-                      name="Article title"
-                      textEntry={false}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      leftIcon="pencil-outline"
-                    />
-                  )}
-                  name="title"
-                />
+              <ErrorMessage
+                error={errors?.title}
+                message={errors?.title?.message}
+              />
+            </View>
 
-                <ErrorMessage
-                  error={errors?.title}
-                  message={errors?.title?.message}
-                />
-              </View>
+            <View style={styles.contentContainer}>
+              <Controller
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: 'Please have an opening paragraph',
+                  },
+                  minLength: {
+                    value: 3,
+                    message: 'Lead paragraph should have at least 3 characters.',
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <MultilineInput
+                    name="Lead paragraph of the news..."
+                    textEntry={false}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    height={200}
+                    textAlign="top"
+                    // leftIcon="file-document-edit-outline"
+                  />
+                )}
+                name="lead"
+              />
 
-              <View style={styles.contentContainer}>
-                <Controller
-                  control={control}
-                  rules={{
-                    required: {
-                      value: true,
-                      message: 'Content is required for every articles.',
-                    },
-                    minLength: {
-                      value: 3,
-                      message: 'Content should have at least 3 characters.',
-                    },
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <FormInput
-                      name="Please enter the content here..."
-                      textEntry={false}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      leftIcon="file-document-edit-outline"
-                    />
-                  )}
-                  name="content"
-                />
+              <ErrorMessage
+                error={errors?.content}
+                message={errors?.content?.message}
+              />
+            </View>
 
-                <ErrorMessage
-                  error={errors?.content}
-                  message={errors?.content?.message}
-                />
-              </View>
+            <View style={styles.contentContainer}>
+              <Controller
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: 'Content is required for every articles.',
+                  },
+                  minLength: {
+                    value: 3,
+                    message: 'Content should have at least 3 characters.',
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <MultilineInput
+                    name="Please enter the content here..."
+                    textEntry={false}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    height={500}
+                    textAlign="top"
+                    // leftIcon="file-document-edit-outline"
+                  />
+                )}
+                name="content"
+              />
+
+              <ErrorMessage
+                error={errors?.content}
+                message={errors?.content?.message}
+              />
             </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  androidSafeArea: {
-    flex: 1,
-    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
   resetContainer: {
     position: 'absolute',
     left: '4%',
-    top: '2%',
   },
   publishContainer: {
     position: 'absolute',
     right: '4%',
-    top: '2%',
   },
   header: {
-    marginTop: '4%',
+    marginVertical: '2%',
     textAlign: 'center',
     fontSize: fontSize.regular,
     fontWeight: 'bold',
@@ -249,14 +278,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: '4%',
-    marginHorizontal: '5%',
-  },
-  inputContainer: {
-    height: 150,
-    width: '90%',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
+    paddingHorizontal: '5%',
   },
   imageContainer: {
     height: 250,
@@ -276,11 +298,12 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.primary,
   },
   image: {
-    zIndex: 2,
+    // zIndex: 2,
     width: "100%",
-    height: '100%',
-    resizeMode: 'contain',
-    overflow: 'hidden',
+    height: "100%",
+    // resizeMode: 'contain',
+    // overflow: 'hidden',
+    // aspectRatio: 1.5,
   },
 });
 

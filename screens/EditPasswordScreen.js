@@ -24,7 +24,7 @@ import { Controller, useForm } from "react-hook-form";
 import fontSize from "../utils/fontSize";
 import colors from "../utils/colors";
 import ErrorMessage from "../component/ErrorMessage";
-import FormInput from "../component/AppInputs";
+import { FormInput } from "../component/AppInputs";
 
 const EditPasswordScreen = ({ navigation }) => {
   const { user, setIsLoggedIn, token } = useContext(Context);

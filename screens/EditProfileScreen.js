@@ -18,7 +18,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Controller, useForm } from "react-hook-form";
-import FormInput from "../component/AppInputs";
+import { FormInput } from "../component/AppInputs";
 import ErrorMessage from "../component/ErrorMessage";
 import { SubmitButton } from "../component/AppButtons";
 import { Context } from "../contexts/Context";

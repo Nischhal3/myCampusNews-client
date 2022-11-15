@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { SwipeablePanel } from "rn-swipeable-panel";
 import { Controller, useForm } from "react-hook-form";
-import FormInput from "../component/AppInputs";
+import FormInput, {MultilineInput} from "../component/AppInputs";
 import { SubmitButton } from "../component/AppButtons";
 import ErrorMessage from "../component/ErrorMessage";
 import { getAllCommentOfNews, postComment, postFavorite, removeFavorite, checkFavorite } from "../services/NewsService";
@@ -205,7 +205,7 @@ const SingleNews = ({ route, navigation }) => {
                 showsVerticalScrollIndicator={false}
                 nestedScrollEnabled={true}
                 renderItem={({ item }) => <CommentList comment={item}/>}
-                maxHeight={200}
+                maxHeight={250}
             />
         </View>
 
@@ -222,43 +222,36 @@ const SingleNews = ({ route, navigation }) => {
         closeIconStyle={{backgroundColor: colors.dark_text}}
       >
         <View style={styles.pannelContainer}>
-            <Text style={styles.pannelHeader}>Comments</Text>
-            <FlatList
-                data={comments}
-                ListEmptyComponent={noComments}
-                showsVerticalScrollIndicator={false}
-                // nestedScrollEnabled={true}
-                renderItem={({ item }) => <CommentList comment={item}/>}
-                maxHeight={200}
-            />
-          <Controller
-            control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "Please enter your comment",
-              },
-              minLength: {
-                value: 3,
-                message: "Comment has to be at least 3 characters.",
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput
-                name="Your comment"
-                textEntry={false}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-              />
-            )}
-            name="content"
-          />
-          <ErrorMessage
-            error={errors?.comment}
-            message={errors?.comment?.message}
-          />
-        <SubmitButton title="Send" onPress={handleSubmit(onSubmit)} />
+            <Text style={styles.pannelHeader}>Share your thoughts</Text>
+            <View style={styles.inputContainer}>
+                <Controller
+                    control={control}
+                    rules={{
+                    required: {
+                        value: true,
+                        message: "Please enter your comment",
+                    },
+                    minLength: {
+                        value: 3,
+                        message: "Comment has to be at least 3 characters.",
+                    },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                    <MultilineInput
+                        name="Your comment"
+                        textEntry={false}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        textAlign="top"
+                    />
+                    )}
+                    name="content"
+                />
+                <TouchableOpacity style={styles.sendButton} onPress={handleSubmit(onSubmit)}>
+                    <McIcons name="send" size={24} color={colors.primary} />
+                </TouchableOpacity>
+            </View>
         </View>
       </SwipeablePanel>
     </ScrollView>
@@ -271,7 +264,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.light_background,
         paddingHorizontal: "5%",
         minHeight: "100%",
-        borderWidth: 1,
     },
     image: {
         width: "100%",
@@ -355,21 +347,30 @@ const styles = StyleSheet.create({
     },
     panel: {
         width: "98%",
-        height: "50%",
+        maxHeight: 125,
         borderWidth: 2,
-        borderColor: colors.light_grey,
+        borderColor: colors.nokia_blue,
     },
     pannelContainer: {
         height: "100%",
         marginTop: 10,
         padding: 10,
-        // borderWidth: 1,
     },
     pannelHeader: {
         fontFamily: "IBM",
         fontSize: fontSize.large,
         color: colors.dark_text,
         marginBottom: 20,
+    },
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        // borderWidth: 1,
+    },
+    sendButton: {
+        position: "absolute",
+        right: 5,
     },
 });
 export default SingleNews;

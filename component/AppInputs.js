@@ -24,6 +24,27 @@ const FormInput = (props) => {
     );
   };
 
+  const MultilineInput = (props) => {
+    const {leftIcon, textColor, width, height, textAlign} = props;
+    return (
+        <View style={styles.multilineInputContainer}>
+            <McIcons name={leftIcon} size={28} color='#000000' />
+            <TextInput
+                placeholder={props.name}
+                name={props.name}
+                secureTextEntry={props.textEntry}
+                onChangeText={props.onChange}
+                onBlur={props.onBlur}
+                value={props.value}
+                style={[styles.multilineInputText, {color: textColor, width: width, height: height}]}
+                keyboardType="default"
+                multiline={true}
+                textAlignVertical={textAlign}
+            />
+        </View>
+    );
+  }
+
   const styles = StyleSheet.create({
     formInputContainer: {
         borderBottomColor: colors.dark_background,
@@ -35,6 +56,17 @@ const FormInput = (props) => {
     formInputText: {
         marginLeft: 5,
     },
+    multilineInputContainer: {
+        borderWidth: 1,
+        borderColor: colors.light_grey,
+        borderRadius: 10,
+        flexDirection: "row",
+        width: "100%",
+        padding: 4,
+    },
+    multilineInputText: {
+        marginLeft: 5,
+    },
   })
   
-  export default FormInput;
+  export {FormInput, MultilineInput};

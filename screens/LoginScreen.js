@@ -21,7 +21,7 @@ import { Context } from '../contexts/Context';
 import ErrorMessage from '../component/ErrorMessage';
 import { getUserByToken, login, getUserById } from '../services/UserService';
 // Components
-import FormInput from '../component/AppInputs';
+import { FormInput } from "../component/AppInputs";
 import { SubmitButton } from '../component/AppButtons';
 // UI
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
