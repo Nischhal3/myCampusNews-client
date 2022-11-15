@@ -6,6 +6,7 @@ import defaultImage from "../assets/images/blank_image.jpg";
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import {formatToOnlyDate} from '../utils/timestamp';
 
 const NewsList = ({ navigation, news }) => {
     const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
@@ -30,7 +31,7 @@ const NewsList = ({ navigation, news }) => {
         <Text style={styles.title} numberOfLines={2} ellipsizeMode='tail'>{news.news_title}</Text>
         <Text style={styles.content} numberOfLines={2} ellipsizeMode='tail'>{news.news_content}</Text>
         {/* <Text>{news.news_id}</Text> */}
-        <Text style={styles.timeStamp}>xx/xx/xxxx</Text>
+        <Text style={styles.timeStamp}>{formatToOnlyDate(news.news_time)}</Text>
       </View>
 
       <View style={styles.sideContainer}>

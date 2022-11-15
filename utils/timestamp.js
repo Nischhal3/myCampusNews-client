@@ -9,10 +9,15 @@ const formatToDate = (value) => {
     return format(date, dateFormatWithTime)
 }
 
+const formatToOnlyDate = (value) => {
+    var date = new Date(value)
+    return format(date, dateFormat)
+}
+
 const formatToDistance = (value) => {
     var currentDate = new Date()
     var date = new Date(value)
     return formatDistance(currentDate, date, { addSuffix: true })
 }
 
-export { formatToDate, formatToDistance };
+export { formatToDate, formatToDistance, formatToOnlyDate };
