@@ -76,6 +76,7 @@ const PublishNewsScreen = ({ navigation }) => {
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append('title', data.title);
+    formData.append('op', data.op);
     formData.append('content', data.content);
 
     const filename = image.split('/').pop();
