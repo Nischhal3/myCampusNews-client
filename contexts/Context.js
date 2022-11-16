@@ -13,6 +13,8 @@ const MainProvider = ({ children }) => {
   const [updateComment, setUpdateComment] = useState(0);
   const [dialogInputVisible, setDialogInputVisible] = useState(false);
   const [editCommentInput, setEditCommentInput] = useState("");
+  const [updateLike, setUpdateLike] = useState(0);
+  const [updateFavorite, setUpdateFavorite] = useState(0);
 
   return (
     <Context.Provider
@@ -35,6 +37,10 @@ const MainProvider = ({ children }) => {
         setDialogInputVisible,
         editCommentInput,
         setEditCommentInput,
+        updateLike,
+        setUpdateLike,
+        updateFavorite,
+        setUpdateFavorite
       }}
     >
       {children}

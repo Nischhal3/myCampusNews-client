@@ -20,7 +20,8 @@ const Home = ( {navigation} ) => {
   useEffect(() => {
     const interval = setInterval(() => {
       async function fetchNews() {
-        setNews(await getAlllNews(token));
+        const response = await getAlllNews(token)
+        setNews(response.reverse());
       }
       fetchNews();
     }, timeInterval);
@@ -33,7 +34,7 @@ const Home = ( {navigation} ) => {
 
       <View style={styles.newsContainer}>
         <FlatList
-          data={news.reverse()}
+          data={news}
           renderItem={({ item }) => <NewsList navigation={navigation} news={item} />}
           showsVerticalScrollIndicator={false}
         />

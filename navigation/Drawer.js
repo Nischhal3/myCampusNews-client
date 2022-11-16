@@ -287,6 +287,29 @@ function CustomDrawerContent(props) {
               focused={drawerFocus == 'Home' ? true : false}
             />
             <DrawerItem
+              label="Bookmarks"
+              labelStyle={{
+                color:
+                  drawerFocus == 'Bookmark' ? colors.primary : colors.light_text,
+              }}
+              icon={() => (
+                <McIcons
+                  name="bookmark-multiple-outline"
+                  size={24}
+                  color={
+                    drawerFocus == 'Bookmark' ? colors.primary : colors.light_text
+                  }
+                />
+              )}
+              onPress={() => {
+                props.navigation.navigate('Bookmark');
+                setDrawerFocus('Bookmark');
+              }}
+              activeBackgroundColor={colors.light_background}
+              activeTintColor={colors.dark_text}
+              focused={drawerFocus == 'Bookmark' ? true : false}
+            />
+            <DrawerItem
               label="Notifications"
               style={styles.drawerItem}
               labelStyle={{
