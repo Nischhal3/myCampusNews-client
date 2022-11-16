@@ -1,7 +1,12 @@
 import React, { createRef, useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import defaultImage from '../assets/images/blank_image.jpg';
-import { getAllNewsView, useLike, userFavorite } from '../services/NewsService';
+import {
+  getAllNewsView,
+  postNewsViews,
+  useLike,
+  userFavorite,
+} from '../services/NewsService';
 import { Context } from '../contexts/Context';
 
 // UI Imports
@@ -39,12 +44,13 @@ const NewsList = ({ navigation, news }) => {
     getUserLike(news.news_id);
   }, [updateFavorite, updateLike]);
 
+  // Fetching total news view every 3 second interval
   useEffect(() => {
     const interval = setInterval(() => {
-      async function fetchNews() {
+      async function fetchNewsView() {
         setNewsView(await getAllNewsView(token, news.news_id));
       }
-      fetchNews();
+      fetchNewsView();
     }, timeInterval);
     return () => clearInterval(interval);
   }, []);
@@ -53,6 +59,7 @@ const NewsList = ({ navigation, news }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
+        postNewsViews(token, user.user_id, news.news_id);
         navigation.navigate('SingleNews', { file: news });
       }}
     >

@@ -265,7 +265,7 @@ const postNewsViews = async (token, user_id, news_id) => {
     newsId: news_id,
     userId: user_id,
   };
-  console.log(newsViewObject);
+
   const options = {
     method: 'POST',
     headers: {
