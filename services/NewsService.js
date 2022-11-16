@@ -1,13 +1,13 @@
-import { fetchData } from "./ApiService";
-import { getToken } from "./UserService";
-import { baseUrl } from "../utils/variables";
-import { useContext, useEffect, useState } from "react";
-import { Context } from "../contexts/Context";
+import { fetchData } from './ApiService';
+import { getToken } from './UserService';
+import { baseUrl } from '../utils/variables';
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../contexts/Context';
 
 // Retrieving all news from backend
 const getAlllNews = async (token) => {
   const options = {
-    method: "GET",
+    method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
   };
 
@@ -17,10 +17,10 @@ const getAlllNews = async (token) => {
 // Post news to the server
 const postNews = async (formData, token) => {
   const options = {
-    method: "POST",
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
     body: formData,
   };
@@ -32,35 +32,39 @@ const useComment = () => {
   const [comments, setComments] = useState([]);
 
   const getAllCommentOfNews = async (newsId) => {
-    try{
+    try {
       const options = {
-        method: "GET",
-        headers: { Authorization: "Bearer " + token },
+        method: 'GET',
+        headers: { Authorization: 'Bearer ' + token },
       };
       const response = await fetchData(
         `${baseUrl}news/comments/newsid/${newsId}`,
         options
       );
-      response.message != "comment not found" && setComments(response.reverse());
-    }catch (error) {
-      console.log("getComments error", error);
+      response.message != 'comment not found' &&
+        setComments(response.reverse());
+    } catch (error) {
+      console.log('getComments error', error);
       setComments([]);
     }
   };
 
   const postComment = async (comment, newsId) => {
-    try{
+    try {
       const options = {
-        method: "POST",
+        method: 'POST',
         headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(comment),
       };
-      const response = await fetchData(`${baseUrl}news/comments/${newsId}`, options);
+      const response = await fetchData(
+        `${baseUrl}news/comments/${newsId}`,
+        options
+      );
       response && setUpdateComment(updateComment + 1);
-    }catch (error) {
+    } catch (error) {
       console.error(error);
     }
   };
@@ -81,9 +85,9 @@ const userFavorite = () => {
     try {
       if (!favorite) {
         const options = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         };
         const response = await fetchData(
@@ -93,9 +97,9 @@ const userFavorite = () => {
         response && (setFavorite(true), setUpdateFavorite(updateFavorite + 1));
       } else {
         const options = {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         };
         const response = await fetchData(
@@ -112,9 +116,9 @@ const userFavorite = () => {
   const checkFavorite = async (newsId) => {
     try {
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       };
       const response = await fetchData(
@@ -130,20 +134,20 @@ const userFavorite = () => {
   const getFavoriteList = async () => {
     try {
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       };
-      const response = await fetchData(
-        `${baseUrl}news/user/favorite`,
-        options
-      );
-      var result = []
-      if(response.status != 409){
-        for (const news of response){
-          const contents = await fetchData(`${baseUrl}news/${news.favorite_news_id}`, options);
-          result.push(contents)
+      const response = await fetchData(`${baseUrl}news/user/favorite`, options);
+      var result = [];
+      if (response.status != 409) {
+        for (const news of response) {
+          const contents = await fetchData(
+            `${baseUrl}news/${news.favorite_news_id}`,
+            options
+          );
+          result.push(contents);
         }
       }
       setFavoriteList(result.reverse());
@@ -174,9 +178,9 @@ const useLike = () => {
     try {
       if (!liked) {
         const options = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         };
         const response = await fetchData(
@@ -186,9 +190,9 @@ const useLike = () => {
         response && (setLiked(true), setUpdateLike(updateLike + 1));
       } else {
         const options = {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         };
         const response = await fetchData(
@@ -205,9 +209,9 @@ const useLike = () => {
   const getNumberOfLike = async (newsId) => {
     try {
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       };
       const response = await fetchData(
@@ -223,9 +227,9 @@ const useLike = () => {
   const getUserLike = async (newsId) => {
     try {
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       };
       const response = await fetchData(
@@ -247,10 +251,38 @@ const useLike = () => {
   };
 };
 
+const getAllNewsView = async (token, newsId) => {
+  const options = {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  return await fetchData(`${baseUrl}news/all/newsViews/${newsId}`, options);
+};
+
+const postNewsViews = async (token, user_id, news_id) => {
+  const newsViewObject = {
+    newsId: news_id,
+    userId: user_id,
+  };
+  console.log(newsViewObject);
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newsViewObject),
+  };
+  const result = await fetchData(`${baseUrl}news/all/newsViews`, options);
+  return result;
+};
 export {
   getAlllNews,
   postNews,
   useComment,
   userFavorite,
   useLike,
+  getAllNewsView,
+  postNewsViews,
 };
