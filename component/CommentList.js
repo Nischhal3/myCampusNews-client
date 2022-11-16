@@ -15,7 +15,7 @@ import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 const CommentList = ({ comment }) => {
-  const { token, user } = useContext(Context);
+  const { token, user, setDialogInputVisible, setEditCommentInput } = useContext(Context);
   const [commentOwner, setCommentOwner] = useState([]);
   const getUser = async () => {
     const user = await getUserById(comment.u_id, token);
@@ -55,7 +55,7 @@ const CommentList = ({ comment }) => {
     
           <View style={styles.sideContainer}>
             {commentOwner.user_id == user.user_id? (
-              <TouchableOpacity onPress={() => {/* delete comment */}}>
+              <TouchableOpacity onPress={() => { setDialogInputVisible(true), setEditCommentInput(comment.comment_content) }}>
                 <McIcons name="lead-pencil" size={22} color={colors.secondary} />
               </TouchableOpacity>
             ) : (

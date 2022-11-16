@@ -21,6 +21,7 @@ import { getAllCommentOfNews, postComment, postFavorite, removeFavorite, checkFa
 import { Context } from "../contexts/Context";
 import CommentList from '../component/CommentList';
 import {baseUrl} from '../utils/variables';
+import DialogInput from 'react-native-dialog-input';
 
 // utils Imports
 import {formatToDate, formatToDistance} from "../utils/timestamp";
@@ -31,7 +32,15 @@ import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 const SingleNews = ({ route, navigation }) => {
-  const { token, updateComment, setUpdateComment } = useContext(Context);
+  const { 
+    token, 
+    updateComment, 
+    setUpdateComment, 
+    dialogInputVisible, 
+    setDialogInputVisible, 
+    editCommentInput,
+    setEditCommentInput, 
+  } = useContext(Context);
   const [comments, setComments] = useState([]);
   const [favorite, setFavorite] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -141,6 +150,19 @@ const SingleNews = ({ route, navigation }) => {
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} nestedScrollEnabled={true} ref={scrollViewRef}>
 
       <View style={styles.container}>
+
+        <DialogInput 
+            isDialogVisible={dialogInputVisible}
+            title={"Modify your comment"}
+            initValueTextInput={editCommentInput}
+            textInputProps={{autoCorrect: false, autoCapitalize: false}}
+            submitInput={ (inputText) => {
+                setEditCommentInput(inputText),
+                setDialogInputVisible(false);
+                // backend put comment
+            }}
+            closeDialog={() => setDialogInputVisible(false)}>
+        </DialogInput>
 
         <Image style={styles.image} source={{ uri: `${baseUrl}/${file.photoName}` }} />
         {/* <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} /> */}
