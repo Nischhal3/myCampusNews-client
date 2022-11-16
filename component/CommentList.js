@@ -31,8 +31,8 @@ const CommentList = ({ comment }) => {
   if (commentOwner.avatar_name == "unavailable") {
       url = uploadDefaultUri;
     } else {
-      // url = `${baseUrl}avatar/${commentOwner.avatar_name}`;
-      url = uploadDefaultUri;
+      url = `${baseUrl}avatar/${commentOwner.avatar_name}`;
+      // url = uploadDefaultUri;
     }
 
   return (

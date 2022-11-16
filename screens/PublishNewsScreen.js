@@ -116,19 +116,19 @@ const PublishNewsScreen = ({ navigation }) => {
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <TouchableOpacity style={styles.resetContainer}>
+          <TouchableOpacity style={styles.resetContainer} onPress={resetForm}>
             <McIcons name="autorenew" size={32} color={colors.negative} />
           </TouchableOpacity>
-          <Text style={styles.header}>Create news</Text>
+          {/* <Text style={styles.header}>Create news</Text> */}
           <TouchableOpacity
             style={styles.publishContainer}
             onPress={handleSubmit(onSubmit)}
           >
-            <McIcons name="publish" size={32} color={colors.positive} />
+            <McIcons name="arrow-right-bold-box-outline" size={32} color={colors.positive} />
           </TouchableOpacity>
           <View style={styles.container}>
             <View style={styles.imageContainer}>
-              <Text style={styles.selectImageText}>Select image cover</Text>
+              {/* <Text style={styles.selectImageText}>Cover image</Text> */}
               {type === 'image' ? (
                 <>
                   <View style={styles.imageWrap}>
@@ -156,7 +156,7 @@ const PublishNewsScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: 'Please enter a title.',
+                    message: 'This field is required',
                   },
                   minLength: {
                     value: 3,
@@ -227,7 +227,7 @@ const PublishNewsScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: 'Content is required for every articles.',
+                    message: 'News content is required',
                   },
                   minLength: {
                     value: 3,
@@ -236,7 +236,7 @@ const PublishNewsScreen = ({ navigation }) => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <MultilineInput
-                    name="Please enter the content here..."
+                    name="Please enter news content here..."
                     textEntry={false}
                     onChange={onChange}
                     onBlur={onBlur}
@@ -279,9 +279,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: '5%',
+    marginTop: 40,
+    // borderWidth: 1,
   },
   imageContainer: {
-    height: 250,
     width: '100%',
     marginBottom: 15,
     // backgroundColor: colors.primary,
