@@ -43,7 +43,7 @@ const PublishNewsScreen = ({ navigation }) => {
   } = useForm({
     defaultValues: {
       title: '',
-      lead: '',
+      op: '',
       content: '',
     },
     mode: 'onBlur',
@@ -53,7 +53,7 @@ const PublishNewsScreen = ({ navigation }) => {
   const resetForm = () => {
     setImage(uploadDefaultUri);
     setValue('title', '');
-    setValue('lead', '')
+    setValue('op', '')
     setValue('content', '');
     setType('image');
   };
@@ -212,7 +212,7 @@ const PublishNewsScreen = ({ navigation }) => {
                     // leftIcon="file-document-edit-outline"
                   />
                 )}
-                name="lead"
+                name="op"
               />
 
               <ErrorMessage
