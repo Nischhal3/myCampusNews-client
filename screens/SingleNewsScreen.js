@@ -18,7 +18,6 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { SwipeablePanel } from "rn-swipeable-panel";
 import { Controller, useForm } from "react-hook-form";
 import FormInput, {
   MultilineInput,
@@ -50,7 +49,6 @@ const SingleNews = ({ route, navigation }) => {
     updateLike,
     updateFavorite,
   } = useContext(Context);
-  const [isPanelActive, setIsPanelActive] = useState(false);
   const { file } = route.params;
   const scrollViewRef = useRef();
   const {
@@ -81,7 +79,6 @@ const SingleNews = ({ route, navigation }) => {
     try {
       await postComment(comment, file.news_id);
       resetField("content");
-      setIsPanelActive(false);
     } catch (error) {
       console.error(error);
     }
@@ -95,17 +92,10 @@ const SingleNews = ({ route, navigation }) => {
     onPressCloseButton: () => closePanel(),
   });
 
-  const openPanel = () => {
-    setIsPanelActive(true);
-  };
-  const closePanel = () => {
-    setIsPanelActive(false);
-  };
-
   const noComments = () => {
     return (
-      <View style={{ alignItems: "center" }}>
-        <Text style={styles.item}>No comment found</Text>
+      <View style={styles.noComments}>
+        <Text style={{}}>No comments found</Text>
       </View>
     );
   };
@@ -206,6 +196,10 @@ const SingleNews = ({ route, navigation }) => {
               {/* <Text>{file.likes}</Text> */}
             </TouchableOpacity>
           </View>
+        </View>
+
+        <View style={styles.opContainer}>
+          <Text style={styles.op}>{file.news_op}</Text>
         </View>
 
         <View style={styles.contentContainer}>
@@ -412,10 +406,27 @@ const styles = StyleSheet.create({
     fontSize: fontSize.caption,
     color: colors.dark_text,
   },
+  opContainer: {
+    marginTop: 0,
+  },
+  op: {
+    fontFamily: "IBM",
+    fontSize: fontSize.large,
+    color: colors.dark_text,
+    autoCapitalize: true,
+  },
+  contentContainer: {
+    marginTop: 15,
+  },
   content: {
     fontFamily: "IBM",
     fontSize: fontSize.medium,
     color: colors.dark_text,
+  },
+  noComments: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 200,
   },
   commentContainer: {
     marginTop: 10,
