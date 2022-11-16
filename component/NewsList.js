@@ -8,6 +8,7 @@ import {
   userFavorite,
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
+import { baseUrl } from '../utils/variables';
 
 // UI Imports
 import colors from '../utils/colors';
@@ -27,8 +28,8 @@ const NewsList = ({ navigation, news }) => {
     userFavorite();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  const baseUrl = 'http://10.0.2.2:3000/';
   var url = '';
+
   const [newsView, setNewsView] = useState([]);
   const timeInterval = 3000;
   if (news.photoName == 'unavailable') {
@@ -89,7 +90,7 @@ const NewsList = ({ navigation, news }) => {
             <McIcons
               name="bookmark-outline"
               size={24}
-              color={colors.dark_text}
+              color={colors.nokia_blue}
             />
           </TouchableOpacity>
         ) : (
@@ -98,28 +99,32 @@ const NewsList = ({ navigation, news }) => {
               postAndRemoveFavorite(news.news_id);
             }}
           >
-            <McIcons name="bookmark" size={24} color={colors.dark_text} />
+            <McIcons name="bookmark" size={24} color={colors.nokia_blue} />
           </TouchableOpacity>
         )}
       </View>
 
-      <View style={styles.readContainer}>
-        <McIcons name="eye-outline" size={18} color={colors.medium_grey} />
-        {newsView.length > 0 ? (
-          <Text style={styles.readNumber}>{newsView[0].count}</Text>
-        ) : (
-          ''
-        )}
-        {liked ? (
-          <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
-        ) : (
-          <McIcons
-            name="thumb-up-outline"
-            size={18}
-            color={colors.medium_grey}
-          />
-        )}
-        <Text style={styles.readNumber}>{likedNumber}</Text>
+      <View style={styles.bottomRight}>
+        <View style={styles.likeContainer}>
+          {liked ? (
+            <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
+          ) : (
+            <McIcons
+              name="thumb-up-outline"
+              size={18}
+              color={colors.medium_grey}
+            />
+          )}
+          <Text style={styles.likeNumber}>{likedNumber}</Text>
+        </View>
+        <View style={styles.readContainer}>
+          <McIcons name="eye-outline" size={18} color={colors.medium_grey} />
+          {newsView.length > 0 ? (
+            <Text style={styles.readNumber}>{newsView[0].count}</Text>
+          ) : (
+            ''
+          )}
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -130,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     marginBottom: 10,
-    height: 110,
+    height: 130,
     width: '100%',
     // borderWidth: 1,
   },
@@ -169,14 +174,29 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     justifyContent: 'space-between',
   },
-  readContainer: {
+  bottomRight: {
     flexDirection: 'row',
-    position: 'absolute',
     alignItems: 'center',
+    position: 'absolute',
     bottom: 0,
     right: 0,
   },
+  readContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
   readNumber: {
+    fontFamily: 'IBM',
+    fontSize: fontSize.caption,
+    color: colors.medium_grey,
+    marginLeft: 2,
+  },
+  likeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  likeNumber: {
     fontFamily: 'IBM',
     fontSize: fontSize.caption,
     color: colors.medium_grey,
