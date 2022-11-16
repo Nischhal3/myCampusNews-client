@@ -18,7 +18,7 @@ import {
 } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { baseUrl } from '../utils/variables';
-import defaultImage from "../assets/images/blank_avatar.jpg";
+import defaultAvatar from "../assets/images/blank_avatar.jpg";
 
 // UI Imports
 import colors from '../utils/colors';
@@ -27,7 +27,7 @@ import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import LocalAuth from '../screens/LocalAuth';
 
 function CustomDrawerContent(props) {
-  const width = useWindowDimensions().width * 0.3;
+  const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
   const { user, setIsLoggedIn, drawerFocus, setDrawerFocus } =
     useContext(Context);
   const [extended, setExtended] = useState([false]);
@@ -206,6 +206,29 @@ function CustomDrawerContent(props) {
               inactiveTintColor={colors.dark_text}
               focused={drawerFocus == 'Publish' ? true : false}
             />
+            <DrawerItem
+              label="Bookmarks"
+              labelStyle={{
+                color:
+                  drawerFocus == 'Bookmark' ? colors.primary : colors.light_text,
+              }}
+              icon={() => (
+                <McIcons
+                  name="bookmark-multiple-outline"
+                  size={24}
+                  color={
+                    drawerFocus == 'Bookmark' ? colors.primary : colors.light_text
+                  }
+                />
+              )}
+              onPress={() => {
+                props.navigation.navigate('Bookmark');
+                setDrawerFocus('Bookmark');
+              }}
+              activeBackgroundColor={colors.light_background}
+              activeTintColor={colors.dark_text}
+              focused={drawerFocus == 'Bookmark' ? true : false}
+            />
           </DrawerContentScrollView>
           <View
             style={{
@@ -337,7 +360,7 @@ function CustomDrawerContent(props) {
               inactiveTintColor={colors.dark_text}
               focused={drawerFocus == 'Notification' ? true : false}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.bookmarksContainer}
               onPress={() => {
                 setExtended(!extended);
@@ -355,7 +378,7 @@ function CustomDrawerContent(props) {
                 color={colors.light_text}
                 style={{ marginLeft: '34%' }}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </DrawerContentScrollView>
           <View
             style={{
