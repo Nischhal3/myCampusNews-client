@@ -19,7 +19,6 @@ const CommentList = ({ comment }) => {
   const [commentOwner, setCommentOwner] = useState([]);
   const getUser = async () => {
     const user = await getUserById(comment.u_id, token);
-    console.log("user",user);
     setCommentOwner(user)
   };
 
