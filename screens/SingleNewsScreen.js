@@ -42,9 +42,7 @@ import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const SingleNews = ({ route, navigation }) => {
   const {
-    token,
     updateComment,
-    setUpdateComment,
     dialogInputVisible,
     setDialogInputVisible,
     editCommentInput,
@@ -103,49 +101,6 @@ const SingleNews = ({ route, navigation }) => {
   const closePanel = () => {
     setIsPanelActive(false);
   };
-
-  // const getComments = async () => {
-  //   try {
-  //     const comments = await getAllCommentOfNews(file.news_id, token);
-  //     if (comments.message != "comment not found") {
-  //       setComments(comments.reverse());
-  //       console.log("getComments", comments);
-  //     }
-  //   } catch (error) {
-  //     console.log("getComments error", error);
-  //     setComments([]);
-  //   }
-  // };
-
-  // const userFavorite = async () => {
-  //   try {
-  //     if (!favorite) {
-  //       const response = await postFavorite(file.news_id, token);
-  //       setFavorite(true);
-  //       Alert.alert(response.message);
-  //     } else {
-  //       const response = await removeFavorite(file.news_id, token);
-  //       setFavorite(false);
-  //       Alert.alert(response.message);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const getFavorite = async () => {
-  //   try {
-  //     const response = await checkFavorite(file.news_id, token);
-  //     console.log("response", response.status);
-  //     if (response.status == 200) {
-  //       setFavorite(true);
-  //     } else {
-  //       setFavorite(false);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const noComments = () => {
     return (
