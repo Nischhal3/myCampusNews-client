@@ -277,6 +277,7 @@ const postNewsViews = async (token, user_id, news_id) => {
   const result = await fetchData(`${baseUrl}news/all/newsViews`, options);
   return result;
 };
+
 export {
   getAlllNews,
   postNews,
