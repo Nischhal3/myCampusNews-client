@@ -11,6 +11,8 @@ const MainProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [newsUpdate, setNewsUpdate] = useState(0);
   const [updateComment, setUpdateComment] = useState(0);
+  const [dialogInputVisible, setDialogInputVisible] = useState(false);
+  const [editCommentInput, setEditCommentInput] = useState("");
 
   return (
     <Context.Provider
@@ -29,6 +31,10 @@ const MainProvider = ({ children }) => {
         setNewsUpdate,
         updateComment,
         setUpdateComment,
+        dialogInputVisible,
+        setDialogInputVisible,
+        editCommentInput,
+        setEditCommentInput,
       }}
     >
       {children}

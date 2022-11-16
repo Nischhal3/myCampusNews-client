@@ -6,6 +6,8 @@ import { Context } from "../contexts/Context";
 import { getUserById } from '../services/UserService';
 import { baseUrl } from '../utils/variables';
 import defaultImage from "../assets/images/blank_avatar.jpg";
+import {Swipeable} from "react-native-gesture-handler";
+import { renderRightActions } from "./SwipeableActions";
 
 // UI Imports
 import colors from '../utils/colors';
@@ -35,34 +37,67 @@ const CommentList = ({ comment }) => {
       // url = uploadDefaultUri;
     }
 
-  return (
-
-    <View style={styles.container} onPress={() => {navigation.navigate()}}>
-      <TouchableOpacity style={styles.imageContainer}>
-        <Image style={styles.avatar} source={{ uri: url }} />
-        {/* <Text>{news.photoName}</Text> */}
-      </TouchableOpacity>
-
-      <View style={styles.contentConatiner}>
-        <Text style={styles.username}>{commentOwner.full_name}</Text>
-        <Text style={styles.comment}>{comment.comment_content}</Text>
-        {/* <Text>{news.news_id}</Text> */}
-        {/* <Text style={styles.timeStamp}>xx/xx/xxxx</Text> */}
-      </View>
-
-      <View style={styles.sideContainer}>
-        {user.role == 0 || commentOwner.user_id == user.user_id? (
-          <TouchableOpacity onPress={() => {/* delete comment */}}>
-            <McIcons name="delete-outline" size={20} color={colors.negative} />
+  if (user.role == 0 || commentOwner.user_id == user.user_id) {
+    return ( 
+      <Swipeable renderRightActions={renderRightActions}>
+        <View style={styles.container} onPress={() => {navigation.navigate()}}>
+          <TouchableOpacity style={styles.imageContainer}>
+            <Image style={styles.avatar} source={{ uri: url }} />
+            {/* <Text>{news.photoName}</Text> */}
           </TouchableOpacity>
-        ) : (
-          <>
-          </>
-        )}
-      </View>
+    
+          <View style={styles.contentConatiner}>
+            <Text style={styles.username}>{commentOwner.full_name}</Text>
+            <Text style={styles.comment}>{comment.comment_content}</Text>
+            {/* <Text>{news.news_id}</Text> */}
+            {/* <Text style={styles.timeStamp}>xx/xx/xxxx</Text> */}
+          </View>
+    
+          <View style={styles.sideContainer}>
+            {commentOwner.user_id == user.user_id? (
+              <TouchableOpacity onPress={() => {/* delete comment */}}>
+                <McIcons name="lead-pencil" size={22} color={colors.secondary} />
+              </TouchableOpacity>
+            ) : (
+              <>
+              </>
+            )}
+          </View>
+    
+        </View>
+      </Swipeable>
+    );
+  } else {
 
-    </View>
-  );
+    return (
+  
+      <View style={styles.container} onPress={() => {navigation.navigate()}}>
+        <TouchableOpacity style={styles.imageContainer}>
+          <Image style={styles.avatar} source={{ uri: url }} />
+          {/* <Text>{news.photoName}</Text> */}
+        </TouchableOpacity>
+  
+        <View style={styles.contentConatiner}>
+          <Text style={styles.username}>{commentOwner.full_name}</Text>
+          <Text style={styles.comment}>{comment.comment_content}</Text>
+          {/* <Text>{news.news_id}</Text> */}
+          {/* <Text style={styles.timeStamp}>xx/xx/xxxx</Text> */}
+        </View>
+  
+        <View style={styles.sideContainer}>
+          {commentOwner.user_id == user.user_id? (
+            <TouchableOpacity onPress={() => {/* delete comment */}}>
+              <McIcons name="lead-pencil" size={22} color={colors.secondary} />
+            </TouchableOpacity>
+          ) : (
+            <>
+            </>
+          )}
+        </View>
+  
+      </View>
+    );
+  }
 };
 
 CommentList.propTypes = {
@@ -75,6 +110,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10,
     width: "100%",
+    // borderWidth: 1,
+    backgroundColor: colors.light_background,
   },
   imageContainer: {
     marginVertical: 5,
@@ -94,14 +131,14 @@ const styles = StyleSheet.create({
   },
   username: {
     fontFamily: "IBM",
-    fontSize: fontSize.small,
+    fontSize: fontSize.medium,
     fontWeight: 'bold',
     color: colors.dark_text,
   },
   comment: {
     marginTop: 2,
     fontFamily: "IBM",
-    fontSize: fontSize.small,
+    fontSize: fontSize.medium,
     color: colors.dark_text,
   },
   timeStamp: {
