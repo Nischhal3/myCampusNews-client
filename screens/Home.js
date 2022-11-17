@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import SampleList from '../component/SampleList';
 import { Context } from '../contexts/Context';
 import NewsList from '../component/NewsList';
+import LargeNewsList from '../component/LargeNewsList';
 import { getAlllNews } from '../services/NewsService';
 
 // UI Imports
@@ -30,14 +31,21 @@ const Home = ( {navigation} ) => {
 
   return (
     <View style={styles.container}>
-      <Text>News screen</Text>
+      <Text style={{textAlign: 'center'}}>Search bar</Text>
 
       <View style={styles.newsContainer}>
         <FlatList
           data={news}
+          renderItem={({ item }) => <LargeNewsList navigation={navigation} news={item} />}
+          showsVerticalScrollIndicator={false}
+          // showsHorizontalScrollIndicator={false}
+          // horizontal={true}
+        />
+        {/* <FlatList
+          data={news}
           renderItem={({ item }) => <NewsList navigation={navigation} news={item} />}
           showsVerticalScrollIndicator={false}
-        />
+        /> */}
       </View>
 
       <StatusBar style="auto" />
@@ -49,10 +57,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    padding: "5%",
+    padding: "2%",
   },
   newsContainer: {
-    marginTop: 50,
+    marginTop: 15,
   },
 });
 export default Home;

@@ -30,6 +30,7 @@ import { Context } from "../contexts/Context";
 import CommentList from "../component/CommentList";
 import { baseUrl } from "../utils/variables";
 import DialogInput from "react-native-dialog-input";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // utils Imports
 import { formatToDate, formatToDistance } from "../utils/timestamp";
@@ -48,6 +49,8 @@ const SingleNews = ({ route, navigation }) => {
     setEditCommentInput,
     updateLike,
     updateFavorite,
+    loading,
+    setLoading,
   } = useContext(Context);
   const { file } = route.params;
   const scrollViewRef = useRef();
@@ -101,10 +104,14 @@ const SingleNews = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    // setLoading(true);
     getAllCommentOfNews(file.news_id);
     checkFavorite(file.news_id);
     getUserLike(file.news_id);
     getNumberOfLike(file.news_id);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 1000);
   }, [file.news_id, updateComment, updateLike, updateFavorite]);
 
   return (
@@ -115,6 +122,11 @@ const SingleNews = ({ route, navigation }) => {
       ref={scrollViewRef}
     >
       <View style={styles.container}>
+        {/* <Spinner
+          visible={loading}
+          textContent={'Loading...'}
+          textStyle={{color: colors.light_background}}
+        /> */}
         <DialogInput
           isDialogVisible={dialogInputVisible}
           title={"Modify your comment"}

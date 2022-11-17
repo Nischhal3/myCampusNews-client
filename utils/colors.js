@@ -11,7 +11,7 @@ export default {
     primary_btn: '#124191',
     secondary_btn: '#4A5746',
     nokia_blue: "#124191",
-    container: '#FAFAFA',
+    container: '#FFFAFA',
     positive: '#BAB86C',
     negative: '#FF7B7B',
 };

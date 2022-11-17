@@ -53,7 +53,6 @@ const PublishNewsScreen = ({ navigation }) => {
 
   // Passing data to preview
   const preview = (data) => {
-    console.log("clicked");
     const value = {
       title: data.title,
       op: data.op,
