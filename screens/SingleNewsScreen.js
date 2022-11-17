@@ -160,12 +160,12 @@ const SingleNews = ({ route, navigation }) => {
               }}
             >
               {favorite ? (
-                <McIcons name="bookmark" size={28} color={colors.primary} />
+                <McIcons name="bookmark" size={28} color={colors.nokia_blue} />
               ) : (
                 <McIcons
                   name="bookmark-outline"
                   size={28}
-                  color={colors.dark_text}
+                  color={colors.nokia_blue}
                 />
               )}
             </TouchableOpacity>
@@ -177,18 +177,18 @@ const SingleNews = ({ route, navigation }) => {
               }}
             >
               {liked ? (
-                <McIcons name="thumb-up" size={18} color={colors.primary} />
+                <McIcons name="thumb-up" size={20} color={colors.nokia_blue} />
               ) : (
                 <McIcons
                   name="thumb-up-outline"
-                  size={18}
-                  color={colors.dark_text}
+                  size={20}
+                  color={colors.nokia_blue}
                 />
               )}
               <Text
                 style={[
                   styles.likeNumbers,
-                  { color: liked ? colors.primary : colors.dark_text },
+                  { color: liked ? colors.nokia_blue : colors.nokia_blue },
                 ]}
               >
                 {likedNumber}
@@ -295,50 +295,6 @@ const SingleNews = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* <SwipeablePanel
-        style={styles.panel}
-        {...panelProps}
-        isActive={isPanelActive}
-        noBackgroundOpacity={true}
-        showCloseButton={true}
-        noBar={true}
-        closeRootStyle={{backgroundColor: colors.light_background}}
-        closeIconStyle={{backgroundColor: colors.dark_text}}
-      >
-        <View style={styles.pannelContainer}>
-            <Text style={styles.pannelHeader}>Share your thoughts</Text>
-            <View style={styles.inputContainer}>
-                <Controller
-                    control={control}
-                    rules={{
-                    required: {
-                        value: true,
-                        message: "Please enter your comment",
-                    },
-                    minLength: {
-                        value: 3,
-                        message: "Comment has to be at least 3 characters.",
-                    },
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                    <MultilineInput
-                        name="Your comment"
-                        textEntry={false}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
-                        textAlign="top"
-                    />
-                    )}
-                    name="content"
-                />
-                <TouchableOpacity style={styles.sendButton} onPress={handleSubmit(onSubmit)}>
-                    <McIcons name="send" size={24} color={colors.primary} />
-                </TouchableOpacity>
-            </View>
-        </View>
-      </SwipeablePanel> */}
     </ScrollView>
   );
 };
@@ -388,16 +344,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     position: "absolute",
-    bottom: 0,
+    bottom: 2,
     right: 2,
+    alignItems: "center",
   },
   bookmarkContainer: {
     height: 30,
     alignItems: "center",
-    marginRight: 20,
+    marginRight: 15,
   },
   likesContainer: {
-    height: 30,
     justifyContent: "center",
     alignItems: "center",
   },

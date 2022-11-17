@@ -28,12 +28,14 @@ import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { postNews } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { useFocusEffect } from '@react-navigation/native';
+import {useValue} from 'react-native-reanimated';
 
 const PublishNewsScreen = ({ navigation }) => {
   const { token, newsUpdate, setNewsUpdate } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
   const [type, setType] = useState('image');
+  const [item, setItem] = useState();
 
   const {
     control,
@@ -48,6 +50,20 @@ const PublishNewsScreen = ({ navigation }) => {
     },
     mode: 'onBlur',
   });
+
+  // Passing data to preview
+  const preview = (data) => {
+    console.log("clicked");
+    const value = {
+      title: data.title,
+      op: data.op,
+      content: data.content,
+      image: image,
+    }
+    setItem(value)
+    console.log(item);
+    // navigation.navigate("Preview", {news: item})
+  }
 
   // Resets form inputs
   const resetForm = () => {
@@ -117,16 +133,24 @@ const PublishNewsScreen = ({ navigation }) => {
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <TouchableOpacity style={styles.resetContainer} onPress={resetForm}>
-            <McIcons name="autorenew" size={32} color={colors.negative} />
-          </TouchableOpacity>
-          {/* <Text style={styles.header}>Create news</Text> */}
-          <TouchableOpacity
-            style={styles.publishContainer}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <McIcons name="arrow-right-bold-box-outline" size={32} color={colors.positive} />
-          </TouchableOpacity>
+          <View style={styles.topNavContainer}>
+            <TouchableOpacity style={styles.resetContainer} onPress={resetForm}>
+              <Text style={styles.reset}>Reset</Text>
+              {/* <McIcons name="autorenew" size={32} color={colors.negative} /> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.previewContainer} onPress={
+              handleSubmit(preview)
+            }>
+              <Text style={styles.preview}>Preview</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.publishContainer} onPress={handleSubmit(onSubmit)}>
+              <Text style={styles.publish}>Publish</Text>
+              {/* <McIcons name="arrow-right-bold-box-outline" size={32} color={colors.positive} /> */}
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.container}>
             <View style={styles.imageContainer}>
               {/* <Text style={styles.selectImageText}>Cover image</Text> */}
@@ -188,7 +212,7 @@ const PublishNewsScreen = ({ navigation }) => {
               />
             </View>
 
-            <View style={styles.contentContainer}>
+            <View style={styles.leadContainer}>
               <Controller
                 control={control}
                 rules={{
@@ -217,8 +241,8 @@ const PublishNewsScreen = ({ navigation }) => {
               />
 
               <ErrorMessage
-                error={errors?.content}
-                message={errors?.content?.message}
+                error={errors?.op}
+                message={errors?.op?.message}
               />
             </View>
 
@@ -242,7 +266,7 @@ const PublishNewsScreen = ({ navigation }) => {
                     onChange={onChange}
                     onBlur={onBlur}
                     value={value}
-                    height={500}
+                    height={400}
                     textAlign="top"
                     // leftIcon="file-document-edit-outline"
                   />
@@ -262,31 +286,47 @@ const PublishNewsScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  topNavContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 2,
+  },
   resetContainer: {
-    position: 'absolute',
-    left: '4%',
+    flex: 1,
+  },
+  reset: {
+    textAlign: 'center',
+    fontFamily: 'IBM',
+    fontSize: fontSize.regular,
+    color: colors.negative,
+  },
+  previewContainer: {
+    flex: 1,
+  },
+  preview: {
+    textAlign: 'center',
+    fontFamily: 'IBM',
+    fontSize: fontSize.regular,
+    color: colors.primary,
   },
   publishContainer: {
-    position: 'absolute',
-    right: '4%',
+    flex: 1,
   },
-  header: {
-    marginVertical: '2%',
+  publish: {
     textAlign: 'center',
+    fontFamily: 'IBM',
     fontSize: fontSize.regular,
-    fontWeight: 'bold',
-    color: colors.dark_text,
+    color: colors.positive,
   },
   container: {
     flex: 1,
     paddingHorizontal: '5%',
-    marginTop: 40,
-    // borderWidth: 1,
   },
   imageContainer: {
     width: '100%',
     marginBottom: 15,
-    // backgroundColor: colors.primary,
+    // borderWidth: 1,
   },
   selectImageText: {
     marginTop: 20,
@@ -297,16 +337,22 @@ const styles = StyleSheet.create({
   imageWrap: {
     marginTop: 10,
     height: 200,
-    // backgroundColor: colors.primary,
+    // borderWidth: 1,
   },
   image: {
     // zIndex: 2,
     width: "100%",
     height: "100%",
-    // resizeMode: 'contain',
-    // overflow: 'hidden',
-    // aspectRatio: 1.5,
   },
+  // titleContainer:{
+  //   borderWidth: 1,
+  // },
+  // leadContainer:{
+  //   borderWidth: 1,
+  // },
+  // contentContainer:{
+  //   borderWidth: 1,
+  // },
 });
 
 export default PublishNewsScreen;

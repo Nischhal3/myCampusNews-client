@@ -79,7 +79,7 @@ const FormInput = (props) => {
     multilineInputContainer: {
         borderWidth: 1,
         borderColor: colors.light_grey,
-        borderRadius: 10,
+        borderRadius: 5,
         flexDirection: "row",
         width: "100%",
         padding: 4,
