@@ -49,8 +49,7 @@ const SingleNews = ({ route, navigation }) => {
     setEditCommentInput,
     updateLike,
     updateFavorite,
-    loading,
-    setLoading,
+    updateCommentId
   } = useContext(Context);
   const { file } = route.params;
   const scrollViewRef = useRef();
@@ -62,7 +61,7 @@ const SingleNews = ({ route, navigation }) => {
     likedNumber,
   } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite } = userFavorite();
-  const { getAllCommentOfNews, postComment, comments } = useComment();
+  const { getAllCommentOfNews, postComment, deleteComment, comments, putComment } = useComment();
 
   const {
     control,
@@ -134,7 +133,10 @@ const SingleNews = ({ route, navigation }) => {
           textInputProps={{ autoCorrect: false, autoCapitalize: false }}
           submitInput={(inputText) => {
             setEditCommentInput(inputText), setDialogInputVisible(false);
-            // backend put comment
+            const comment = {
+              content: inputText
+            }
+            putComment(comment, updateCommentId);
           }}
           closeDialog={() => setDialogInputVisible(false)}
         ></DialogInput>

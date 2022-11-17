@@ -13,22 +13,25 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   SafeAreaView,
+  Switch,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
-import defaultImage from '../assets/images/blank_image.jpg';
+import defaultImage from '../assets/images/blank_image.png';
 import { FormInput, MultilineInput } from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
 import * as ImagePicker from 'expo-image-picker';
 import { Video } from 'expo-av';
+import RNPickerSelect from 'react-native-picker-select';
+import { postNews } from '../services/NewsService';
+import { Context } from '../contexts/Context';
+import { useFocusEffect } from '@react-navigation/native';
+import {useValue} from 'react-native-reanimated';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { postNews } from '../services/NewsService';
-import { Context } from '../contexts/Context';
-import { useFocusEffect } from '@react-navigation/native';
-import {useValue} from 'react-native-reanimated';
+import {newsCategory} from '../utils/variables';
 
 const PublishNewsScreen = ({ navigation }) => {
   const { token, newsUpdate, setNewsUpdate } = useContext(Context);
@@ -36,6 +39,10 @@ const PublishNewsScreen = ({ navigation }) => {
   const [image, setImage] = useState(uploadDefaultUri);
   const [type, setType] = useState('image');
   const [item, setItem] = useState();
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  // Toggle switch
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const {
     control,
@@ -59,9 +66,7 @@ const PublishNewsScreen = ({ navigation }) => {
       content: data.content,
       image: image,
     }
-    setItem(value)
-    console.log(item);
-    // navigation.navigate("Preview", {news: item})
+    navigation.navigate("Preview", {news: value})
   }
 
   // Resets form inputs
@@ -152,7 +157,10 @@ const PublishNewsScreen = ({ navigation }) => {
 
           <View style={styles.container}>
             <View style={styles.imageContainer}>
-              {/* <Text style={styles.selectImageText}>Cover image</Text> */}
+              <View style={{borderTopWidth: 1, borderLeftWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, left: 0}}></View>
+              <View style={{borderTopWidth: 1, borderRightWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0}}></View>
+              <View style={{borderBottomWidth: 1, borderLeftWidth: 1, width: 20, height: 20, position: 'absolute', bottom: 0, left: 0}}></View>
+              <View style={{borderBottomWidth: 1, borderRightWidth: 1, width: 20, height: 20, position: 'absolute', bottom: 0, right: 0}}></View>
               {type === 'image' ? (
                 <>
                   <View style={styles.imageWrap}>
@@ -172,6 +180,26 @@ const PublishNewsScreen = ({ navigation }) => {
                   }}
                 />
               )}
+            </View>
+
+            <View style={styles.newsOptionsContainer}>
+              <View style={styles.categoryContainer}>
+                <RNPickerSelect
+                  onValueChange={(value) => console.log(value)}
+                  placeholder={{label: 'News category', value: 'null'}}
+                  items={newsCategory}
+                  />
+              </View>
+              <View style={styles.notificationContainer}>
+                <Text style={styles.notification}>Notification</Text>
+                <Switch
+                  trackColor={{ false: colors.dark_grey, true: colors.secondary }}
+                  thumbColor={isEnabled ? colors.nokia_blue : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
             </View>
 
             <View style={styles.titleContainer}>
@@ -324,24 +352,42 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    marginBottom: 15,
-    // borderWidth: 1,
-  },
-  selectImageText: {
-    marginTop: 20,
-    width: '100%',
-    textAlign: 'center',
-    alignSelf: 'center',
+    marginVertical: 15,
+    padding: 1,
   },
   imageWrap: {
-    marginTop: 10,
-    height: 200,
+    // height: 200,
     // borderWidth: 1,
   },
   image: {
     // zIndex: 2,
     width: "100%",
-    height: "100%",
+    height: undefined,
+    aspectRatio: 1.5,
+  },
+  newsOptionsContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  categoryContainer: {
+    borderWidth: 1,
+    borderColor: colors.light_grey,
+    borderRadius: 5,
+    width: "50%",
+  },
+  notificationContainer: {
+    width: "50%",
+    flexDirection: 'row',
+    paddingLeft: 10,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    // borderWidth: 1,
+  },
+  notification: {
+    textAlign: 'center',
+    fontFamily: 'IBM',
+    fontSize: fontSize.regular,
+    color: colors.dark_text,
   },
   // titleContainer:{
   //   borderWidth: 1,

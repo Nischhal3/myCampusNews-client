@@ -92,16 +92,16 @@ import React, {
             </View>
   
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.bookmarkContainer}>
+              <View style={styles.bookmarkContainer}>
                   <McIcons name="bookmark-outline" size={28} color={colors.nokia_blue}/>
-              </TouchableOpacity>
+              </View>
   
-              <TouchableOpacity style={styles.likesContainer}>
+              <View style={styles.likesContainer}>
                   <McIcons name="thumb-up-outline" size={20} color={colors.nokia_blue}/>
                   <Text style={[ styles.likeNumbers, { color: colors.nokia_blue }]}>
                     0
                   </Text>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
   
@@ -218,7 +218,7 @@ import React, {
       color: colors.dark_text,
     },
     bottomButtonContainer: {
-        marginTop: 20,
+        marginVertical: 20,
         flexDirection: "row",
         justifyContent: "space-around",
     },
@@ -228,8 +228,12 @@ import React, {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 5,
-        borderWidth: 1,
-        borderColor: colors.secondary,
+        backgroundColor: colors.primary,
+    },
+    exit: {
+      fontFamily: "IBM",
+      fontSize: fontSize.small,
+      color: colors.light_text,
     },
     draftButtonContainer: {
         width: "30%",
@@ -237,8 +241,12 @@ import React, {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 5,
-        borderWidth: 1,
-        borderColor: colors.positive,
+        backgroundColor: colors.positive,
+    },
+    draft: {
+      fontFamily: "IBM",
+      fontSize: fontSize.small,
+      color: colors.light_text,
     },
   });
   export default PreviewScreen;

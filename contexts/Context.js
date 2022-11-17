@@ -16,6 +16,7 @@ const MainProvider = ({ children }) => {
   const [updateLike, setUpdateLike] = useState(0);
   const [updateFavorite, setUpdateFavorite] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [updateCommentId, setUpdateCommentId] = useState(0);
 
   return (
     <Context.Provider
@@ -44,6 +45,8 @@ const MainProvider = ({ children }) => {
         setUpdateFavorite,
         loading,
         setLoading,
+        updateCommentId,
+        setUpdateCommentId
       }}
     >
       {children}
