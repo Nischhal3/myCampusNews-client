@@ -15,6 +15,7 @@ const MainProvider = ({ children }) => {
   const [editCommentInput, setEditCommentInput] = useState("");
   const [updateLike, setUpdateLike] = useState(0);
   const [updateFavorite, setUpdateFavorite] = useState(0);
+  const [updateCommentId, setUpdateCommentId] = useState(0);
 
   return (
     <Context.Provider
@@ -40,7 +41,9 @@ const MainProvider = ({ children }) => {
         updateLike,
         setUpdateLike,
         updateFavorite,
-        setUpdateFavorite
+        setUpdateFavorite,
+        updateCommentId,
+        setUpdateCommentId
       }}
     >
       {children}
