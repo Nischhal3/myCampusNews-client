@@ -69,9 +69,49 @@ const useComment = () => {
     }
   };
 
+  const deleteComment = async (commentId) => {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      };
+      const response = await fetchData(
+        `${baseUrl}news/comments/commentid/${commentId}`,
+        options
+      );
+      response && setUpdateComment(updateComment + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const putComment = async (comment, commentId) => {
+    try {
+      const options = {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(comment),
+      };
+      const response = await fetchData(
+        `${baseUrl}news/comments/commentid/${commentId}`,
+        options
+      );
+      response && setUpdateComment(updateComment + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getAllCommentOfNews,
     postComment,
+    deleteComment,
+    putComment,
     comments,
   };
 };
