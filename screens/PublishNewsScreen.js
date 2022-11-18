@@ -122,11 +122,11 @@ const PublishNewsScreen = ({ navigation }) => {
   };
 
   // Resets form input when user is off screen
-  useFocusEffect(
-    useCallback(() => {
-      return () => resetForm();
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     return () => resetForm();
+  //   }, [])
+  // );
 
   return (
       <KeyboardAvoidingView
@@ -190,7 +190,7 @@ const PublishNewsScreen = ({ navigation }) => {
                   items={newsCategory}
                   />
               </View>
-              <View style={styles.notificationContainer}>
+              {/* <View style={styles.notificationContainer}>
                 <Text style={styles.notification}>Notification</Text>
                 <Switch
                   trackColor={{ false: colors.dark_grey, true: colors.secondary }}
@@ -199,7 +199,7 @@ const PublishNewsScreen = ({ navigation }) => {
                   onValueChange={toggleSwitch}
                   value={isEnabled}
                 />
-              </View>
+              </View> */}
             </View>
 
             <View style={styles.titleContainer}>
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.light_grey,
     borderRadius: 5,
-    width: "50%",
+    width: "100%",
   },
   notificationContainer: {
     width: "50%",

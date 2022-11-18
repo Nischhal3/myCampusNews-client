@@ -207,6 +207,29 @@ function CustomDrawerContent(props) {
               focused={drawerFocus == 'Publish' ? true : false}
             />
             <DrawerItem
+              label="Drafts"
+              labelStyle={{
+                color:
+                  drawerFocus == 'Draft' ? colors.primary : colors.light_text,
+              }}
+              icon={() => (
+                <McIcons
+                  name="file-edit-outline"
+                  size={24}
+                  color={
+                    drawerFocus == 'Draft' ? colors.primary : colors.light_text
+                  }
+                />
+              )}
+              onPress={() => {
+                props.navigation.navigate('Draft');
+                setDrawerFocus('Draft');
+              }}
+              activeBackgroundColor={colors.light_background}
+              activeTintColor={colors.dark_text}
+              focused={drawerFocus == 'Draft' ? true : false}
+            />
+            <DrawerItem
               label="Bookmarks"
               labelStyle={{
                 color:
