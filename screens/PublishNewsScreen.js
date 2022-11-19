@@ -62,8 +62,8 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   useEffect(() => {
     if (isDraft === true) {
       setValue('title', route.params.news.news_title);
-      setValue('op', route.params.news.news_title);
-      setValue('content', route.params.news.news_title);
+      setValue('op', route.params.news.news_op);
+      setValue('content', route.params.news.news_content);
     }
   }, [isDraft]);
   console.log('is', isDraft);
@@ -222,7 +222,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               <>
                 <View style={styles.imageWrap}>
                   <TouchableOpacity onPress={pickImage}>
-                    {isDraft == true ? (
+                    {/*  {isDraft == true ? (
                       <Image
                         source={{
                           uri: `${`${baseUrl}/${route.params.news.photoName}`}`,
@@ -231,7 +231,8 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                       />
                     ) : (
                       <Image source={{ uri: image }} style={styles.image} />
-                    )}
+                    )} */}
+                    <Image source={{ uri: image }} style={styles.image} />
                   </TouchableOpacity>
                 </View>
               </>
