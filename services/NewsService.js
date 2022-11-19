@@ -5,13 +5,13 @@ import { useContext, useEffect, useState } from 'react';
 import { Context } from '../contexts/Context';
 
 // Retrieving all news from backend
-const getAlllNews = async (token) => {
+const getAlllNews = async (token, draft) => {
   const options = {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  return await fetchData(`${baseUrl}news`, options);
+  return await fetchData(`${baseUrl}news/${draft}`, options);
 };
 
 // Post news to the server
@@ -92,7 +92,7 @@ const useComment = () => {
       const options = {
         method: 'PUT',
         headers: {
-          'Authorization': 'Bearer ' + token,
+          Authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(comment),

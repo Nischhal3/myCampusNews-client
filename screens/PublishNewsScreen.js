@@ -65,6 +65,7 @@ const PublishNewsScreen = ({ navigation }) => {
       op: data.op,
       content: data.content,
       image: image,
+      draft: 1,
     };
     navigation.navigate('Preview', { news: value });
   };
@@ -92,6 +93,7 @@ const PublishNewsScreen = ({ navigation }) => {
     }
   };
 
+  console.log(image);
   // Posting news to server
   const onSubmit = async (data) => {
     const formData = new FormData();

@@ -49,8 +49,9 @@ const PreviewScreen = ({ route, navigation }) => {
   const { news } = route.params;
   const scrollViewRef = useRef();
   const [newsList, setNewsList] = useState([]);
-  const draft = async () => {
-    // navigation.navigate('Draft', { news: route.params });
+
+  const saveAsDraft = async () => {
+    console.log(news);
   };
 
   return (
@@ -144,7 +145,10 @@ const PreviewScreen = ({ route, navigation }) => {
           >
             <Text style={styles.exit}>Exit preview</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.draftButtonContainer} onPress={draft}>
+          <TouchableOpacity
+            style={styles.draftButtonContainer}
+            onPress={saveAsDraft}
+          >
             <Text style={styles.draft}>Save as draft</Text>
           </TouchableOpacity>
         </View>
