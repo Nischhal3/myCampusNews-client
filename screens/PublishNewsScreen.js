@@ -1,6 +1,6 @@
 // npx expo install expo-image-picker
 // npx expo install expo-av
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -43,10 +43,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   let isDraft = false;
   // Toggle switch
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-  if (route.params !== undefined) {
-    isDraft = route.params.isDraft;
-  }
-  console.log('is', isDraft);
   const {
     control,
     handleSubmit,
@@ -60,6 +56,17 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     },
     mode: 'onBlur',
   });
+  if (route.params !== undefined) {
+    isDraft = route.params.isDraft;
+  }
+  useEffect(() => {
+    if (isDraft === true) {
+      setValue('title', route.params.news.news_title);
+      setValue('op', route.params.news.news_title);
+      setValue('content', route.params.news.news_title);
+    }
+  }, [isDraft]);
+  console.log('is', isDraft);
 
   // Passing data to preview
   const preview = (data) => {
@@ -284,7 +291,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   textEntry={false}
                   onChange={onChange}
                   onBlur={onBlur}
-                  value={isDraft == true ? route.params.news.news_title : value}
+                  value={value}
                   textAlign="center"
                   // leftIcon="pencil-outline"
                 />
@@ -317,7 +324,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   textEntry={false}
                   onChange={onChange}
                   onBlur={onBlur}
-                  value={isDraft == true ? route.params.news.news_op : value}
+                  value={value}
                   height={200}
                   textAlign="top"
                   // leftIcon="file-document-edit-outline"
@@ -348,9 +355,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   textEntry={false}
                   onChange={onChange}
                   onBlur={onBlur}
-                  value={
-                    isDraft == true ? route.params.news.news_content : value
-                  }
+                  value={value}
                   height={400}
                   textAlign="top"
                   // leftIcon="file-document-edit-outline"
