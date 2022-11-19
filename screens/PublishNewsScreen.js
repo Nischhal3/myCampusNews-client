@@ -31,19 +31,22 @@ import { useValue } from 'react-native-reanimated';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { newsCategory } from '../utils/variables';
+import { baseUrl, newsCategory } from '../utils/variables';
 
-const PublishNewsScreen = ({ navigation }) => {
+const PublishNewsScreen = ({ navigation, route = {} }) => {
   const { token, newsUpdate, setNewsUpdate } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
   const [type, setType] = useState('image');
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
-
+  let isDraft = false;
   // Toggle switch
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
+  if (route.params !== undefined) {
+    isDraft = route.params.isDraft;
+  }
+  console.log('is', isDraft);
   const {
     control,
     handleSubmit,
@@ -212,7 +215,16 @@ const PublishNewsScreen = ({ navigation }) => {
               <>
                 <View style={styles.imageWrap}>
                   <TouchableOpacity onPress={pickImage}>
-                    <Image source={{ uri: image }} style={styles.image} />
+                    {isDraft == true ? (
+                      <Image
+                        source={{
+                          uri: `${`${baseUrl}/${route.params.news.photoName}`}`,
+                        }}
+                        style={styles.image}
+                      />
+                    ) : (
+                      <Image source={{ uri: image }} style={styles.image} />
+                    )}
                   </TouchableOpacity>
                 </View>
               </>
@@ -272,7 +284,7 @@ const PublishNewsScreen = ({ navigation }) => {
                   textEntry={false}
                   onChange={onChange}
                   onBlur={onBlur}
-                  value={value}
+                  value={isDraft == true ? route.params.news.news_title : value}
                   textAlign="center"
                   // leftIcon="pencil-outline"
                 />
@@ -305,7 +317,7 @@ const PublishNewsScreen = ({ navigation }) => {
                   textEntry={false}
                   onChange={onChange}
                   onBlur={onBlur}
-                  value={value}
+                  value={isDraft == true ? route.params.news.news_op : value}
                   height={200}
                   textAlign="top"
                   // leftIcon="file-document-edit-outline"
@@ -336,7 +348,9 @@ const PublishNewsScreen = ({ navigation }) => {
                   textEntry={false}
                   onChange={onChange}
                   onBlur={onBlur}
-                  value={value}
+                  value={
+                    isDraft == true ? route.params.news.news_content : value
+                  }
                   height={400}
                   textAlign="top"
                   // leftIcon="file-document-edit-outline"

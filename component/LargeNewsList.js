@@ -9,7 +9,11 @@ import {
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { baseUrl } from '../utils/variables';
-import { formatToDate, formatToDistance, formatToOnlyDate } from '../utils/timestamp';
+import {
+  formatToDate,
+  formatToDistance,
+  formatToOnlyDate,
+} from '../utils/timestamp';
 
 // UI Imports
 import colors from '../utils/colors';
@@ -76,8 +80,14 @@ const LargeNewsList = ({ navigation, news }) => {
             <Text style={styles.category}>Category</Text>
           </View>
           <View style={styles.dateContainer}>
-            <McIcons name="calendar-clock" size={18} color={colors.medium_grey}/>
-            <Text style={styles.timeStamp}>{formatToOnlyDate(news.news_time)}</Text>
+            <McIcons
+              name="calendar-clock"
+              size={18}
+              color={colors.medium_grey}
+            />
+            <Text style={styles.timeStamp}>
+              {formatToOnlyDate(news.news_time)}
+            </Text>
           </View>
           {/* {!favorite ? (
           <TouchableOpacity
@@ -100,26 +110,30 @@ const LargeNewsList = ({ navigation, news }) => {
             <McIcons name="bookmark" size={24} color={colors.nokia_blue} />
           </TouchableOpacity>
         )} */}
-        <View style={styles.bottomRight}>
+          <View style={styles.bottomRight}>
             <View style={styles.likeContainer}>
-                {liked ? (
-                    <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
-                ) : (
-                    <McIcons
-                    name="thumb-up-outline"
-                    size={18}
-                    color={colors.medium_grey}
-                    />
-                )}
-                <Text style={styles.likeNumber}>{likedNumber}</Text>
+              {liked ? (
+                <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
+              ) : (
+                <McIcons
+                  name="thumb-up-outline"
+                  size={18}
+                  color={colors.medium_grey}
+                />
+              )}
+              <Text style={styles.likeNumber}>{likedNumber}</Text>
             </View>
             <View style={styles.readContainer}>
-                <McIcons name="eye-outline" size={18} color={colors.medium_grey} />
-                {newsView.length > 0 ? (
-                    <Text style={styles.readNumber}>{newsView[0].count}</Text>
-                ) : (
-                    ''
-                )}
+              <McIcons
+                name="eye-outline"
+                size={18}
+                color={colors.medium_grey}
+              />
+              {newsView.length > 0 ? (
+                <Text style={styles.readNumber}>{newsView[0].count}</Text>
+              ) : (
+                ''
+              )}
             </View>
           </View>
         </View>
@@ -136,7 +150,6 @@ const LargeNewsList = ({ navigation, news }) => {
           {news.news_content}
         </Text> */}
       </View>
-
     </TouchableOpacity>
   );
 };
@@ -149,13 +162,13 @@ const styles = StyleSheet.create({
     // height: 310,
     // minHeight: 225,
     // width: 350,
-    width: "100%",
+    width: '100%',
     // overflow: 'hidden',
     borderRadius: 5,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
-        width: 0,
-        height: 2,
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3,
@@ -168,8 +181,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '70%',
-    height: "100%",
-    clippath: "polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)",
+    height: '100%',
+    clippath: 'polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)',
     overflow: 'hidden',
   },
   image: {
@@ -177,7 +190,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   sideContainer: {
-    width: "30%",
+    width: '30%',
     paddingHorizontal: 2,
   },
   categoryContainer: {
@@ -212,7 +225,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.dark_text,
   },
-  op:{
+  op: {
     fontFamily: 'IBM',
     fontSize: fontSize.medium,
     color: colors.dark_grey,
