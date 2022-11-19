@@ -22,7 +22,7 @@ import ErrorMessage from '../component/ErrorMessage';
 import * as ImagePicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import RNPickerSelect from 'react-native-picker-select';
-import { postNews } from '../services/NewsService';
+import { deleteNews, postNews } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { useFocusEffect } from '@react-navigation/native';
 import { useValue } from 'react-native-reanimated';
@@ -56,6 +56,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     },
     mode: 'onBlur',
   });
+
   if (route.params !== undefined) {
     isDraft = route.params.isDraft;
   }
@@ -66,10 +67,25 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       setValue('content', route.params.news.news_content);
     }
   }, [isDraft]);
-  console.log('is', isDraft);
 
   // Passing data to preview
   const preview = (data) => {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('op', data.op);
+    formData.append('content', data.content);
+    formData.append('draft', 1);
+
+    const filename = image.split('/').pop();
+    let fileExtension = filename.split('.').pop();
+    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+
+    formData.append('newsPhoto', {
+      uri: image,
+      name: filename,
+      type: type + '/' + fileExtension,
+    });
+
     const value = {
       title: data.title,
       op: data.op,
@@ -77,7 +93,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       image: image,
       draft: 1,
     };
-    navigation.navigate('Preview', { news: value });
+    navigation.navigate('Preview', { news: value, formData: formData });
   };
 
   // Resets form inputs
@@ -103,7 +119,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     }
   };
 
-  console.log(image);
   // Posting news to server
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -123,6 +138,13 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     });
 
     try {
+      if (isDraft === true) {
+        const deleteDraftNews = await deleteNews(
+          token,
+          route.params.news.news_id
+        );
+        console.log('delete', deleteDraftNews);
+      }
       const response = await postNews(formData, token);
       if (response.status == 200) {
         Alert.alert('News added');

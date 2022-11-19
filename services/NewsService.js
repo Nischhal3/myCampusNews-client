@@ -27,6 +27,14 @@ const postNews = async (formData, token) => {
   return await fetchData(`${baseUrl}news`, options);
 };
 
+const deleteNews = async (token, newsId) => {
+  const options = {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  return await fetchData(`${baseUrl}news/${newsId}`, options);
+};
 const useComment = () => {
   const { token, updateComment, setUpdateComment } = useContext(Context);
   const [comments, setComments] = useState([]);
@@ -326,4 +334,5 @@ export {
   useLike,
   getAllNewsView,
   postNewsViews,
+  deleteNews,
 };

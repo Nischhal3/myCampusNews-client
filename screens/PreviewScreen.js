@@ -25,7 +25,12 @@ import FormInput, {
 } from '../component/AppInputs';
 import { SubmitButton } from '../component/AppButtons';
 import ErrorMessage from '../component/ErrorMessage';
-import { useComment, useLike, userFavorite } from '../services/NewsService';
+import {
+  postNews,
+  useComment,
+  useLike,
+  userFavorite,
+} from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import CommentList from '../component/CommentList';
 import { baseUrl } from '../utils/variables';
@@ -46,12 +51,22 @@ const PreviewScreen = ({ route, navigation }) => {
     editCommentInput,
     setEditCommentInput,
   } = useContext(Context);
+  const { token } = useContext(Context);
   const { news } = route.params;
   const scrollViewRef = useRef();
   const [newsList, setNewsList] = useState([]);
 
+  console.log('preview', route.params.formData);
   const saveAsDraft = async () => {
     console.log(news);
+    try {
+      const response = await postNews(route.params.formData, token);
+      if (response.status == 200) {
+        console.log('News added to Draft');
+      }
+    } catch (error) {
+      console.log('Post news', error.message);
+    }
   };
 
   return (
