@@ -15,7 +15,6 @@ import { formatToDate, formatToDistance, formatToOnlyDate } from '../utils/times
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Shadow } from 'react-native-shadow-2';
 
 const LargeNewsList = ({ navigation, news }) => {
   const {
@@ -129,9 +128,9 @@ const LargeNewsList = ({ navigation, news }) => {
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {news.news_title}
         </Text>
-        <Text style={styles.op} numberOfLines={2} ellipsizeMode="tail">
+        {/* <Text style={styles.op} numberOfLines={2} ellipsizeMode="tail">
           {news.news_op}
-        </Text>
+        </Text> */}
         {/* <Text style={styles.content} numberOfLines={1} ellipsizeMode="tail">
           {news.news_content}
         </Text> */}
@@ -164,10 +163,11 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     height: 135,
   },
   imageContainer: {
-    width: '70%',
+    width: '68%',
     height: "100%",
     clippath: "polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)",
     overflow: 'hidden',
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     color: colors.medium_grey,
   },
   contentConatiner: {
+    marginTop: 5,
     paddingBottom: 2,
     paddingHorizontal: 5,
   },

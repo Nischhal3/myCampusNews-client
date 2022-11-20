@@ -377,12 +377,13 @@ const styles = StyleSheet.create({
     color: colors.dark_text,
   },
   opContainer: {
-    marginTop: 0,
+    marginVertical: 20,
   },
   op: {
     fontFamily: "IBM",
-    fontSize: fontSize.large,
+    fontSize: fontSize.medium,
     color: colors.dark_text,
+    fontWeight: "bold",
     autoCapitalize: true,
   },
   contentContainer: {
