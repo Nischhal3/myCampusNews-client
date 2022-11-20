@@ -19,12 +19,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { baseUrl } from '../utils/variables';
 import defaultAvatar from "../assets/images/blank_avatar.jpg";
+import LocalAuth from '../screens/LocalAuth';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import LocalAuth from '../screens/LocalAuth';
 
 function CustomDrawerContent(props) {
   const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
@@ -199,7 +199,7 @@ function CustomDrawerContent(props) {
                 />
               )}
               onPress={() => {
-                props.navigation.navigate('Publish');
+                props.navigation.navigate('Publish', { isDraft: false });
                 setDrawerFocus('Publish');
               }}
               activeBackgroundColor={colors.light_background}

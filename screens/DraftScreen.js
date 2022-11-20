@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAlllNews } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { FlatList } from 'react-native-gesture-handler';
-import LargeNewsList from '../component/LargeNewsList';
 import { StatusBar } from 'expo-status-bar';
 import DraftNewsList from '../component/DraftNewsList';
+
+// UI Imports
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 
 const DraftScreen = ({ route, navigation }) => {
   const { token } = useContext(Context);
@@ -26,26 +31,40 @@ const DraftScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-    <View>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Saved drafts</Text>
+      </View>
+      <View style={styles.listContainer}>
         <FlatList
           data={news}
           renderItem={({ item }) => (
             <DraftNewsList navigation={navigation} news={item} />
           )}
           showsVerticalScrollIndicator={false}
-          // showsHorizontalScrollIndicator={false}
-          // horizontal={true}
         />
-        {/* <FlatList
-          data={news}
-          renderItem={({ item }) => <NewsList navigation={navigation} news={item} />}
-          showsVerticalScrollIndicator={false}
-        /> */}
       </View>
-
-      <StatusBar style="auto" />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.light_background,
+  },
+  headerContainer: {
+    // borderWidth: 1,
+    marginBottom: 20,
+    marginHorizontal: "2%",
+  },
+  header: {
+    fontFamily: "IBM",
+    fontSize: fontSize.subtitle,
+  },
+  listContainer: {
+    marginHorizontal: "2%",
+  },
+})
+
 export default DraftScreen;

@@ -66,6 +66,10 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);
       setValue('content', route.params.news.news_content);
+    } else {
+      setValue('title', "");
+      setValue('op', "");
+      setValue('content', "");
     }
   }, [isDraft]);
 

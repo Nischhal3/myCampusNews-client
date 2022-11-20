@@ -156,13 +156,9 @@ const LargeNewsList = ({ navigation, news }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 15,
+    marginBottom: 20,
     marginRight: 15,
-    // height: 310,
-    // minHeight: 225,
-    // width: 350,
     width: '100%',
-    // overflow: 'hidden',
     borderRadius: 5,
     shadowColor: '#000',
     shadowOffset: {
