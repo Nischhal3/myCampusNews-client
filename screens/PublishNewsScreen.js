@@ -1,6 +1,6 @@
 // npx expo install expo-image-picker
 // npx expo install expo-av
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -22,28 +22,27 @@ import ErrorMessage from '../component/ErrorMessage';
 import * as ImagePicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import RNPickerSelect from 'react-native-picker-select';
-import { postNews } from '../services/NewsService';
+import { deleteNews, postNews } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { useFocusEffect } from '@react-navigation/native';
-import {useValue} from 'react-native-reanimated';
+import { useValue } from 'react-native-reanimated';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import {newsCategory} from '../utils/variables';
+import { baseUrl, newsCategory } from '../utils/variables';
 
-const PublishNewsScreen = ({ navigation }) => {
+const PublishNewsScreen = ({ navigation, route = {} }) => {
   const { token, newsUpdate, setNewsUpdate } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
   const [type, setType] = useState('image');
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
-
+  let isDraft = false;
   // Toggle switch
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const {
     control,
     handleSubmit,
@@ -58,22 +57,51 @@ const PublishNewsScreen = ({ navigation }) => {
     mode: 'onBlur',
   });
 
+  if (route.params !== undefined) {
+    isDraft = route.params.isDraft;
+  }
+
+  useEffect(() => {
+    if (isDraft === true) {
+      setValue('title', route.params.news.news_title);
+      setValue('op', route.params.news.news_op);
+      setValue('content', route.params.news.news_content);
+    }
+  }, [isDraft]);
+
   // Passing data to preview
   const preview = (data) => {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('op', data.op);
+    formData.append('content', data.content);
+    formData.append('draft', 1);
+
+    const filename = image.split('/').pop();
+    let fileExtension = filename.split('.').pop();
+    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+
+    formData.append('newsPhoto', {
+      uri: image,
+      name: filename,
+      type: type + '/' + fileExtension,
+    });
+
     const value = {
       title: data.title,
       op: data.op,
       content: data.content,
       image: image,
-    }
-    navigation.navigate("Preview", {news: value})
-  }
+      draft: 1,
+    };
+    navigation.navigate('Preview', { news: value, formData: formData });
+  };
 
   // Resets form inputs
   const resetForm = () => {
     setImage(uploadDefaultUri);
     setValue('title', '');
-    setValue('op', '')
+    setValue('op', '');
     setValue('content', '');
     setType('image');
   };
@@ -98,6 +126,7 @@ const PublishNewsScreen = ({ navigation }) => {
     formData.append('title', data.title);
     formData.append('op', data.op);
     formData.append('content', data.content);
+    formData.append('draft', 0);
 
     const filename = image.split('/').pop();
     let fileExtension = filename.split('.').pop();
@@ -110,6 +139,13 @@ const PublishNewsScreen = ({ navigation }) => {
     });
 
     try {
+      if (isDraft === true) {
+        const deleteDraftNews = await deleteNews(
+          token,
+          route.params.news.news_id
+        );
+        console.log('delete', deleteDraftNews);
+      }
       const response = await postNews(formData, token);
       if (response.status == 200) {
         Alert.alert('News added');
@@ -129,68 +165,122 @@ const PublishNewsScreen = ({ navigation }) => {
   // );
 
   return (
-      <KeyboardAvoidingView
-        style={{ flex: 1, backgroundColor: colors.light_background }}
-        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: colors.light_background }}
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
       >
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.topNavContainer}>
-            <TouchableOpacity style={styles.resetContainer} onPress={resetForm}>
-              <Text style={styles.reset}>Reset</Text>
-              {/* <McIcons name="autorenew" size={32} color={colors.negative} /> */}
-            </TouchableOpacity>
+        <View style={styles.topNavContainer}>
+          <TouchableOpacity style={styles.resetContainer} onPress={resetForm}>
+            <Text style={styles.reset}>Reset</Text>
+            {/* <McIcons name="autorenew" size={32} color={colors.negative} /> */}
+          </TouchableOpacity>
 
-            <TouchableOpacity style={styles.previewContainer} onPress={
-              handleSubmit(preview)
-            }>
-              <Text style={styles.preview}>Preview</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.previewContainer}
+            onPress={handleSubmit(preview)}
+          >
+            <Text style={styles.preview}>Preview</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={styles.publishContainer} onPress={handleSubmit(onSubmit)}>
-              <Text style={styles.publish}>Publish</Text>
-              {/* <McIcons name="arrow-right-bold-box-outline" size={32} color={colors.positive} /> */}
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.publishContainer}
+            onPress={handleSubmit(onSubmit)}
+          >
+            <Text style={styles.publish}>Publish</Text>
+            {/* <McIcons name="arrow-right-bold-box-outline" size={32} color={colors.positive} /> */}
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderLeftWidth: 1,
+                width: 20,
+                height: 20,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+              }}
+            ></View>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderRightWidth: 1,
+                width: 20,
+                height: 20,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+              }}
+            ></View>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderLeftWidth: 1,
+                width: 20,
+                height: 20,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+              }}
+            ></View>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderRightWidth: 1,
+                width: 20,
+                height: 20,
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+              }}
+            ></View>
+            {type === 'image' ? (
+              <>
+                <View style={styles.imageWrap}>
+                  <TouchableOpacity onPress={pickImage}>
+                    {/*  {isDraft == true ? (
+                      <Image
+                        source={{
+                          uri: `${`${baseUrl}/${route.params.news.photoName}`}`,
+                        }}
+                        style={styles.image}
+                      />
+                    ) : (
+                      <Image source={{ uri: image }} style={styles.image} />
+                    )} */}
+                    <Image source={{ uri: image }} style={styles.image} />
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <Video
+                source={{ uri: image }}
+                style={styles.image}
+                useNativeControls={true}
+                resizeMode="cover"
+                onError={(err) => {
+                  console.error('video', err);
+                }}
+              />
+            )}
           </View>
 
-          <View style={styles.container}>
-            <View style={styles.imageContainer}>
-              <View style={{borderTopWidth: 1, borderLeftWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, left: 0}}></View>
-              <View style={{borderTopWidth: 1, borderRightWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0}}></View>
-              <View style={{borderBottomWidth: 1, borderLeftWidth: 1, width: 20, height: 20, position: 'absolute', bottom: 0, left: 0}}></View>
-              <View style={{borderBottomWidth: 1, borderRightWidth: 1, width: 20, height: 20, position: 'absolute', bottom: 0, right: 0}}></View>
-              {type === 'image' ? (
-                <>
-                  <View style={styles.imageWrap}>
-                    <TouchableOpacity onPress={pickImage}>
-                      <Image source={{ uri: image }} style={styles.image} />
-                    </TouchableOpacity>
-                  </View>
-                </>
-              ) : (
-                <Video
-                  source={{ uri: image }}
-                  style={styles.image}
-                  useNativeControls={true}
-                  resizeMode="cover"
-                  onError={(err) => {
-                    console.error('video', err);
-                  }}
-                />
-              )}
+          <View style={styles.newsOptionsContainer}>
+            <View style={styles.categoryContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => console.log(value)}
+                placeholder={{ label: 'News category', value: 'null' }}
+                items={newsCategory}
+              />
             </View>
-
-            <View style={styles.newsOptionsContainer}>
-              <View style={styles.categoryContainer}>
-                <RNPickerSelect
-                  onValueChange={(value) => console.log(value)}
-                  placeholder={{label: 'News category', value: 'null'}}
-                  items={newsCategory}
-                  />
-              </View>
-              {/* <View style={styles.notificationContainer}>
+            {/* <View style={styles.notificationContainer}>
                 <Text style={styles.notification}>Notification</Text>
                 <Switch
                   trackColor={{ false: colors.dark_grey, true: colors.secondary }}
@@ -200,115 +290,112 @@ const PublishNewsScreen = ({ navigation }) => {
                   value={isEnabled}
                 />
               </View> */}
-            </View>
-
-            <View style={styles.titleContainer}>
-              <Controller
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: 'This field is required',
-                  },
-                  minLength: {
-                    value: 3,
-                    message: 'Title should have at least 3 characters.',
-                  },
-                  maxLength: {
-                    value: 150,
-                    message: 'Title cannot exceed 150 characters.',
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MultilineInput
-                    name="News title"
-                    textEntry={false}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    textAlign="center"
-                    // leftIcon="pencil-outline"
-                  />
-                )}
-                name="title"
-              />
-
-              <ErrorMessage
-                error={errors?.title}
-                message={errors?.title?.message}
-              />
-            </View>
-
-            <View style={styles.leadContainer}>
-              <Controller
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: 'Please have an opening paragraph',
-                  },
-                  minLength: {
-                    value: 3,
-                    message: 'Lead paragraph should have at least 3 characters.',
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MultilineInput
-                    name="Lead paragraph of the news..."
-                    textEntry={false}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    height={200}
-                    textAlign="top"
-                    // leftIcon="file-document-edit-outline"
-                  />
-                )}
-                name="op"
-              />
-
-              <ErrorMessage
-                error={errors?.op}
-                message={errors?.op?.message}
-              />
-            </View>
-
-            <View style={styles.contentContainer}>
-              <Controller
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: 'News content is required',
-                  },
-                  minLength: {
-                    value: 3,
-                    message: 'Content should have at least 3 characters.',
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <MultilineInput
-                    name="Please enter news content here..."
-                    textEntry={false}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    height={400}
-                    textAlign="top"
-                    // leftIcon="file-document-edit-outline"
-                  />
-                )}
-                name="content"
-              />
-
-              <ErrorMessage
-                error={errors?.content}
-                message={errors?.content?.message}
-              />
-            </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+
+          <View style={styles.titleContainer}>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: 'This field is required',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'Title should have at least 3 characters.',
+                },
+                maxLength: {
+                  value: 150,
+                  message: 'Title cannot exceed 150 characters.',
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <MultilineInput
+                  name="News title"
+                  textEntry={false}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  textAlign="center"
+                  // leftIcon="pencil-outline"
+                />
+              )}
+              name="title"
+            />
+
+            <ErrorMessage
+              error={errors?.title}
+              message={errors?.title?.message}
+            />
+          </View>
+
+          <View style={styles.leadContainer}>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Please have an opening paragraph',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'Lead paragraph should have at least 3 characters.',
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <MultilineInput
+                  name="Lead paragraph of the news..."
+                  textEntry={false}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  height={200}
+                  textAlign="top"
+                  // leftIcon="file-document-edit-outline"
+                />
+              )}
+              name="op"
+            />
+
+            <ErrorMessage error={errors?.op} message={errors?.op?.message} />
+          </View>
+
+          <View style={styles.contentContainer}>
+            <Controller
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: 'News content is required',
+                },
+                minLength: {
+                  value: 3,
+                  message: 'Content should have at least 3 characters.',
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <MultilineInput
+                  name="Please enter news content here..."
+                  textEntry={false}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  height={400}
+                  textAlign="top"
+                  // leftIcon="file-document-edit-outline"
+                />
+              )}
+              name="content"
+            />
+
+            <ErrorMessage
+              error={errors?.content}
+              message={errors?.content?.message}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -361,7 +448,7 @@ const styles = StyleSheet.create({
   },
   image: {
     // zIndex: 2,
-    width: "100%",
+    width: '100%',
     height: undefined,
     aspectRatio: 1.5,
   },
@@ -373,10 +460,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.light_grey,
     borderRadius: 5,
-    width: "100%",
+    width: '100%',
   },
   notificationContainer: {
-    width: "50%",
+    width: '50%',
     flexDirection: 'row',
     paddingLeft: 10,
     alignItems: 'center',
