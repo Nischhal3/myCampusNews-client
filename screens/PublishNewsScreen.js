@@ -60,6 +60,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   if (route.params !== undefined) {
     isDraft = route.params.isDraft;
   }
+
   useEffect(() => {
     if (isDraft === true) {
       setValue('title', route.params.news.news_title);

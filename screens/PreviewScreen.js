@@ -54,15 +54,12 @@ const PreviewScreen = ({ route, navigation }) => {
   const { token } = useContext(Context);
   const { news } = route.params;
   const scrollViewRef = useRef();
-  const [newsList, setNewsList] = useState([]);
 
-  console.log('preview', route.params.formData);
   const saveAsDraft = async () => {
-    console.log(news);
     try {
       const response = await postNews(route.params.formData, token);
       if (response.status == 200) {
-        console.log('News added to Draft');
+        Alert.alert('News saved to Draft');
       }
     } catch (error) {
       console.log('Post news', error.message);

@@ -14,13 +14,16 @@ const DraftNewsList = ({ navigation, news }) => {
     url = `${baseUrl}/${news.photoName}`;
     // url = uploadDefaultUri;
   }
-  const hello = () => {
+  const navigatioToPubishNews = () => {
     navigation.navigate('Publish', { news: news, isDraft: true });
   };
+
   return (
-    <TouchableOpacity onPress={hello}>
+    <TouchableOpacity onPress={navigatioToPubishNews}>
       <View>
         <Text>{news.news_title}</Text>
+        <Text>{news.news_content}</Text>
+        <Text>{news.news_op}</Text>
       </View>
     </TouchableOpacity>
   );
