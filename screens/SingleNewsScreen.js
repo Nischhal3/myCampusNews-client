@@ -17,6 +17,7 @@ import {
   FlatList,
   Alert,
   ScrollView,
+  LogBox,
 } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import FormInput, {
@@ -39,6 +40,8 @@ import { formatToDate, formatToDistance } from "../utils/timestamp";
 import colors from "../utils/colors";
 import fontSize from "../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 const SingleNews = ({ route, navigation }) => {
   const {

@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   contentConatiner: {
     marginTop: 5,
-    paddingBottom: 2,
+    marginBottom: 20,
     paddingHorizontal: 5,
   },
   title: {
