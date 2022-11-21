@@ -44,8 +44,7 @@ const DraftNewsList = ({ navigation, news }) => {
 
         <View style={styles.sideContainer}>
           <TouchableOpacity style={styles.deleteContainer} onPress={{}}>
-            <McIcons name="delete-outline" size={24} color={colors.negative}
-              />
+            <McIcons name="delete-outline" size={24} color={colors.negative}/>
           </TouchableOpacity>
         </View>
       </View>

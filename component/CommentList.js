@@ -161,13 +161,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 10,
     width: "100%",
-    // borderWidth: 1,
     backgroundColor: colors.light_background,
   },
   imageContainer: {
     marginVertical: 5,
     width: "20%",
-    // borderWidth: 1,
   },
   avatar: {
     width: 50,
@@ -177,8 +175,8 @@ const styles = StyleSheet.create({
   },
   contentConatiner: {
     marginLeft: 5,
+    marginVertical: 5,
     width: "70%",
-    // borderWidth: 1,
   },
   username: {
     fontFamily: "IBM",

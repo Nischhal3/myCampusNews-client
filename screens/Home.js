@@ -11,8 +11,11 @@ import { getAlllNews } from '../services/NewsService';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import SearchBar from '../component/SearchBar';
 
 const Home = ({ navigation }) => {
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searching, setSearching] = useState(false);
   const [news, setNews] = useState([]);
   const { user, token, updateNews } = useContext(Context);
   const timeInterval = 3000;
@@ -30,13 +33,29 @@ const Home = ({ navigation }) => {
     return () => clearInterval(interval);
   }, [updateNews]);
 
+  const filteredList = (news) => {
+    if (searchPhrase == "") {
+      return news;
+    }
+    else {
+      const filtered = news.filter((i) => i.news_title.toLowerCase().includes(searchPhrase.toLowerCase()))
+      return filtered;
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={{ textAlign: 'center' }}>Search bar</Text>
+
+      <SearchBar
+        searching={searching}
+        setSearching={setSearching}
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+      />
 
       <View style={styles.newsContainer}>
         <FlatList
-          data={news}
+          data={filteredList(news)}
           renderItem={({ item }) => (
             <LargeNewsList navigation={navigation} news={item} />
           )}
@@ -63,7 +82,6 @@ const styles = StyleSheet.create({
     padding: '2%',
   },
   newsContainer: {
-    marginTop: 15,
   },
 });
 export default Home;
