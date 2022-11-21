@@ -11,7 +11,7 @@ const getAlllNews = async (token, draft) => {
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  return await fetchData(`${baseUrl}news/${draft}`, options);
+  return await fetchData(`${baseUrl}news/draft/${draft}`, options);
 };
 
 const useNews = () => {
