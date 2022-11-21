@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     padding: '2%',
   },
   newsContainer: {
+    marginBottom: "10%",
   },
 });
 export default Home;
