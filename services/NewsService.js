@@ -11,7 +11,54 @@ const getAlllNews = async (token, draft) => {
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  return await fetchData(`${baseUrl}news/${draft}`, options);
+  return await fetchData(`${baseUrl}news/draft/${draft}`, options);
+};
+
+const useNews = () => {
+  const [news, setNews] = useState([]);
+  const [newsInterval, setNewsInterval] = useState([]);
+  const { token } = useContext(Context);
+
+  const getAlllNews = async (draft) => {
+    try {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+  
+      const response = await fetchData(`${baseUrl}news/draft/${draft}`, options);
+      response && setNews(response.reverse());
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAlllNewsIninterval = async (draft) => {
+    try {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+  
+      const response = await fetchData(`${baseUrl}news/draft/${draft}`, options);
+      response && setNewsInterval(response.reverse());
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return {
+    getAlllNews,
+    getAlllNewsIninterval,
+    newsInterval,
+    news,
+  };
 };
 
 // Post news to the server
@@ -335,4 +382,5 @@ export {
   getAllNewsView,
   postNewsViews,
   deleteNews,
+  useNews
 };

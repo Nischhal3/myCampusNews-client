@@ -23,7 +23,7 @@ const SearchBar = ({searching, setSearching, searchPhrase, setSearchPhrase}) => 
         />
         {searching && (
             <TouchableOpacity style={styles.clearButton} onPress={() => setSearchPhrase("")}>
-                <McIcons name="close" size={24} color={colors.dark_text}/>
+                <McIcons name="backspace-outline" size={20} color={colors.negative}/>
             </TouchableOpacity>
         )}
       </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     cancel: {
         fontFamily: "IBM",
         fontSize: fontSize.medium,
-        color: colors.negative
+        color: colors.secondary,
     },
 });
 

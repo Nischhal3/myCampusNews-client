@@ -5,7 +5,7 @@ import SampleList from '../component/SampleList';
 import { Context } from '../contexts/Context';
 import NewsList from '../component/NewsList';
 import LargeNewsList from '../component/LargeNewsList';
-import { getAlllNews } from '../services/NewsService';
+import { useNews } from '../services/NewsService';
 
 // UI Imports
 import colors from '../utils/colors';
@@ -13,25 +13,54 @@ import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import SearchBar from '../component/SearchBar';
 
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+} from "react-native-alert-notification";
+
 const Home = ({ navigation }) => {
   const [searchPhrase, setSearchPhrase] = useState("");
   const [searching, setSearching] = useState(false);
-  const [news, setNews] = useState([]);
-  const { user, token, updateNews } = useContext(Context);
+  const { setNewsUpdate, newsUpdate } = useContext(Context);
+  const { getAlllNews, getAlllNewsIninterval, newsInterval, news } = useNews();
+  const [notificationState, setNotificationState] = useState(true);
   const timeInterval = 3000;
-  const is_draft = 0;
+  const isDraft = 0;
 
-  // Fetch data from server every 3 seconds or whenever there is change in updateNews value
-  useEffect(() => {
-    const interval = setInterval(() => {
-      async function fetchNews() {
-        const response = await getAlllNews(token, is_draft);
-        setNews(response.reverse());
+  const notification = () => {
+    getAlllNewsIninterval(isDraft);
+    if(news.length > 0 && newsInterval.length > 0){
+      if(news[0].news_time < newsInterval[0].news_time){
+        if(notificationState == true){
+          Dialog.show({
+            type: ALERT_TYPE.WARNING,
+            textBody: "Admin has just published a news!",
+            button: "close",
+            onHide: () => {
+              setNewsUpdate(newsUpdate + 1);
+              setNotificationState(true);
+            },
+          },
+          setNotificationState(false)
+          );
+        }
+      }else if (news[0].news_time > newsInterval[0].news_time){
+        setNewsUpdate(newsUpdate + 1);
       }
-      fetchNews();
+    }
+  }
+  useEffect(() => {
+    getAlllNews(isDraft);
+  }, [newsUpdate]);
+
+  useEffect(() => {  
+    const interval = setInterval(() => {
+      notification();
     }, timeInterval);
     return () => clearInterval(interval);
-  }, [updateNews]);
+  }
+  , [newsInterval]);
 
   const filteredList = (news) => {
     if (searchPhrase == "") {
@@ -44,6 +73,7 @@ const Home = ({ navigation }) => {
   }
 
   return (
+    <AlertNotificationRoot>
     <View style={styles.container}>
 
       <SearchBar
@@ -72,6 +102,7 @@ const Home = ({ navigation }) => {
 
       <StatusBar style="auto" />
     </View>
+    </AlertNotificationRoot>
   );
 };
 
