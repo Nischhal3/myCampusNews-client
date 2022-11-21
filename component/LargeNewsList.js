@@ -65,7 +65,7 @@ const LargeNewsList = ({ navigation, news }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        postNewsViews(token, user.user_id, news.news_id);
+        // postNewsViews(token, user.user_id, news.news_id);
         navigation.navigate('SingleNews', { file: news });
       }}
     >
