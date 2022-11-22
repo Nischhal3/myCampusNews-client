@@ -30,11 +30,9 @@ import BookmarkScreen from '../screens/BookmarkScreen';
 import PreviewScreen from '../screens/PreviewScreen';
 import DraftScreen from '../screens/DraftScreen';
 
-
-
 // UI Imports
 import colors from '../utils/colors';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 // Import Custom Drawer
 import CustomDrawerContent from './Drawer';
@@ -54,7 +52,7 @@ const DrawerScreen = () => {
     if (token != null) {
       try {
         const userData = await getUserByToken(token);
-        const user = await getUserById(userData.user.user_id,token);
+        const user = await getUserById(userData.user.user_id, token);
         setUser(user);
       } catch (error) {
         console.error('Drawer error', error);
@@ -86,7 +84,11 @@ const DrawerScreen = () => {
       }}
     >
       <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="EditProfile" component={EditProfileScreen} options={{headerShown: false}} />
+      <Drawer.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{ headerShown: false }}
+      />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="SingleNews" component={SingleNewsScreen} />
       <Drawer.Screen name="Notification" component={NotificationScreen} />
@@ -107,7 +109,7 @@ const StackScreen = () => {
 
   // Biometric authentication and token based auto-login
   useEffect(() => {
-    LocalAuth();
+    //LocalAuth();
     token == null ? setIsLoggedIn(false) : setIsLoggedIn(true);
   }, [token]);
 

@@ -8,9 +8,10 @@ import { Context } from '../contexts/Context';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { deleteNews } from '../services/NewsService';
 
 const DraftNewsList = ({ navigation, news }) => {
-  const { setDrawerFocus } = useContext(Context);
+  const { setDrawerFocus, token } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   let url = '';
 
@@ -23,7 +24,16 @@ const DraftNewsList = ({ navigation, news }) => {
 
   const navigatioToPubishNews = () => {
     navigation.navigate('Publish', { news: news, isDraft: true }),
-    setDrawerFocus('Publish');
+      setDrawerFocus('Publish');
+  };
+
+  const deleteDraftNews = async () => {
+    try {
+      const deleteDraftNews = await deleteNews(token, news.news_id);
+      console.log('delete', deleteDraftNews);
+    } catch (error) {
+      console.log('Post news', error.message);
+    }
   };
 
   return (
@@ -35,16 +45,23 @@ const DraftNewsList = ({ navigation, news }) => {
         </View>
         <View style={styles.mainContainer}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">{news.news_title}</Text>
+            <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+              {news.news_title}
+            </Text>
           </View>
           <View style={styles.titleContainer}>
-            <Text style={styles.op} numberOfLines={1} ellipsizeMode="tail">{news.news_op}</Text>
+            <Text style={styles.op} numberOfLines={1} ellipsizeMode="tail">
+              {news.news_op}
+            </Text>
           </View>
         </View>
 
         <View style={styles.sideContainer}>
-          <TouchableOpacity style={styles.deleteContainer} onPress={{}}>
-            <McIcons name="delete-outline" size={24} color={colors.negative}/>
+          <TouchableOpacity
+            style={styles.deleteContainer}
+            onPress={deleteDraftNews}
+          >
+            <McIcons name="delete-outline" size={24} color={colors.negative} />
           </TouchableOpacity>
         </View>
       </View>
@@ -59,29 +76,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   imageContainer: {
-    width: "20%",
-    height: "100%",
+    width: '20%',
+    height: '100%',
     // borderWidth: 1,
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     resizeMode: 'contain',
   },
   mainContainer: {
-    width: "70%",
+    width: '70%',
     marginLeft: 5,
   },
   titleContainer: {
     marginBottom: 5,
   },
   title: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.large,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   op: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
   },
   sideContainer: {

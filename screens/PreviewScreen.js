@@ -58,6 +58,7 @@ const PreviewScreen = ({ route, navigation }) => {
   const saveAsDraft = async () => {
     try {
       const response = await postNews(route.params.formData, token);
+      console.log('status', response.status);
       if (response.status == 200) {
         Alert.alert('News saved to Draft');
       }

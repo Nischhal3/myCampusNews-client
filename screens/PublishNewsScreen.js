@@ -60,16 +60,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   if (route.params !== undefined) {
     isDraft = route.params.isDraft;
   }
-
   useEffect(() => {
     if (isDraft === true) {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);
       setValue('content', route.params.news.news_content);
-    } else {
-      setValue('title', "");
-      setValue('op', "");
-      setValue('content', "");
     }
   }, [isDraft]);
 
@@ -143,13 +138,14 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     });
 
     try {
-      if (isDraft === true) {
+      /*  if (isDraft === true) {
         const deleteDraftNews = await deleteNews(
           token,
           route.params.news.news_id
         );
+        isDraft = false;
         console.log('delete', deleteDraftNews);
-      }
+      } */
       const response = await postNews(formData, token);
       if (response.status == 200) {
         Alert.alert('News added');
