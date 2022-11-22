@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: '68%',
     height: "100%",
-    clippath: "polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)",
+    borderRadius: 3,
     overflow: 'hidden',
   },
   image: {
@@ -204,12 +204,16 @@ const styles = StyleSheet.create({
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: "5%",
   },
   timeStamp: {
-    marginLeft: 2,
+    marginLeft: 4,
     fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.medium_grey,
+  },
+  bottomRight: {
+    marginTop: "2%",
   },
   contentConatiner: {
     marginTop: 5,
@@ -241,7 +245,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBM',
     fontSize: fontSize.caption,
     color: colors.medium_grey,
-    marginLeft: 2,
+    marginLeft: 4,
   },
   likeContainer: {
     flexDirection: 'row',
@@ -251,7 +255,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBM',
     fontSize: fontSize.caption,
     color: colors.medium_grey,
-    marginLeft: 2,
+    marginLeft: 4,
   },
 });
 
