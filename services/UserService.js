@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { baseUrl } from '../utils/variables';
 import { fetchData } from './ApiService';
-
-const baseUrl = 'http://10.0.2.2:3000/';
 
 const getAllUsers = async (setUser) => {
   try {
@@ -49,16 +48,16 @@ const getUserByToken = async (token) => {
     // get method is default,not necessary to put it.
     method: 'GET',
     // if there is - like x-access-token  use {}
-    headers: {'Authorization': 'Bearer ' + token},
+    headers: { Authorization: 'Bearer ' + token },
   };
   return await fetchData(`${baseUrl}user/token`, options);
 };
 
 //get user info by id
-const getUserById = async (userId,token) => {
+const getUserById = async (userId, token) => {
   const options = {
     method: 'GET',
-    headers: {'Authorization': 'Bearer ' + token},
+    headers: { Authorization: 'Bearer ' + token },
   };
   return await fetchData(`${baseUrl}user/userid/${userId}`, options);
 };
@@ -68,7 +67,7 @@ const putUser = async (formData, token) => {
   const options = {
     method: 'PUT',
     headers: {
-      'Authorization': 'Bearer ' + token,
+      Authorization: 'Bearer ' + token,
       'Content-Type': 'multipart/form-data',
     },
     body: formData,
@@ -81,7 +80,7 @@ const putUserPassword = async (data, token) => {
   const options = {
     method: 'PUT',
     headers: {
-      'Authorization': 'Bearer ' + token,
+      Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
@@ -89,4 +88,13 @@ const putUserPassword = async (data, token) => {
   const result = await fetchData(`${baseUrl}user/password`, options);
   return result;
 };
-export { getAllUsers, register, login, getToken, getUserByToken, putUser, getUserById,putUserPassword };
+export {
+  getAllUsers,
+  register,
+  login,
+  getToken,
+  getUserByToken,
+  putUser,
+  getUserById,
+  putUserPassword,
+};

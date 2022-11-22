@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Context } from '../contexts/Context';
 
 // Retrieving all news from backend
-const getAlllNews = async (token, draft) => {
+const getAlllNewsByDraft = async (token, draft) => {
   const options = {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
@@ -22,15 +22,17 @@ const useNews = () => {
   const getAlllNews = async (draft) => {
     try {
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       };
-  
-      const response = await fetchData(`${baseUrl}news/draft/${draft}`, options);
-      response && setNews(response.reverse());
 
+      const response = await fetchData(
+        `${baseUrl}news/draft/${draft}`,
+        options
+      );
+      response && setNews(response.reverse());
     } catch (error) {
       console.error(error);
     }
@@ -39,15 +41,17 @@ const useNews = () => {
   const getAlllNewsIninterval = async (draft) => {
     try {
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       };
-  
-      const response = await fetchData(`${baseUrl}news/draft/${draft}`, options);
-      response && setNewsInterval(response.reverse());
 
+      const response = await fetchData(
+        `${baseUrl}news/draft/${draft}`,
+        options
+      );
+      response && setNewsInterval(response.reverse());
     } catch (error) {
       console.error(error);
     }
@@ -374,7 +378,7 @@ const postNewsViews = async (token, user_id, news_id) => {
 };
 
 export {
-  getAlllNews,
+  getAlllNewsByDraft,
   postNews,
   useComment,
   userFavorite,
@@ -382,5 +386,5 @@ export {
   getAllNewsView,
   postNewsViews,
   deleteNews,
-  useNews
+  useNews,
 };

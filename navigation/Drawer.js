@@ -18,7 +18,7 @@ import {
 } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { baseUrl } from '../utils/variables';
-import defaultAvatar from "../assets/images/blank_avatar.jpg";
+import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import LocalAuth from '../screens/LocalAuth';
 
 // UI Imports
@@ -199,7 +199,7 @@ function CustomDrawerContent(props) {
                 />
               )}
               onPress={() => {
-                props.navigation.navigate('Publish', { isDraft: false });
+                props.navigation.navigate('Publish');
                 setDrawerFocus('Publish');
               }}
               activeBackgroundColor={colors.light_background}
@@ -233,14 +233,18 @@ function CustomDrawerContent(props) {
               label="Bookmarks"
               labelStyle={{
                 color:
-                  drawerFocus == 'Bookmark' ? colors.primary : colors.light_text,
+                  drawerFocus == 'Bookmark'
+                    ? colors.primary
+                    : colors.light_text,
               }}
               icon={() => (
                 <McIcons
                   name="bookmark-multiple-outline"
                   size={24}
                   color={
-                    drawerFocus == 'Bookmark' ? colors.primary : colors.light_text
+                    drawerFocus == 'Bookmark'
+                      ? colors.primary
+                      : colors.light_text
                   }
                 />
               )}
@@ -336,14 +340,18 @@ function CustomDrawerContent(props) {
               label="Bookmarks"
               labelStyle={{
                 color:
-                  drawerFocus == 'Bookmark' ? colors.primary : colors.light_text,
+                  drawerFocus == 'Bookmark'
+                    ? colors.primary
+                    : colors.light_text,
               }}
               icon={() => (
                 <McIcons
                   name="bookmark-multiple-outline"
                   size={24}
                   color={
-                    drawerFocus == 'Bookmark' ? colors.primary : colors.light_text
+                    drawerFocus == 'Bookmark'
+                      ? colors.primary
+                      : colors.light_text
                   }
                 />
               )}
