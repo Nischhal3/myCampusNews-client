@@ -40,7 +40,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [type, setType] = useState('image');
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
-  let isDraft = false;
+  const [isDraft, setIsDraft] = useState(false);
   // Toggle switch
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const {
@@ -56,17 +56,17 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     },
     mode: 'onBlur',
   });
-
-  if (route.params !== undefined) {
-    isDraft = route.params.isDraft;
-  }
   useEffect(() => {
-    if (isDraft === true) {
+    if (route.params != undefined) {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);
       setValue('content', route.params.news.news_content);
+    } else {
+      setValue('title', '');
+      setValue('op', '');
+      setValue('content', '');
     }
-  }, [isDraft]);
+  }, [route.params]);
 
   // Passing data to preview
   const preview = (data) => {
@@ -138,14 +138,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     });
 
     try {
-      /*  if (isDraft === true) {
-        const deleteDraftNews = await deleteNews(
-          token,
-          route.params.news.news_id
-        );
-        isDraft = false;
-        console.log('delete', deleteDraftNews);
-      } */
       const response = await postNews(formData, token);
       if (response.status == 200) {
         Alert.alert('News added');
@@ -158,11 +150,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   };
 
   // Resets form input when user is off screen
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     return () => resetForm();
-  //   }, [])
-  // );
+  /* useFocusEffect(
+    useCallback(() => {
+      return () => reset();
+    }, [])
+  ); */
 
   return (
     <KeyboardAvoidingView

@@ -23,8 +23,7 @@ const DraftNewsList = ({ navigation, news }) => {
   }
 
   const navigatioToPubishNews = () => {
-    navigation.navigate('Publish', { news: news, isDraft: true }),
-      setDrawerFocus('Publish');
+    navigation.navigate('Publish', { news: news }), setDrawerFocus('Publish');
   };
 
   const deleteDraftNews = async () => {
