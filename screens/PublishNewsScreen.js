@@ -41,8 +41,52 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
+  
+  // Testing multiple inputs
+  const [extraInputs, setExtraInputs] = useState([]);
+
+  const addExtraSection = () => {
+    const _inputs = [...extraInputs];
+    _inputs.push({key: "", image: uploadDefaultUri, imageType: "image", imageDescription: "", content: ""});
+    setExtraInputs(_inputs);
+  };
+
+  const removeSection = (key) => {
+    const index = extraInputs.findIndex((it) => it.key == key)
+    extraInputs.splice(index, 1)
+    setExtraInputs((input) => input.filter((item) => item.key !== key));
+  };
+
+  const handleImage = async (key) => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 0.5,
+    });
+
+    if (!result.cancelled) {
+      const _imageInput = [...extraInputs];
+      _imageInput[key].key = key;
+      _imageInput[key].image = result.uri;
+      _imageInput[key].imageType = result.type;
+      setExtraInputs(_imageInput);
+    }
+  }
+  const handleImageDescription = (input, key) => {
+    const _descInput = [...extraInputs];
+    _descInput[key].key = key;
+    _descInput[key].imageDescription = input;
+    setExtraInputs(_descInput);
+  }
+  const handleContent = (input, key) => {
+    const _contentInput = [...extraInputs];
+    _contentInput[key].key = key;
+    _contentInput[key].content = input;
+    setExtraInputs(_contentInput);
+  }
+
   // Toggle switch
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  // const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const {
     control,
     handleSubmit,
@@ -56,6 +100,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     },
     mode: 'onBlur',
   });
+
   useEffect(() => {
     if (route.params != undefined) {
       setValue('title', route.params.news.news_title);
@@ -137,16 +182,36 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       type: type + '/' + fileExtension,
     });
 
-    try {
-      const response = await postNews(formData, token);
-      if (response.status == 200) {
-        Alert.alert('News added');
-        setNewsUpdate(newsUpdate + 1);
-        resetForm();
-      }
-    } catch (error) {
-      console.log('Post news', error.message);
+    // array of items
+    // formData.append('extra', extraInputs)
+
+    // for loop with separated items
+    for (let item of extraInputs) {
+      const filename = item.image.split('/').pop();
+      let fileExtension = filename.split('.').pop();
+      fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+
+      formData.append("extraImage", {
+        key: item.key,
+        uri: item.image,
+        name: filename,
+        type: item.type + '/' + fileExtension,
+      })
+      formData.append("imageDescription", item.imageDescription)
+      formData.append("extraContent", item.content)
     }
+
+    console.log(formData);
+    // try {
+    //   const response = await postNews(formData, token);
+    //   if (response.status == 200) {
+    //     Alert.alert('News added');
+    //     setNewsUpdate(newsUpdate + 1);
+    //     resetForm();
+    //   }
+    // } catch (error) {
+    //   console.log('Post news', error.message);
+    // }
   };
 
   // Resets form input when user is off screen
@@ -341,7 +406,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   onChange={onChange}
                   onBlur={onBlur}
                   value={value}
-                  height={200}
+                  height={150}
                   textAlign="top"
                   // leftIcon="file-document-edit-outline"
                 />
@@ -372,7 +437,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   onChange={onChange}
                   onBlur={onBlur}
                   value={value}
-                  height={400}
+                  height={250}
                   textAlign="top"
                   // leftIcon="file-document-edit-outline"
                 />
@@ -385,6 +450,98 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               message={errors?.content?.message}
             />
           </View>
+
+          <View style={styles.extraInputsSectionContainer}>
+            {extraInputs.map( (input, key) => (
+              <View key={(key+1)} style={styles.extraInputsContainer} >
+                  {/* <MultilineInput
+                    name="Image"
+                    textEntry={false}
+                    onChange={(text) => {handleImage(text, key)}}
+                    value={input.image}
+                    textAlign="center"
+                  /> */}
+                  <View style={styles.imageContainer}>
+                    <View
+                      style={{
+                        borderTopWidth: 1,
+                        borderLeftWidth: 1,
+                        width: 20,
+                        height: 20,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                      }}
+                    ></View>
+                    <View
+                      style={{
+                        borderTopWidth: 1,
+                        borderRightWidth: 1,
+                        width: 20,
+                        height: 20,
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                      }}
+                    ></View>
+                    <View
+                      style={{
+                        borderBottomWidth: 1,
+                        borderLeftWidth: 1,
+                        width: 20,
+                        height: 20,
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                      }}
+                    ></View>
+                    <View
+                      style={{
+                        borderBottomWidth: 1,
+                        borderRightWidth: 1,
+                        width: 20,
+                        height: 20,
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                      }}
+                    ></View>
+                        <View style={styles.imageWrap}>
+                          <TouchableOpacity onPress={() => handleImage(key)}>
+                            <Image source={{ uri: input.image }} style={styles.image} />
+                          </TouchableOpacity>
+                        </View>
+                  </View>
+                <MultilineInput
+                  name="Image description"
+                  textEntry={false}
+                  onChange={(text) => {handleImageDescription(text, key)}}
+                  value={input.imageDescription}
+                  textAlign="center"
+                />
+                <MultilineInput
+                  name="Extra content"
+                  textEntry={false}
+                  onChange={(text) => {handleContent(text, key)}}
+                  value={input.content}
+                  textAlign="center"
+                />
+
+                <TouchableOpacity
+                  style={styles.removeSectionButton}
+                  onPress={() => {removeSection(key)}}
+                >
+                  <McIcons name="delete-outline" size={24} color={colors.negative} />
+                </TouchableOpacity>
+              </View>
+            ))}
+
+            <TouchableOpacity style={styles.addSectionButton} onPress={() => {addExtraSection()}}>
+              <Text style={styles.addSection}>Add new section</Text>
+            </TouchableOpacity>
+
+          </View>
+
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -477,6 +634,28 @@ const styles = StyleSheet.create({
   // contentContainer:{
   //   borderWidth: 1,
   // },
+  extraInputsSectionContainer: {
+    marginVertical: 50,
+  },
+  extraInputsContainer: {
+    // height: 200,
+    justifyContent: 'space-between',
+    marginBottom: 50,
+  },
+  addSectionButton: {
+    alignSelf: 'center',
+    borderWidth: 1,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    borderColor: colors.secondary,
+  },
+  addSection: {
+    textAlign: 'center',
+    fontFamily: 'IBM',
+    fontSize: fontSize.regular,
+    color: colors.secondary,
+  },
 });
 
 export default PublishNewsScreen;
