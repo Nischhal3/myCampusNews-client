@@ -16,6 +16,7 @@ const getAlllNewsByDraft = async (token, draft) => {
 
 const useNews = () => {
   const [news, setNews] = useState([]);
+  const [paragraph, setParagraph] = useState([]);
   const [newsInterval, setNewsInterval] = useState([]);
   const { token } = useContext(Context);
 
@@ -57,11 +58,49 @@ const useNews = () => {
     }
   };
 
+  const postParagraphToNews = async (formData,newsId) => {
+    try{
+      const options = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      };
+      return await fetchData(`${baseUrl}news/paragraph/${newsId}`, options);
+    }catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAllParagraphOfNews = async (newsId) => {
+    try {
+      const options = {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      };
+
+      const response = await fetchData(
+        `${baseUrl}news/paragraph/${newsId}`,
+        options
+      );
+      response && setParagraph(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getAlllNews,
     getAlllNewsIninterval,
+    postParagraphToNews,
+    getAllParagraphOfNews,
     newsInterval,
     news,
+    paragraph
   };
 };
 
@@ -103,7 +142,6 @@ const useComment = () => {
       response.message != 'comment not found' &&
         setComments(response.reverse());
     } catch (error) {
-      console.log('getComments error', error);
       setComments([]);
     }
   };

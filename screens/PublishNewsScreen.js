@@ -22,7 +22,7 @@ import ErrorMessage from '../component/ErrorMessage';
 import * as ImagePicker from 'expo-image-picker';
 import { Video } from 'expo-av';
 import RNPickerSelect from 'react-native-picker-select';
-import { deleteNews, postNews } from '../services/NewsService';
+import { deleteNews, postNews, useNews } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { useFocusEffect } from '@react-navigation/native';
 import { useValue } from 'react-native-reanimated';
@@ -41,6 +41,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
+  const { postParagraphToNews } = useNews();
   
   // Testing multiple inputs
   const [extraInputs, setExtraInputs] = useState([]);
@@ -166,6 +167,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
 
   // Posting news to server
   const onSubmit = async (data) => {
+    let keys = []
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('op', data.op);
@@ -182,36 +184,38 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       type: type + '/' + fileExtension,
     });
 
-    // array of items
-    // formData.append('extra', extraInputs)
-
-    // for loop with separated items
-    for (let item of extraInputs) {
-      const filename = item.image.split('/').pop();
-      let fileExtension = filename.split('.').pop();
-      fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-
-      formData.append("extraImage", {
-        key: item.key,
-        uri: item.image,
-        name: filename,
-        type: item.type + '/' + fileExtension,
-      })
-      formData.append("imageDescription", item.imageDescription)
-      formData.append("extraContent", item.content)
+    try {
+      const response = await postNews(formData, token);
+      if (response.status == 200) {
+        for (let item of extraInputs) {
+          const paragraph = new FormData();
+          const filename = item.image.split('/').pop();
+          let fileExtension = filename.split('.').pop();
+          fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+    
+          paragraph.append("paragraphPhoto", {
+            // key: item.key,
+            uri: item.image,
+            name: filename,
+            type: item.imageType + '/' + fileExtension,
+          })
+          paragraph.append("photoDescription", item.imageDescription);
+          paragraph.append("content", item.content);
+          postParagraphToNews(paragraph, parseInt(response.message));
+          keys.push(item.key);
+        }
+        
+        Alert.alert('News added');
+        setNewsUpdate(newsUpdate + 1);
+        resetForm();
+        keys.map((key) =>{
+          removeSection(key);
+        });
+        keys = [];
+      }
+    } catch (error) {
+      console.log('Post news', error.message);
     }
-
-    console.log(formData);
-    // try {
-    //   const response = await postNews(formData, token);
-    //   if (response.status == 200) {
-    //     Alert.alert('News added');
-    //     setNewsUpdate(newsUpdate + 1);
-    //     resetForm();
-    //   }
-    // } catch (error) {
-    //   console.log('Post news', error.message);
-    // }
   };
 
   // Resets form input when user is off screen
