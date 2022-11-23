@@ -26,12 +26,13 @@ import FormInput, {
 } from "../component/AppInputs";
 import { SubmitButton } from "../component/AppButtons";
 import ErrorMessage from "../component/ErrorMessage";
-import { useComment, useLike, userFavorite } from "../services/NewsService";
+import { useComment, useLike, userFavorite, useNews } from "../services/NewsService";
 import { Context } from "../contexts/Context";
 import CommentList from "../component/CommentList";
 import { baseUrl } from "../utils/variables";
 import DialogInput from "react-native-dialog-input";
 import Spinner from 'react-native-loading-spinner-overlay';
+import ParagraphList from "../component/ParagraphList";
 
 // utils Imports
 import { formatToDate, formatToDistance } from "../utils/timestamp";
@@ -65,6 +66,7 @@ const SingleNews = ({ route, navigation }) => {
   } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite } = userFavorite();
   const { getAllCommentOfNews, postComment, deleteComment, comments, putComment } = useComment();
+  const { getAllParagraphOfNews, paragraph } = useNews();
 
   const {
     control,
@@ -111,6 +113,7 @@ const SingleNews = ({ route, navigation }) => {
     checkFavorite(file.news_id);
     getUserLike(file.news_id);
     getNumberOfLike(file.news_id);
+    getAllParagraphOfNews(file.news_id);
     // setTimeout(() => {
     //   setLoading(false);
     // }, 1000);
@@ -221,6 +224,15 @@ const SingleNews = ({ route, navigation }) => {
 
         <View style={styles.contentContainer}>
           <Text style={styles.content}>{file.news_content}</Text>
+        </View>
+
+        <View>
+        <FlatList
+            data={paragraph}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            renderItem={({ item }) => <ParagraphList paragraph={item} />}
+          />
         </View>
 
         <View
