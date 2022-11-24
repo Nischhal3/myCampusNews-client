@@ -147,6 +147,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     setValue('op', '');
     setValue('content', '');
     setType('image');
+    setExtraInputs([]);
   };
 
   // Picks image for news data
