@@ -194,7 +194,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
           fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
     
           paragraph.append("paragraphPhoto", {
-            // key: item.key,
             uri: item.image,
             name: filename,
             type: item.imageType + '/' + fileExtension,
@@ -235,24 +234,34 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.topNavContainer}>
-          <TouchableOpacity style={styles.resetContainer} onPress={resetForm}>
-            <Text style={styles.reset}>Reset</Text>
-            {/* <McIcons name="autorenew" size={32} color={colors.negative} /> */}
+          <TouchableOpacity style={styles.topButtonContainer} onPress={resetForm}>
+            <View style={[styles.buttonTextContainer, {backgroundColor: colors.negative}]}>
+              <Text style={styles.reset}>Reset</Text>
+            </View>
+            <View style={styles.buttonIconBackground} />
+            <View style={styles.buttonIconContainer}>
+              <McIcons name="autorenew" size={24} color={colors.negative} />
+            </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.previewContainer}
-            onPress={handleSubmit(preview)}
-          >
-            <Text style={styles.preview}>Preview</Text>
+          <TouchableOpacity style={styles.topButtonContainer} onPress={handleSubmit(preview)}>
+            <View style={[styles.buttonTextContainer, {backgroundColor: colors.primary}]}>
+              <Text style={styles.preview}>Preview</Text>
+            </View>
+            <View style={styles.buttonIconBackground} />
+            <View style={styles.buttonIconContainer}>
+              <McIcons name="card-search-outline" size={24} color={colors.primary} />
+            </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.publishContainer}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <Text style={styles.publish}>Publish</Text>
-            {/* <McIcons name="arrow-right-bold-box-outline" size={32} color={colors.positive} /> */}
+          <TouchableOpacity style={styles.topButtonContainer} onPress={handleSubmit(onSubmit)}>
+            <View style={[styles.buttonTextContainer, {backgroundColor: colors.positive}]}>
+              <Text style={styles.publish}>Publish</Text>
+            </View>
+            <View style={styles.buttonIconBackground} />
+            <View style={styles.buttonIconContainer}>
+              <McIcons name="file-upload-outline" size={24} color={colors.positive} />
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -559,32 +568,65 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 2,
   },
-  resetContainer: {
+  topButtonContainer: {
     flex: 1,
+    // borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 40,
+    borderRadius: 10,
+    margin: 5,
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: colors.light_grey,
+    overflow: 'hidden',
+  },
+  buttonTextContainer: {
+    paddingLeft: "10%",
+    width: "100%",
+    height: "100%",
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: colors.secondary,
+  },
+  buttonIconBackground: {
+    position: 'absolute',
+    right: 0,
+    height: "100%",
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderRightWidth: 22,
+    borderLeftWidth: 22,
+    borderBottomWidth: 50,
+    borderLeftColor: "transparent",
+    borderRightColor: colors.container,
+    borderBottomColor: colors.container,
+  },
+  buttonIconContainer: {
+    position: 'absolute',
+    right: "3%",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   reset: {
+    marginLeft: "8%",
     textAlign: 'center',
     fontFamily: 'IBM',
     fontSize: fontSize.regular,
-    color: colors.negative,
-  },
-  previewContainer: {
-    flex: 1,
+    color: colors.light_background,
   },
   preview: {
     textAlign: 'center',
     fontFamily: 'IBM',
     fontSize: fontSize.regular,
-    color: colors.primary,
-  },
-  publishContainer: {
-    flex: 1,
+    color: colors.light_background,
   },
   publish: {
     textAlign: 'center',
     fontFamily: 'IBM',
     fontSize: fontSize.regular,
-    color: colors.positive,
+    color: colors.light_background,
   },
   container: {
     flex: 1,
