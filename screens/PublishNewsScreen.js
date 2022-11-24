@@ -86,8 +86,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     setExtraInputs(_contentInput);
   }
 
-  // Toggle switch
-  // const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const {
     control,
     handleSubmit,
@@ -466,14 +464,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
 
           <View style={styles.extraInputsSectionContainer}>
             {extraInputs.map( (input, key) => (
-              <View key={(key+1)} style={styles.extraInputsContainer} >
-                  {/* <MultilineInput
-                    name="Image"
-                    textEntry={false}
-                    onChange={(text) => {handleImage(text, key)}}
-                    value={input.image}
-                    textAlign="center"
-                  /> */}
+              <View key={(key+1)} style={styles.extraInputsContainer}>
                   <View style={styles.imageContainer}>
                     <View
                       style={{
@@ -531,26 +522,28 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   onChange={(text) => {handleImageDescription(text, key)}}
                   value={input.imageDescription}
                   textAlign="center"
+                  marginBottom={20}
                 />
                 <MultilineInput
-                  name="Extra content"
+                  name="Extra paragraph... (optional)"
                   textEntry={false}
                   onChange={(text) => {handleContent(text, key)}}
                   value={input.content}
-                  textAlign="center"
+                  textAlign="top"
+                  height={200}
+                  marginBottom={10}
                 />
 
-                <TouchableOpacity
-                  style={styles.removeSectionButton}
-                  onPress={() => {removeSection(key)}}
-                >
-                  <McIcons name="delete-outline" size={24} color={colors.negative} />
+                <TouchableOpacity style={styles.removeSectionButton} onPress={() => {removeSection(key)}}>
+                  <Text style={styles.removeSection}>Remove section</Text>
+                  <McIcons name="selection-remove" size={20} color={colors.negative} />
                 </TouchableOpacity>
               </View>
             ))}
 
             <TouchableOpacity style={styles.addSectionButton} onPress={() => {addExtraSection()}}>
               <Text style={styles.addSection}>Add new section</Text>
+              <McIcons name="selection" size={20} color={colors.secondary} />
             </TouchableOpacity>
 
           </View>
@@ -656,6 +649,9 @@ const styles = StyleSheet.create({
     borderColor: colors.light_grey,
     borderRadius: 5,
     width: '100%',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   notificationContainer: {
     width: '50%',
@@ -681,26 +677,46 @@ const styles = StyleSheet.create({
   //   borderWidth: 1,
   // },
   extraInputsSectionContainer: {
-    marginVertical: 50,
+    marginVertical: 10,
   },
   extraInputsContainer: {
-    // height: 200,
-    justifyContent: 'space-between',
     marginBottom: 50,
   },
-  addSectionButton: {
-    alignSelf: 'center',
+  removeSectionButton: {
+    width: "50%",
     borderWidth: 1,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    borderColor: colors.negative,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  removeSection: {
+    textAlign: 'center',
+    fontFamily: 'IBM',
+    fontSize: fontSize.regular,
+    color: colors.negative,
+    marginRight: 5,
+  },
+  addSectionButton: {
+    width: "50%",
+    borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
     borderColor: colors.secondary,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   addSection: {
     textAlign: 'center',
     fontFamily: 'IBM',
     fontSize: fontSize.regular,
     color: colors.secondary,
+    marginRight: 5,
   },
 });
 

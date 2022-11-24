@@ -27,7 +27,7 @@ const FormInput = (props) => {
   const MultilineInput = (props) => {
     const {leftIcon, textColor, width, height, minHeight, maxHeight, textAlign} = props;
     return (
-        <View style={[styles.multilineInputContainer, {width: width, height: height, minHeight: minHeight, maxHeight: maxHeight}]}>
+        <View style={[styles.multilineInputContainer, {width: width, height: height, minHeight: minHeight, maxHeight: maxHeight, marginBottom: props.marginBottom}]}>
             <McIcons name={leftIcon} size={28} color='#000000' />
             <TextInput
                 placeholder={props.name}
