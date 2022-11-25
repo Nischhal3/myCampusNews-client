@@ -1,6 +1,6 @@
 // npx expo install expo-image-picker
 // npx expo install expo-av
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -14,47 +14,53 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   Switch,
-} from 'react-native';
-import { Controller, useForm } from 'react-hook-form';
-import defaultImage from '../assets/images/blank_image.png';
-import { FormInput, MultilineInput } from '../component/AppInputs';
-import ErrorMessage from '../component/ErrorMessage';
-import * as ImagePicker from 'expo-image-picker';
-import { Video } from 'expo-av';
-import RNPickerSelect from 'react-native-picker-select';
-import { deleteNews, postNews, useNews } from '../services/NewsService';
-import { Context } from '../contexts/Context';
-import { useFocusEffect } from '@react-navigation/native';
-import { useValue } from 'react-native-reanimated';
+} from "react-native";
+import { Controller, useForm } from "react-hook-form";
+import defaultImage from "../assets/images/blank_image.png";
+import { FormInput, MultilineInput } from "../component/AppInputs";
+import ErrorMessage from "../component/ErrorMessage";
+import * as ImagePicker from "expo-image-picker";
+import { Video } from "expo-av";
+import RNPickerSelect from "react-native-picker-select";
+import { deleteNews, postNews, useNews } from "../services/NewsService";
+import { Context } from "../contexts/Context";
+import { useFocusEffect } from "@react-navigation/native";
+import { useValue } from "react-native-reanimated";
 
 // UI Imports
-import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { baseUrl, newsCategory } from '../utils/variables';
+import colors from "../utils/colors";
+import fontSize from "../utils/fontSize";
+import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { baseUrl, newsCategory } from "../utils/variables";
 
 const PublishNewsScreen = ({ navigation, route = {} }) => {
   const { token, newsUpdate, setNewsUpdate } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
-  const [type, setType] = useState('image');
+  const [type, setType] = useState("image");
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const { postParagraphToNews } = useNews();
-  
+
   // Testing multiple inputs
   const [extraInputs, setExtraInputs] = useState([]);
 
   const addExtraSection = () => {
     const _inputs = [...extraInputs];
-    _inputs.push({key: "", image: uploadDefaultUri, imageType: "image", imageDescription: "", content: ""});
+    _inputs.push({
+      key: "",
+      image: uploadDefaultUri,
+      imageType: "image",
+      imageDescription: "",
+      content: "",
+    });
     setExtraInputs(_inputs);
   };
 
   const removeSection = (key) => {
-    const index = extraInputs.findIndex((it) => it.key == key)
-    extraInputs.splice(index, 1)
+    const index = extraInputs.findIndex((it) => it.key == key);
+    extraInputs.splice(index, 1);
     setExtraInputs((input) => input.filter((item) => item.key !== key));
   };
 
@@ -72,19 +78,19 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       _imageInput[key].imageType = result.type;
       setExtraInputs(_imageInput);
     }
-  }
+  };
   const handleImageDescription = (input, key) => {
     const _descInput = [...extraInputs];
     _descInput[key].key = key;
     _descInput[key].imageDescription = input;
     setExtraInputs(_descInput);
-  }
+  };
   const handleContent = (input, key) => {
     const _contentInput = [...extraInputs];
     _contentInput[key].key = key;
     _contentInput[key].content = input;
     setExtraInputs(_contentInput);
-  }
+  };
 
   const {
     control,
@@ -93,41 +99,41 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     setValue,
   } = useForm({
     defaultValues: {
-      title: '',
-      op: '',
-      content: '',
+      title: "",
+      op: "",
+      content: "",
     },
-    mode: 'onBlur',
+    mode: "onBlur",
   });
 
   useEffect(() => {
     if (route.params != undefined) {
-      setValue('title', route.params.news.news_title);
-      setValue('op', route.params.news.news_op);
-      setValue('content', route.params.news.news_content);
+      setValue("title", route.params.news.news_title);
+      setValue("op", route.params.news.news_op);
+      setValue("content", route.params.news.news_content);
     } else {
-      setValue('title', '');
-      setValue('op', '');
-      setValue('content', '');
+      setValue("title", "");
+      setValue("op", "");
+      setValue("content", "");
     }
   }, [route.params]);
 
   // Passing data to preview
   const preview = (data) => {
     const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('op', data.op);
-    formData.append('content', data.content);
-    formData.append('draft', 1);
+    formData.append("title", data.title);
+    formData.append("op", data.op);
+    formData.append("content", data.content);
+    formData.append("draft", 1);
 
-    const filename = image.split('/').pop();
-    let fileExtension = filename.split('.').pop();
-    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+    const filename = image.split("/").pop();
+    let fileExtension = filename.split(".").pop();
+    fileExtension = fileExtension === "jpg" ? "jpeg" : fileExtension;
 
-    formData.append('newsPhoto', {
+    formData.append("newsPhoto", {
       uri: image,
       name: filename,
-      type: type + '/' + fileExtension,
+      type: type + "/" + fileExtension,
     });
 
     const value = {
@@ -137,7 +143,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       image: image,
       draft: 1,
     };
-    navigation.navigate('Preview', { news: value, formData: formData });
+    navigation.navigate("Preview", { news: value, formData: formData });
   };
 
   // Resets form inputs
@@ -164,23 +170,36 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     }
   };
 
+  const pickOnlyImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.5,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      setType(result.type);
+    }
+  };
+
   // Posting news to server
   const onSubmit = async (data) => {
-    let keys = []
+    let keys = [];
     const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('op', data.op);
-    formData.append('content', data.content);
-    formData.append('draft', 0);
+    formData.append("title", data.title);
+    formData.append("op", data.op);
+    formData.append("content", data.content);
+    formData.append("draft", 0);
 
-    const filename = image.split('/').pop();
-    let fileExtension = filename.split('.').pop();
-    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+    const filename = image.split("/").pop();
+    let fileExtension = filename.split(".").pop();
+    fileExtension = fileExtension === "jpg" ? "jpeg" : fileExtension;
 
-    formData.append('newsPhoto', {
+    formData.append("newsPhoto", {
       uri: image,
       name: filename,
-      type: type + '/' + fileExtension,
+      type: type + "/" + fileExtension,
     });
 
     try {
@@ -188,31 +207,34 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       if (response.status == 200) {
         for (let item of extraInputs) {
           const paragraph = new FormData();
-          const filename = item.image.split('/').pop();
-          let fileExtension = filename.split('.').pop();
-          fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-    
-          paragraph.append("paragraphPhoto", {
-            uri: item.image,
-            name: filename,
-            type: item.imageType + '/' + fileExtension,
-          })
+          if (item.image.includes("file")) {
+            const filename = item.image.split("/").pop();
+            let fileExtension = filename.split(".").pop();
+            fileExtension = fileExtension === "jpg" ? "jpeg" : fileExtension;
+
+            paragraph.append("paragraphPhoto", {
+              uri: item.image,
+              name: filename,
+              type: item.imageType + "/" + fileExtension,
+            });
+          }
+          paragraph.append("type", item.imageType);
           paragraph.append("photoDescription", item.imageDescription);
           paragraph.append("content", item.content);
           postParagraphToNews(paragraph, parseInt(response.message));
           keys.push(item.key);
         }
-        
-        Alert.alert('News added');
+
+        Alert.alert("News added");
         setNewsUpdate(newsUpdate + 1);
         resetForm();
-        keys.map((key) =>{
+        keys.map((key) => {
           removeSection(key);
         });
         keys = [];
       }
     } catch (error) {
-      console.log('Post news', error.message);
+      console.log("Post news", error.message);
     }
   };
 
@@ -226,7 +248,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.light_background }}
-      behavior={Platform.OS === 'ios' ? 'padding' : ''}
+      behavior={Platform.OS === "ios" ? "padding" : ""}
     >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
@@ -272,7 +294,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 borderLeftWidth: 1,
                 width: 20,
                 height: 20,
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
               }}
@@ -283,7 +305,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 borderRightWidth: 1,
                 width: 20,
                 height: 20,
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 right: 0,
               }}
@@ -294,7 +316,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 borderLeftWidth: 1,
                 width: 20,
                 height: 20,
-                position: 'absolute',
+                position: "absolute",
                 bottom: 0,
                 left: 0,
               }}
@@ -305,15 +327,15 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 borderRightWidth: 1,
                 width: 20,
                 height: 20,
-                position: 'absolute',
+                position: "absolute",
                 bottom: 0,
                 right: 0,
               }}
             ></View>
-            {type === 'image' ? (
+            {type === "image" ? (
               <>
                 <View style={styles.imageWrap}>
-                  <TouchableOpacity onPress={pickImage}>
+                  <TouchableOpacity onPress={pickOnlyImage}>
                     {/*  {isDraft == true ? (
                       <Image
                         source={{
@@ -335,7 +357,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 useNativeControls={true}
                 resizeMode="cover"
                 onError={(err) => {
-                  console.error('video', err);
+                  console.error("video", err);
                 }}
               />
             )}
@@ -345,7 +367,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
             <View style={styles.categoryContainer}>
               <RNPickerSelect
                 onValueChange={(value) => console.log(value)}
-                placeholder={{ label: 'News category', value: 'null' }}
+                placeholder={{ label: "News category", value: "null" }}
                 items={newsCategory}
               />
             </View>
@@ -367,15 +389,15 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               rules={{
                 required: {
                   value: true,
-                  message: 'This field is required',
+                  message: "This field is required",
                 },
                 minLength: {
                   value: 3,
-                  message: 'Title should have at least 3 characters.',
+                  message: "Title should have at least 3 characters.",
                 },
                 maxLength: {
                   value: 150,
-                  message: 'Title cannot exceed 150 characters.',
+                  message: "Title cannot exceed 150 characters.",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -404,11 +426,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               rules={{
                 required: {
                   value: true,
-                  message: 'Please have an opening paragraph',
+                  message: "Please have an opening paragraph",
                 },
                 minLength: {
                   value: 3,
-                  message: 'Lead paragraph should have at least 3 characters.',
+                  message: "Lead paragraph should have at least 3 characters.",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -435,11 +457,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               rules={{
                 required: {
                   value: true,
-                  message: 'News content is required',
+                  message: "News content is required",
                 },
                 minLength: {
                   value: 3,
-                  message: 'Content should have at least 3 characters.',
+                  message: "Content should have at least 3 characters.",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -511,16 +533,18 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                         right: 0,
                       }}
                     ></View>
-                        <View style={styles.imageWrap}>
-                          <TouchableOpacity onPress={() => handleImage(key)}>
-                            <Image source={{ uri: input.image }} style={styles.image} />
-                          </TouchableOpacity>
-                        </View>
+                      <View style={styles.imageWrap}>
+                        <TouchableOpacity onPress={() => handleImage(key)}>
+                          <Image source={{ uri: input.image }} style={styles.image} />
+                        </TouchableOpacity>
+                      </View>
                   </View>
                 <MultilineInput
                   name="Image description"
                   textEntry={false}
-                  onChange={(text) => {handleImageDescription(text, key)}}
+                  onChange={(text) => {
+                    handleImageDescription(text, key);
+                  }}
                   value={input.imageDescription}
                   textAlign="center"
                   marginBottom={20}
@@ -528,7 +552,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 <MultilineInput
                   name="Extra paragraph... (optional)"
                   textEntry={false}
-                  onChange={(text) => {handleContent(text, key)}}
+                  onChange={(text) => {
+                    handleContent(text, key);
+                  }}
                   value={input.content}
                   textAlign="top"
                   height={200}
@@ -542,13 +568,16 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               </View>
             ))}
 
-            <TouchableOpacity style={styles.addSectionButton} onPress={() => {addExtraSection()}}>
+            <TouchableOpacity
+              style={styles.addSectionButton}
+              onPress={() => {
+                addExtraSection();
+              }}
+            >
               <Text style={styles.addSection}>Add new section</Text>
               <McIcons name="selection" size={20} color={colors.secondary} />
             </TouchableOpacity>
-
           </View>
-
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -557,9 +586,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
 
 const styles = StyleSheet.create({
   topNavContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     padding: 2,
   },
   topButtonContainer: {
@@ -611,23 +640,23 @@ const styles = StyleSheet.create({
     color: colors.light_background,
   },
   preview: {
-    textAlign: 'center',
-    fontFamily: 'IBM',
+    textAlign: "center",
+    fontFamily: "IBM",
     fontSize: fontSize.regular,
     color: colors.light_background,
   },
   publish: {
-    textAlign: 'center',
-    fontFamily: 'IBM',
+    textAlign: "center",
+    fontFamily: "IBM",
     fontSize: fontSize.regular,
     color: colors.light_background,
   },
   container: {
     flex: 1,
-    paddingHorizontal: '5%',
+    paddingHorizontal: "5%",
   },
   imageContainer: {
-    width: '100%',
+    width: "100%",
     marginVertical: 15,
     padding: 1,
   },
@@ -637,12 +666,12 @@ const styles = StyleSheet.create({
   },
   image: {
     // zIndex: 2,
-    width: '100%',
+    width: "100%",
     height: undefined,
     aspectRatio: 1.5,
   },
   newsOptionsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
   },
   categoryContainer: {
@@ -655,16 +684,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   notificationContainer: {
-    width: '50%',
-    flexDirection: 'row',
+    width: "50%",
+    flexDirection: "row",
     paddingLeft: 10,
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    alignItems: "center",
+    justifyContent: "space-around",
     // borderWidth: 1,
   },
   notification: {
-    textAlign: 'center',
-    fontFamily: 'IBM',
+    textAlign: "center",
+    fontFamily: "IBM",
     fontSize: fontSize.regular,
     color: colors.dark_text,
   },
@@ -713,8 +742,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addSection: {
-    textAlign: 'center',
-    fontFamily: 'IBM',
+    textAlign: "center",
+    fontFamily: "IBM",
     fontSize: fontSize.regular,
     color: colors.secondary,
     marginRight: 5,
