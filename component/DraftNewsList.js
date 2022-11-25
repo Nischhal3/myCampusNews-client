@@ -11,7 +11,7 @@ import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { deleteNews } from '../services/NewsService';
 
 const DraftNewsList = ({ navigation, news }) => {
-  const { setDrawerFocus, token } = useContext(Context);
+  const { setDrawerFocus, token, draft, setDraft } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   let url = '';
 
@@ -23,6 +23,7 @@ const DraftNewsList = ({ navigation, news }) => {
   }
 
   const navigatioToPubishNews = () => {
+    setDraft(draft + 1);
     navigation.navigate('Publish', { news: news }), setDrawerFocus('Publish');
   };
 

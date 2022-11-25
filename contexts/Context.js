@@ -12,12 +12,12 @@ const MainProvider = ({ children }) => {
   const [newsUpdate, setNewsUpdate] = useState(0);
   const [updateComment, setUpdateComment] = useState(0);
   const [dialogInputVisible, setDialogInputVisible] = useState(false);
-  const [editCommentInput, setEditCommentInput] = useState("");
+  const [editCommentInput, setEditCommentInput] = useState('');
   const [updateLike, setUpdateLike] = useState(0);
   const [updateFavorite, setUpdateFavorite] = useState(0);
   const [loading, setLoading] = useState(false);
   const [updateCommentId, setUpdateCommentId] = useState(0);
-
+  const [draft, setDraft] = useState(0);
   return (
     <Context.Provider
       value={{
@@ -46,7 +46,9 @@ const MainProvider = ({ children }) => {
         loading,
         setLoading,
         updateCommentId,
-        setUpdateCommentId
+        setUpdateCommentId,
+        draft,
+        setDraft,
       }}
     >
       {children}
