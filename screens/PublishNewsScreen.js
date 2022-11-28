@@ -42,6 +42,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const { postParagraphToNews } = useNews();
+  const [category, setCategory] = useState('');
 
   // Testing multiple inputs
   const [extraInputs, setExtraInputs] = useState([]);
@@ -191,6 +192,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     formData.append('op', data.op);
     formData.append('content', data.content);
     formData.append('draft', 0);
+    formData.append('category', category);
 
     const filename = image.split('/').pop();
     let fileExtension = filename.split('.').pop();
@@ -398,7 +400,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
           <View style={styles.newsOptionsContainer}>
             <View style={styles.categoryContainer}>
               <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
+                onValueChange={(value) => setCategory(value)}
                 placeholder={{ label: 'News category', value: 'null' }}
                 items={newsCategory}
               />

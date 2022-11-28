@@ -18,6 +18,10 @@ const MainProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [updateCommentId, setUpdateCommentId] = useState(0);
   const [draft, setDraft] = useState(0);
+  const [searchByCategory, setSearchByCategory] = useState(false);
+  const [searchUpdate, setSearchUpdate] = useState(0);
+  const [searchOptions, setSearchOptions] = useState('');
+  const [newsByCategory, setNewsByCategory] = useState([]);
   return (
     <Context.Provider
       value={{
@@ -49,6 +53,14 @@ const MainProvider = ({ children }) => {
         setUpdateCommentId,
         draft,
         setDraft,
+        searchByCategory,
+        setSearchByCategory,
+        searchUpdate,
+        setSearchUpdate,
+        searchOptions,
+        setSearchOptions,
+        newsByCategory,
+        setNewsByCategory
       }}
     >
       {children}
