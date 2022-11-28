@@ -35,6 +35,7 @@ import { Context } from '../contexts/Context';
 import CommentList from '../component/CommentList';
 import { baseUrl } from '../utils/variables';
 import DialogInput from 'react-native-dialog-input';
+import ParagraphList from "../component/ParagraphList";
 
 // utils Imports
 import { formatToDate, formatToDistance } from '../utils/timestamp';
@@ -52,7 +53,7 @@ const PreviewScreen = ({ route, navigation }) => {
     setEditCommentInput,
   } = useContext(Context);
   const { token } = useContext(Context);
-  const { news } = route.params;
+  const { news, paragraph } = route.params;
   const scrollViewRef = useRef();
 
   const saveAsDraft = async () => {
@@ -81,7 +82,6 @@ const PreviewScreen = ({ route, navigation }) => {
           textInputProps={{ autoCorrect: false, autoCapitalize: false }}
           submitInput={(inputText) => {
             setEditCommentInput(inputText), setDialogInputVisible(false);
-            // backend put comment
           }}
           closeDialog={() => setDialogInputVisible(false)}
         ></DialogInput>
@@ -136,6 +136,15 @@ const PreviewScreen = ({ route, navigation }) => {
 
         <View style={styles.contentContainer}>
           <Text style={styles.content}>{news.content}</Text>
+        </View>
+
+        <View>
+          <FlatList
+              data={paragraph}
+              showsVerticalScrollIndicator={false}
+              nestedScrollEnabled={true}
+              renderItem={({ item }) => <ParagraphList paragraph={item} preview={true} />}
+            />
         </View>
 
         <View
@@ -250,13 +259,13 @@ const styles = StyleSheet.create({
     color: colors.dark_text,
   },
   bottomButtonContainer: {
-    marginVertical: 20,
+    marginVertical: 30,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
   exitButtonContainer: {
-    width: '30%',
-    height: 30,
+    width: '42%',
+    padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
@@ -264,12 +273,12 @@ const styles = StyleSheet.create({
   },
   exit: {
     fontFamily: 'IBM',
-    fontSize: fontSize.small,
+    fontSize: fontSize.medium,
     color: colors.light_text,
   },
   draftButtonContainer: {
-    width: '30%',
-    height: 30,
+    width: "42%",
+    padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
@@ -277,7 +286,7 @@ const styles = StyleSheet.create({
   },
   draft: {
     fontFamily: 'IBM',
-    fontSize: fontSize.small,
+    fontSize: fontSize.medium,
     color: colors.light_text,
   },
 });

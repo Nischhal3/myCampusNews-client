@@ -136,6 +136,34 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       type: type + '/' + fileExtension,
     });
 
+    const paragraphList = []
+
+    for (let item of extraInputs) {
+      const paragraph = new FormData();
+      if (item.image.includes('file')) {
+        const filename = item.image.split('/').pop();
+        let fileExtension = filename.split('.').pop();
+        fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+
+        paragraph.append('paragraphPhoto', {
+          uri: item.image,
+          name: filename,
+          type: item.imageType + '/' + fileExtension,
+        });
+      }
+      paragraph.append('type', item.imageType);
+      paragraph.append('photoDescription', item.imageDescription);
+      paragraph.append('content', item.content);
+      // keys.push(item.key);
+
+      const paragraphValue = {
+        p_photo_name: item.image,
+        p_photo_description: item.imageDescription,
+        p_content: item.content,
+      }
+      paragraphList.push(paragraphValue);
+    }
+
     const value = {
       title: data.title,
       op: data.op,
@@ -143,7 +171,8 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       image: image,
       draft: 1,
     };
-    navigation.navigate('Preview', { news: value, formData: formData });
+
+    navigation.navigate('Preview', { news: value, paragraph: paragraphList, formData: formData });
   };
 
   // Resets form inputs

@@ -10,7 +10,7 @@ import colors from "../utils/colors";
 import fontSize from "../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-const ParagraphList = ({ paragraph }) => {
+const ParagraphList = ({ paragraph, preview }) => {
   const videoRef = useRef(null);
   return (
     <View style={styles.container}>
@@ -32,9 +32,10 @@ const ParagraphList = ({ paragraph }) => {
         ) : (
           <Image
             style={styles.image}
-            source={{ uri: `${baseUrl}/${paragraph.p_photo_name}` }}
+            source={preview? {uri: paragraph.p_photo_name } : { uri: `${baseUrl}/${paragraph.p_photo_name}`}}
           />
         )}
+        <Text style={styles.imageDescription}>{paragraph.p_photo_description}</Text>
       </View>
       <View style={styles.paragraphContainer}>
         <Text style={styles.paragraph}>{paragraph.p_content}</Text>
