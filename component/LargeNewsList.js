@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.light_text,
+    textTransform: 'capitalize',
   },
   dateContainer: {
     flexDirection: 'row',

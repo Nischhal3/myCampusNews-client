@@ -41,20 +41,36 @@ const SearchBar = ({
         style={
           searching
             ? styles.isSearchingInputContainer
-            : styles.notSearchingInputContainer
+            : searchOption == 1? styles.notSearchingInputContainer : [styles.notSearchingInputContainer, {paddingVertical: 0}]
         }
       >
         <Menu
           visible={visible}
           anchor={
+            visible ?
             <McIcons
-              name="magnify"
+              name="filter-variant-remove"
               size={24}
               color={colors.dark_text}
               onPress={showMenu}
-            />
+            /> 
+            : 
+            searchOption === 1 ?
+              <McIcons
+                  name="magnify"
+                  size={24}
+                  color={colors.dark_text}
+                  onPress={showMenu}
+                />
+              : <McIcons
+                name="filter-variant"
+                size={24}
+                color={colors.dark_text}
+                onPress={showMenu}
+              />
           }
           onRequestClose={hideMenu}
+          style={{top: 110}}
         >
           <MenuItem
             onPress={() => {
@@ -63,17 +79,20 @@ const SearchBar = ({
               setSearchByCategory(false);
               setNewsByCategory([]);
             }}
+            textStyle={styles.menuItemText}
           >
-            Title
+            By title
           </MenuItem>
           <MenuItem
             onPress={() => {
               hideMenu();
               setSearchOption(2);
               setSearchByCategory(true);
+              setSearching(false);
             }}
+            textStyle={styles.menuItemText}
           >
-            Category
+            By category
           </MenuItem>
         </Menu>
         {searchOption === 1 ? (
@@ -92,6 +111,14 @@ const SearchBar = ({
             onSelect={()=>{setSearchUpdate(searchUpdate + 1),setSearchOptions(selected)}}
             data={newsCategory}
             defaultOption={{ label: 'General News', value: 'general' }}
+            fontFamily="IBM"
+            placeholder="Select a category"
+            searchPlaceholder="Search"
+            // search={false}
+            inputStyles={{textTransform: "capitalize"}}
+            boxStyles={{left: 10, width: 250, borderWidth: 0, textTransform: "capitalize"}}
+            dropdownStyles={{left: 10, width: "100%", borderWidth: 0}}
+            dropdownTextStyles={{textTransform: "capitalize"}}
           />
         )}
 
@@ -129,7 +156,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    paddingBottom: 10,
+    // height: 50,
+    marginBottom: 15,
+    // overflow: "hidden",
     // borderWidth: 1,
   },
   notSearchingInputContainer: {
@@ -164,6 +193,11 @@ const styles = StyleSheet.create({
     fontFamily: "IBM",
     fontSize: fontSize.medium,
     color: colors.secondary,
+  },
+  menuItemText: {
+    fontFamily: "IBM",
+    fontSize: fontSize.medium,
+    color: colors.dark_text,
   },
 });
 
