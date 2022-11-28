@@ -70,7 +70,7 @@ const Home = ({ navigation }) => {
   }, [newsUpdate]);
 
   useEffect(() => {
-    getAlllNewsByCategory(searchOptions);
+    searchByCategory && getAlllNewsByCategory(searchOptions);
   }, [searchUpdate]);
 
   useEffect(() => {
