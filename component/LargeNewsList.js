@@ -76,7 +76,7 @@ const LargeNewsList = ({ navigation, news }) => {
 
         <View style={styles.sideContainer}>
           <View style={styles.categoryContainer}>
-            <Text style={styles.category}>Category</Text>
+            <Text style={styles.category}>{news.category}</Text>
           </View>
           <View style={styles.dateContainer}>
             <McIcons

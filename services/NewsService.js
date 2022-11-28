@@ -18,7 +18,7 @@ const useNews = () => {
   const [news, setNews] = useState([]);
   const [paragraph, setParagraph] = useState([]);
   const [newsInterval, setNewsInterval] = useState([]);
-  const { token } = useContext(Context);
+  const { token,newsByCategory, setNewsByCategory } = useContext(Context);
 
   const getAlllNews = async (draft) => {
     try {
@@ -34,6 +34,26 @@ const useNews = () => {
         options
       );
       response && setNews(response.reverse());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAlllNewsByCategory = async (category) => {
+    try {
+      const options = {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      };
+
+      const response = await fetchData(
+        `${baseUrl}news/search/category/${category}`,
+        options
+      );
+      response && setNewsByCategory(response);
+      return response
     } catch (error) {
       console.error(error);
     }
@@ -95,9 +115,12 @@ const useNews = () => {
 
   return {
     getAlllNews,
+    getAlllNewsByCategory,
     getAlllNewsIninterval,
     postParagraphToNews,
     getAllParagraphOfNews,
+    setNewsByCategory,
+    newsByCategory,
     newsInterval,
     news,
     paragraph
