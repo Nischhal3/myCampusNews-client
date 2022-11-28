@@ -227,12 +227,12 @@ const SingleNews = ({ route, navigation }) => {
         </View>
 
         <View>
-          <FlatList
-              data={paragraph}
-              showsVerticalScrollIndicator={false}
-              nestedScrollEnabled={true}
-              renderItem={({ item }) => <ParagraphList paragraph={item} />}
-            />
+        <FlatList
+            data={paragraph}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            renderItem={({ item }) => <ParagraphList paragraph={item} />}
+          />
         </View>
 
         <View
