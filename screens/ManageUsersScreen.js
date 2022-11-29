@@ -1,16 +1,42 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from "react";
+import { Text, View, StyleSheet, FlatList, Button } from "react-native";
+import colors from "../utils/colors";
+import { StatusBar } from "expo-status-bar";
+import { useUser } from "../services/UserService";
+import { Context } from "../contexts/Context";
+import UserList from "../component/UserList";
 
-const ManageUsersScreen = () => {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center"
-        }}>
-        <Text>Manage users screen for admin</Text>
+const ManageUsersScreen = ({ navigation }) => {
+  const { getAllUsers, userList } = useUser();
+  const { updateUserList } = useContext(Context);
+
+  useEffect(() => {
+    getAllUsers();
+  }, [updateUserList]);
+  return (
+    <View style={styles.container}>
+      <View style={styles.usersContainer}>
+        <FlatList
+          data={userList}
+          renderItem={({ item }) => (
+            <UserList navigation={navigation} user={item} />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
-    )
-  }
-  export default ManageUsersScreen;
+      <StatusBar style="auto" />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.light_background,
+    padding: "5%",
+  },
+  usersContainer: {
+    marginTop: 50,
+  },
+});
+export default ManageUsersScreen;

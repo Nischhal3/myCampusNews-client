@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { baseUrl } from '../utils/variables';
 import { fetchData } from './ApiService';
+import { Context } from '../contexts/Context';
+import { useContext, useEffect, useState } from 'react';
 
 const getAllUsers = async (setUser) => {
   try {
@@ -11,6 +13,80 @@ const getAllUsers = async (setUser) => {
     console.log(error);
   }
 };
+
+const useUser = () => {
+  const {token,setUpdateUserList,updateUserList} = useContext(Context);
+  const [userList, setUserList] = useState([]);
+  const [userrole, setUserRole] = useState([]);
+  const getAllUsers = async () => { 
+    try {
+      const options = {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      };
+      const response = await fetchData(
+        `${baseUrl}user`,
+        options
+      );
+      response && setUserList(response.reverse());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateUserRole = async (role, userId) => {
+    try {
+      const userRole = {
+        role: role,
+      };
+      const options = {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userRole),
+      };
+      const response = await fetchData(
+        `${baseUrl}user/update/role/${userId}`,
+        options
+      );
+      response && setUpdateUserList(updateUserList + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteUser = async (userId) => {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      };
+      const response = await fetchData(
+        `${baseUrl}user/userid/${userId}`,
+        options
+      );
+      response && setUpdateUserList(updateUserList + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return {
+    getAllUsers,
+    updateUserRole,
+    deleteUser,
+    userList
+  };
+
+};
+
+
 
 // Function for user registration
 const register = async (data) => {
@@ -97,4 +173,5 @@ export {
   putUser,
   getUserById,
   putUserPassword,
+  useUser
 };

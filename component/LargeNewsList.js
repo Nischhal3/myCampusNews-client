@@ -6,6 +6,7 @@ import {
   postNewsViews,
   useLike,
   userFavorite,
+  useNews,
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { baseUrl } from '../utils/variables';
@@ -31,6 +32,7 @@ const LargeNewsList = ({ navigation, news }) => {
   } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite, getFavoriteList } =
     userFavorite();
+  const { deleteNews } = useNews();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = '';
@@ -44,13 +46,13 @@ const LargeNewsList = ({ navigation, news }) => {
     // url = uploadDefaultUri;
   }
 
-  const deleteNews = () => {
+  const newsDelete = () => {
     Alert.alert(
-      'Delete news?',
+      `Delete news ${news.news_content}?`,
       'This action cannot be undo.',
       [
         {text: 'Cancel', onPress: () => console.log('Cancel button clicked'), style: 'cancel'},
-        {text: 'Delete', onPress: () => console.log('Delete news'), style: 'destructive'},
+        {text: 'Delete', onPress: () => deleteNews(news.news_id), style: 'destructive'},
       ],
       { 
         cancelable: true 
@@ -152,7 +154,7 @@ const LargeNewsList = ({ navigation, news }) => {
           </View>
 
           { user.role == 0? (
-            <TouchableOpacity style={styles.deleteNewsButton} onPress={() => deleteNews()}>
+            <TouchableOpacity style={styles.deleteNewsButton} onPress={() => newsDelete()}>
               <McIcons name="delete" size={18} color={colors.negative} />
               <Text style={styles.deleteNews}>Delete news</Text>
             </TouchableOpacity>
