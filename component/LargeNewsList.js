@@ -1,5 +1,5 @@
 import React, { createRef, useContext, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import defaultImage from '../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
@@ -19,6 +19,7 @@ import {
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import {de} from 'date-fns/locale';
 
 const LargeNewsList = ({ navigation, news }) => {
   const {
@@ -41,6 +42,20 @@ const LargeNewsList = ({ navigation, news }) => {
   } else {
     url = `${baseUrl}/${news.photoName}`;
     // url = uploadDefaultUri;
+  }
+
+  const deleteNews = () => {
+    Alert.alert(
+      'Delete news?',
+      'This action cannot be undo.',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel button clicked'), style: 'cancel'},
+        {text: 'Delete', onPress: () => console.log('Delete news'), style: 'destructive'},
+      ],
+      { 
+        cancelable: true 
+      }
+    );
   }
 
   useEffect(() => {
@@ -135,6 +150,17 @@ const LargeNewsList = ({ navigation, news }) => {
               )}
             </View>
           </View>
+
+          { user.role == 0? (
+            <TouchableOpacity style={styles.deleteNewsButton} onPress={() => deleteNews()}>
+              <McIcons name="delete" size={18} color={colors.negative} />
+              <Text style={styles.deleteNews}>Delete news</Text>
+            </TouchableOpacity>
+            ) : (
+              <>
+              </>
+            )
+          }
         </View>
       </View>
 
@@ -215,6 +241,21 @@ const styles = StyleSheet.create({
   },
   bottomRight: {
     marginTop: "2%",
+  },
+  deleteNewsButton: {
+    padding: 2,
+    marginVertical: "8%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.negative,
+    borderRadius: 3,
+  },
+  deleteNews: {
+    marginLeft: 2,
+    fontFamily: 'IBM',
+    fontSize: fontSize.small,
+    color: colors.negative,
   },
   contentConatiner: {
     marginTop: 5,
