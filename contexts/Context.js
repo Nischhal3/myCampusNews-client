@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getToken } from '../services/UserService';
 
 const Context = React.createContext({});
 
@@ -22,6 +21,8 @@ const MainProvider = ({ children }) => {
   const [searchUpdate, setSearchUpdate] = useState(0);
   const [searchOptions, setSearchOptions] = useState('');
   const [newsByCategory, setNewsByCategory] = useState([]);
+  // const [userList, setUserList] = useState([]);
+  const [updateUserList, setUpdateUserList] = useState(0);
   return (
     <Context.Provider
       value={{
@@ -60,7 +61,11 @@ const MainProvider = ({ children }) => {
         searchOptions,
         setSearchOptions,
         newsByCategory,
-        setNewsByCategory
+        setNewsByCategory,
+        // userList,
+        // setUserList,
+        updateUserList,
+        setUpdateUserList
       }}
     >
       {children}
