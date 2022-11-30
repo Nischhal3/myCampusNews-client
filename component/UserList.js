@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 4,
     flexDirection: "row",
+    padding: 2,
   },
   imageContainer: {
     // borderWidth: 1,

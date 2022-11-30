@@ -149,6 +149,35 @@ const SearchBar = ({
   );
 };
 
+const SimpleSearchBar = ({searching, setSearching, searchPhrase, setSearchPhrase}) => {
+  return (
+    <View style={styles.container}>
+      <View style={searching ? styles.isSearchingInputContainer : styles.notSearchingInputContainer}>
+        <McIcons name="magnify" size={24} color={colors.dark_text}/>
+        <TextInput
+          style={styles.input}
+          placeholder="Search"
+          value={searchPhrase}
+          onChangeText={setSearchPhrase}
+          onFocus={() => {
+            setSearching(true);
+          }}
+        />
+        {searching && (
+            <TouchableOpacity style={styles.clearButton} onPress={() => setSearchPhrase("")}>
+                <McIcons name="backspace-outline" size={20} color={colors.negative}/>
+            </TouchableOpacity>
+        )}
+      </View>
+      {searching && (
+        <TouchableOpacity style={styles.cancelButton} onPress={() => {Keyboard.dismiss(), setSearching(false)}}>
+          <Text style={styles.cancel}>Cancel</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     // margin: 15,
@@ -201,4 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchBar;
+export {SearchBar, SimpleSearchBar};

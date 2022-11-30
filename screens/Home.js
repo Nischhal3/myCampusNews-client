@@ -6,12 +6,12 @@ import { Context } from "../contexts/Context";
 import NewsList from "../component/NewsList";
 import LargeNewsList from "../component/LargeNewsList";
 import { useNews } from "../services/NewsService";
+import { SearchBar } from "../component/SearchBar";
 
 // UI Imports
 import colors from "../utils/colors";
 import fontSize from "../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import SearchBar from "../component/SearchBar";
 
 import {
   ALERT_TYPE,
