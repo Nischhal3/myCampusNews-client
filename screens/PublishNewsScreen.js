@@ -410,7 +410,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
           <View style={styles.newsOptionsContainer}>
             <View style={styles.categoryContainer}>
               <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
+                onValueChange={(value) => setCategory(value)}
                 placeholder={{ label: 'News category', value: 'null' }}
                 items={newsCategory}
               />
