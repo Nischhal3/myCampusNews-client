@@ -10,37 +10,47 @@ import colors from "../utils/colors";
 import fontSize from "../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-const UserList = ({ navigation, user }) => {
+const UserList = ({ navigation, otherUser }) => {
+  const { user } = useContext(Context);
   const { updateUserRole } = useUser();
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = "";
 
-  if (user.avatar_name == "unavailable") {
+  if (otherUser.avatar_name == "unavailable") {
     url = uploadDefaultUri;
   } else {
-    url = `${baseUrl}avatar/${user.avatar_name}`;
+    url = `${baseUrl}avatar/${otherUser.avatar_name}`;
   }
 
   const changeUserRole = () => {
-    user.role == 0 ? updateUserRole(1,user.user_id) : updateUserRole(0,user.user_id)
+    otherUser.role == 0
+      ? updateUserRole(1, otherUser.user_id)
+      : updateUserRole(0, otherUser.user_id);
   };
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        navigation.navigate("Profile", { user: user });
+        navigation.navigate("Profile", { user: otherUser });
       }}
     >
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: url }} />
       </View>
-      <View style={styles.contentContainer}> 
-        <Text style={styles.username}>{user.full_name}</Text>
-        <Text style={styles.email}>{user.email}</Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.username}>{otherUser.full_name}</Text>
+        <Text style={styles.email}>{otherUser.email}</Text>
       </View>
       <View style={styles.roleContainer}>
-        <Text style={[styles.userrole, {color: user.role == 0? colors.nokia_blue : colors.primary}]}>{user.role == 0 ? "Admin" : "User"}</Text>
+        <Text
+          style={[
+            styles.userrole,
+            { color: otherUser.role == 0 ? colors.nokia_blue : colors.primary },
+          ]}
+        >
+          {otherUser.role == 0 ? "Admin" : "User"}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.icon}
@@ -48,11 +58,20 @@ const UserList = ({ navigation, user }) => {
           changeUserRole();
         }}
       >
-        {user.role == 0? (
-          <McIcons name="account-arrow-down-outline" size={24} color={colors.negative} />
+        {user.user_id != otherUser.user_id && (otherUser.role == 0 ? (
+          <McIcons
+            name="account-arrow-down-outline"
+            size={24}
+            color={colors.negative}
+          />
         ) : (
-          <McIcons name="account-arrow-up-outline" size={24} color={colors.positive} />
-        )}
+          <McIcons
+            name="account-arrow-up-outline"
+            size={24}
+            color={colors.positive}
+          />
+        ))}
+        
       </TouchableOpacity>
     </TouchableOpacity>
   );
