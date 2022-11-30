@@ -125,7 +125,7 @@ const useNews = () => {
         `${baseUrl}news/paragraph/${newsId}`,
         options
       );
-      response && setParagraph(response);
+      response && setParagraph(response.reverse());
     } catch (error) {
       console.error(error);
     }
