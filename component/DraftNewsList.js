@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   op: {
     fontFamily: 'IBM',
     fontSize: fontSize.medium,
+    color: colors.dark_grey,
   },
   sideContainer: {
     position: 'absolute',

@@ -31,7 +31,7 @@ const DraftScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>Saved drafts</Text>
+        <Text style={styles.header}>Drafted news ( {news.length} )</Text>
       </View>
       <View style={styles.listContainer}>
         <FlatList
@@ -50,18 +50,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
+    paddingHorizontal: "4%",
   },
   headerContainer: {
-    // borderWidth: 1,
-    marginBottom: 20,
-    marginHorizontal: '2%',
+    marginBottom: "5%",
   },
   header: {
-    fontFamily: 'IBM',
-    fontSize: fontSize.subtitle,
+    fontFamily: "IBM",
+    fontSize: fontSize.large,
+    color: colors.dark_text,
   },
   listContainer: {
-    marginHorizontal: '2%',
   },
 });
 

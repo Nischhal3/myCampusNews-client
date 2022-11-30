@@ -70,14 +70,15 @@ const NewsList = ({ navigation, news }) => {
       </View>
 
       <View style={styles.contentConatiner}>
+        <Text style={styles.timeStamp}>{formatToOnlyDate(news.news_time)}</Text>
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {news.news_title}
         </Text>
-        <Text style={styles.content} numberOfLines={2} ellipsizeMode="tail">
+        <Text style={styles.content} numberOfLines={1} ellipsizeMode="tail">
           {news.news_content}
         </Text>
         {/* <Text>{news.news_id}</Text> */}
-        <Text style={styles.timeStamp}>{formatToOnlyDate(news.news_time)}</Text>
+        {/* <Text style={styles.timeStamp}>{formatToOnlyDate(news.news_time)}</Text> */}
       </View>
 
       <View style={styles.sideContainer}>
@@ -99,12 +100,12 @@ const NewsList = ({ navigation, news }) => {
               postAndRemoveFavorite(news.news_id);
             }}
           >
-            <McIcons name="bookmark" size={24} color={colors.nokia_blue} />
+            <McIcons name="bookmark" size={28} color={colors.nokia_blue} />
           </TouchableOpacity>
         )}
       </View>
 
-      <View style={styles.bottomRight}>
+      {/* <View style={styles.bottomRight}>
         <View style={styles.likeContainer}>
           {liked ? (
             <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
@@ -125,7 +126,7 @@ const NewsList = ({ navigation, news }) => {
             ''
           )}
         </View>
-      </View>
+      </View> */}
     </TouchableOpacity>
   );
 };
@@ -135,13 +136,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     marginBottom: 10,
-    height: 130,
+    height: 100,
     width: '100%',
-    // borderWidth: 1,
   },
   imageContainer: {
     width: '25%',
-    // borderWidth: 1,
   },
   image: {
     width: '100%',
@@ -149,14 +148,15 @@ const styles = StyleSheet.create({
   },
   contentConatiner: {
     marginLeft: '3%',
-    width: '65%',
-    // borderWidth: 1,
+    width: '63%',
+    paddingVertical: 2,
   },
   title: {
     fontFamily: 'IBM',
     fontSize: fontSize.large,
     fontWeight: 'bold',
     color: colors.dark_text,
+    marginVertical: 4,
   },
   content: {
     fontFamily: 'IBM',
@@ -164,43 +164,15 @@ const styles = StyleSheet.create({
     color: colors.dark_grey,
   },
   timeStamp: {
-    position: 'absolute',
-    bottom: 0,
+    // position: 'absolute',
+    // bottom: 0,
     fontFamily: 'IBM',
     fontSize: fontSize.small,
-    color: colors.medium_grey,
+    color: colors.dark_text,
   },
   sideContainer: {
-    // borderWidth: 1,
-    justifyContent: 'space-between',
-  },
-  bottomRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
     position: 'absolute',
-    bottom: 0,
     right: 0,
-  },
-  readContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 10,
-  },
-  readNumber: {
-    fontFamily: 'IBM',
-    fontSize: fontSize.caption,
-    color: colors.medium_grey,
-    marginLeft: 2,
-  },
-  likeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  likeNumber: {
-    fontFamily: 'IBM',
-    fontSize: fontSize.caption,
-    color: colors.medium_grey,
-    marginLeft: 2,
   },
 });
 
