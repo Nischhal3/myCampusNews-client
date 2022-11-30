@@ -32,19 +32,28 @@ const UserList = ({ navigation, user }) => {
         navigation.navigate("Profile", { user: user });
       }}
     >
-      <View style={styles.contentConatiner}>
+      <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: url }} />
-        <Text style={styles.username}>{user.full_name}</Text>
-        <Text style={styles.userrole}>{user.role == 0 ? "Admin" : "User"}</Text>
-        <TouchableOpacity
-          style={styles.icon}
-          onPress={() => {
-            changeUserRole();
-          }}
-        >
-          <McIcons name="account-outline" size={24} color={colors.primary} />
-        </TouchableOpacity>
       </View>
+      <View style={styles.contentContainer}> 
+        <Text style={styles.username}>{user.full_name}</Text>
+        <Text style={styles.email}>{user.email}</Text>
+      </View>
+      <View style={styles.roleContainer}>
+        <Text style={[styles.userrole, {color: user.role == 0? colors.nokia_blue : colors.primary}]}>{user.role == 0 ? "Admin" : "User"}</Text>
+      </View>
+      <TouchableOpacity
+        style={styles.icon}
+        onPress={() => {
+          changeUserRole();
+        }}
+      >
+        {user.role == 0? (
+          <McIcons name="account-arrow-down-outline" size={24} color={colors.negative} />
+        ) : (
+          <McIcons name="account-arrow-up-outline" size={24} color={colors.positive} />
+        )}
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
@@ -52,9 +61,9 @@ const UserList = ({ navigation, user }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 15,
-    borderRadius: 20,
-    backgroundColor: colors.light_grey,
+    marginTop: 10,
+    // borderRadius: 20,
+    backgroundColor: colors.light_background,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -63,29 +72,42 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3,
     elevation: 4,
+    flexDirection: "row",
+  },
+  imageContainer: {
+    // borderWidth: 1,
   },
   image: {
     width: 50,
     height: 50,
     borderRadius: 200,
   },
-  contentConatiner: {
-    flexDirection: "row",
-    marginLeft: 5,
-    marginVertical: 5,
-    width: "70%",
-    alignItems: "center",
+  contentContainer: {
+    marginLeft: "4%",
+    paddingVertical: 2,
+    // borderWidth: 1,
   },
   username: {
-    marginLeft: 10,
     fontFamily: "IBM",
     fontSize: fontSize.medium,
     fontWeight: "bold",
     color: colors.dark_text,
+    marginBottom: 2,
+  },
+  email: {
+    fontFamily: "IBM",
+    fontSize: fontSize.small,
+    fontWeight: "bold",
+    color: colors.dark_grey,
+  },
+  roleContainer: {
+    position: "absolute",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    right: "15%",
   },
   userrole: {
-    position: "absolute",
-    marginHorizontal: 250,
     fontFamily: "IBM",
     fontSize: fontSize.medium,
     fontWeight: "bold",
@@ -93,7 +115,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    marginHorizontal: 320,
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    right: "2%",
   },
 });
 
