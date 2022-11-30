@@ -28,6 +28,7 @@ const DraftScreen = ({ route, navigation }) => {
     }, timeInterval);
     return () => clearInterval(interval);
   }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
