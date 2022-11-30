@@ -29,13 +29,14 @@ import {
   postNews,
   useComment,
   useLike,
+  useNews,
   userFavorite,
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import CommentList from '../component/CommentList';
 import { baseUrl } from '../utils/variables';
 import DialogInput from 'react-native-dialog-input';
-import ParagraphList from "../component/ParagraphList";
+import ParagraphList from '../component/ParagraphList';
 
 // utils Imports
 import { formatToDate, formatToDistance } from '../utils/timestamp';
@@ -55,11 +56,32 @@ const PreviewScreen = ({ route, navigation }) => {
   const { token } = useContext(Context);
   const { news, paragraph } = route.params;
   const scrollViewRef = useRef();
+  const { postParagraphToNews } = useNews();
 
   const saveAsDraft = async () => {
     try {
       const response = await postNews(route.params.formData, token);
       if (response.status == 200) {
+        for (let item of route.params.extraInputs) {
+          const paragraph = new FormData();
+          if (item.image.includes('file')) {
+            const filename = item.image.split('/').pop();
+            let fileExtension = filename.split('.').pop();
+            fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+
+            paragraph.append('paragraphPhoto', {
+              uri: item.image,
+              name: filename,
+              type: item.imageType + '/' + fileExtension,
+            });
+          }
+          paragraph.append('type', item.imageType);
+          paragraph.append('photoDescription', item.imageDescription);
+          paragraph.append('content', item.content);
+          console.log(paragraph);
+          postParagraphToNews(paragraph, parseInt(response.message));
+          //keys.push(item.key);
+        }
         Alert.alert('News saved to Draft');
       }
     } catch (error) {
@@ -140,11 +162,13 @@ const PreviewScreen = ({ route, navigation }) => {
 
         <View>
           <FlatList
-              data={paragraph}
-              showsVerticalScrollIndicator={false}
-              nestedScrollEnabled={true}
-              renderItem={({ item }) => <ParagraphList paragraph={item} preview={true} />}
-            />
+            data={paragraph}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            renderItem={({ item }) => (
+              <ParagraphList paragraph={item} preview={true} />
+            )}
+          />
         </View>
 
         <View
@@ -277,7 +301,7 @@ const styles = StyleSheet.create({
     color: colors.light_text,
   },
   draftButtonContainer: {
-    width: "42%",
+    width: '42%',
     padding: 8,
     justifyContent: 'center',
     alignItems: 'center',

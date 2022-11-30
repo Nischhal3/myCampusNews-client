@@ -40,9 +40,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [type, setType] = useState('image');
   const [item, setItem] = useState();
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isDraft, setIsDraft] = useState(false);
   const { postParagraphToNews } = useNews();
-  const [category, setCategory] = useState('');
 
   // Testing multiple inputs
   const [extraInputs, setExtraInputs] = useState([]);
@@ -112,10 +110,19 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);
       setValue('content', route.params.news.news_content);
-    } else {
-      setValue('title', '');
-      setValue('op', '');
-      setValue('content', '');
+      if (route.params.paragraph.length > 0) {
+        const _inputs = [...extraInputs];
+        for (let item of route.params.paragraph) {
+          _inputs.push({
+            key: '',
+            image: uploadDefaultUri,
+            imageType: 'image',
+            imageDescription: item.p_photo_description,
+            content: item.p_content,
+          });
+          setExtraInputs(_inputs);
+        }
+      }
     }
   }, [draft]);
 
@@ -137,34 +144,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       type: type + '/' + fileExtension,
     });
 
-    const paragraphList = []
-
-    for (let item of extraInputs) {
-      const paragraph = new FormData();
-      if (item.image.includes('file')) {
-        const filename = item.image.split('/').pop();
-        let fileExtension = filename.split('.').pop();
-        fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-
-        paragraph.append('paragraphPhoto', {
-          uri: item.image,
-          name: filename,
-          type: item.imageType + '/' + fileExtension,
-        });
-      }
-      paragraph.append('type', item.imageType);
-      paragraph.append('photoDescription', item.imageDescription);
-      paragraph.append('content', item.content);
-      // keys.push(item.key);
-
-      const paragraphValue = {
-        p_photo_name: item.image,
-        p_photo_description: item.imageDescription,
-        p_content: item.content,
-      }
-      paragraphList.push(paragraphValue);
-    }
-
     const value = {
       title: data.title,
       op: data.op,
@@ -172,8 +151,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       image: image,
       draft: 1,
     };
-
-    navigation.navigate('Preview', { news: value, paragraph: paragraphList, formData: formData });
+    navigation.navigate('Preview', {
+      news: value,
+      formData: formData,
+      extraInputs: extraInputs,
+    });
   };
 
   // Resets form inputs
@@ -221,7 +203,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     formData.append('op', data.op);
     formData.append('content', data.content);
     formData.append('draft', 0);
-    formData.append('category', category);
 
     const filename = image.split('/').pop();
     let fileExtension = filename.split('.').pop();

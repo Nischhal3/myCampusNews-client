@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import defaultImage from '../assets/images/blank_image.jpg';
 import { baseUrl } from '../utils/variables';
@@ -8,13 +8,13 @@ import { Context } from '../contexts/Context';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { deleteNews } from '../services/NewsService';
+import { deleteNews, useNews } from '../services/NewsService';
 
 const DraftNewsList = ({ navigation, news }) => {
   const { setDrawerFocus, token, draft, setDraft } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   let url = '';
-
+  const { getAllParagraphOfNews } = useNews();
   if (news.photoName == 'unavailable') {
     url = uploadDefaultUri;
   } else {
@@ -22,9 +22,15 @@ const DraftNewsList = ({ navigation, news }) => {
     // url = uploadDefaultUri;
   }
 
-  const navigatioToPubishNews = () => {
+  const navigatioToPubishNews = async () => {
+    const response = await getAllParagraphOfNews(news.news_id);
+
+    navigation.navigate('Publish', {
+      news: news,
+      paragraph: response,
+    }),
+      setDrawerFocus('Publish');
     setDraft(draft + 1);
-    navigation.navigate('Publish', { news: news }), setDrawerFocus('Publish');
   };
 
   const deleteDraftNews = async () => {
