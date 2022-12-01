@@ -12,19 +12,10 @@ import { deleteNews, useNews } from '../services/NewsService';
 
 const DraftNewsList = ({ navigation, news }) => {
   const { setDrawerFocus, token, draft, setDraft } = useContext(Context);
-  const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  let url = '';
   const { getAllParagraphOfNews } = useNews();
-  if (news.photoName == 'unavailable') {
-    url = uploadDefaultUri;
-  } else {
-    url = `${baseUrl}/${news.photoName}`;
-    // url = uploadDefaultUri;
-  }
 
   const navigatioToPubishNews = async () => {
     const response = await getAllParagraphOfNews(news.news_id);
-
     navigation.navigate('Publish', {
       news: news,
       paragraph: response,
@@ -46,8 +37,10 @@ const DraftNewsList = ({ navigation, news }) => {
     <TouchableOpacity onPress={navigatioToPubishNews}>
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: url }} />
-          {/* <Text>{news.photoName}</Text> */}
+          <Image
+            style={styles.image}
+            source={{ uri: `${baseUrl}/${news.photoName}` }}
+          />
         </View>
         <View style={styles.mainContainer}>
           <View style={styles.titleContainer}>

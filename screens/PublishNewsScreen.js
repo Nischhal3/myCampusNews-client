@@ -118,7 +118,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
         for (let item of route.params.paragraph) {
           _inputs.push({
             key: '',
-            image: `${baseUrl}/${item.p_photo_name}`,
+            image: item.p_photo_name.includes('unavailable')
+              ? uploadDefaultUri
+              : `${baseUrl}/${item.p_photo_name}`,
             imageType: 'image',
             imageDescription: item.p_photo_description,
             content: item.p_content,
@@ -153,7 +155,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     for (let item of extraInputs) {
       const paragraph = new FormData();
       if (item.image.includes('file')) {
-        console.log(item);
         const filename = item.image.split('/').pop();
         let fileExtension = filename.split('.').pop();
         fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
@@ -261,10 +262,12 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
         if (response.status == 200) {
           for (let item of extraInputs) {
             const paragraph = new FormData();
+            // Checking image file if it is from database or phone
             if (
               item.image.includes('file') ||
               (item.image.includes('http') &&
-                !item.image.includes('unavailable'))
+                !item.image.includes('unavailable') &&
+                !item.image.includes('=true&hot=false'))
             ) {
               const filename = item.image.split('/').pop();
               let fileExtension = filename.split('.').pop();

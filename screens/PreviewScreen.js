@@ -64,7 +64,12 @@ const PreviewScreen = ({ route, navigation }) => {
       if (response.status == 200) {
         for (let item of route.params.extraInputs) {
           const paragraph = new FormData();
-          if (item.image.includes('file')) {
+
+          if (
+            item.image.includes('file') ||
+            (item.image.includes('http') &&
+              !item.image.includes('true&hot=false'))
+          ) {
             const filename = item.image.split('/').pop();
             let fileExtension = filename.split('.').pop();
             fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
@@ -78,9 +83,7 @@ const PreviewScreen = ({ route, navigation }) => {
           paragraph.append('type', item.imageType);
           paragraph.append('photoDescription', item.imageDescription);
           paragraph.append('content', item.content);
-          console.log(paragraph);
           postParagraphToNews(paragraph, parseInt(response.message));
-          //keys.push(item.key);
         }
         Alert.alert('News saved to Draft');
       }
