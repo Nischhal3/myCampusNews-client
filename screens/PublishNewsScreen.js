@@ -153,6 +153,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     for (let item of extraInputs) {
       const paragraph = new FormData();
       if (item.image.includes('file')) {
+        console.log(item);
         const filename = item.image.split('/').pop();
         let fileExtension = filename.split('.').pop();
         fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
@@ -183,6 +184,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       image: image,
       draft: 1,
     };
+
     if (!image.includes('=true&hot=false')) {
       navigation.navigate('Preview', {
         news: value,
@@ -259,7 +261,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
         if (response.status == 200) {
           for (let item of extraInputs) {
             const paragraph = new FormData();
-            if (item.image.includes('file')) {
+            if (
+              item.image.includes('file') ||
+              (item.image.includes('http') &&
+                !item.image.includes('unavailable'))
+            ) {
               const filename = item.image.split('/').pop();
               let fileExtension = filename.split('.').pop();
               fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
