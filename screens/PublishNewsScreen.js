@@ -112,10 +112,20 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);
       setValue('content', route.params.news.news_content);
-    } else {
-      setValue('title', '');
-      setValue('op', '');
-      setValue('content', '');
+      setImage(`${baseUrl}/${route.params.news.photoName}`);
+      if (route.params.paragraph.length > 0) {
+        const _inputs = [...extraInputs];
+        for (let item of route.params.paragraph) {
+          _inputs.push({
+            key: '',
+            image: `${baseUrl}/${item.p_photo_name}`,
+            imageType: 'image',
+            imageDescription: item.p_photo_description,
+            content: item.p_content,
+          });
+          setExtraInputs(_inputs);
+        }
+      }
     }
   }, [draft]);
 
@@ -126,6 +136,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     formData.append('op', data.op);
     formData.append('content', data.content);
     formData.append('draft', 1);
+    formData.append('category', category);
 
     const filename = image.split('/').pop();
     let fileExtension = filename.split('.').pop();
@@ -172,12 +183,16 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       image: image,
       draft: 1,
     };
-
-    navigation.navigate('Preview', {
-      news: value,
-      paragraph: paragraphList,
-      formData: formData,
-    });
+    if (!image.includes('=true&hot=false')) {
+      navigation.navigate('Preview', {
+        news: value,
+        paragraph: paragraphList,
+        formData: formData,
+        extraInputs: extraInputs,
+      });
+    } else {
+      Alert.alert('Please select image');
+    }
   };
 
   // Resets form inputs
@@ -227,49 +242,54 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     formData.append('draft', 0);
     formData.append('category', category);
 
-    const filename = image.split('/').pop();
-    let fileExtension = filename.split('.').pop();
-    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+    // Checking if user is using default image
+    if (!image.includes('=true&hot=false')) {
+      const filename = image.split('/').pop();
+      let fileExtension = filename.split('.').pop();
+      fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
 
-    formData.append('newsPhoto', {
-      uri: image,
-      name: filename,
-      type: type + '/' + fileExtension,
-    });
+      formData.append('newsPhoto', {
+        uri: image,
+        name: filename,
+        type: type + '/' + fileExtension,
+      });
 
-    try {
-      const response = await postNews(formData, token);
-      if (response.status == 200) {
-        for (let item of extraInputs) {
-          const paragraph = new FormData();
-          if (item.image.includes('file')) {
-            const filename = item.image.split('/').pop();
-            let fileExtension = filename.split('.').pop();
-            fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+      try {
+        const response = await postNews(formData, token);
+        if (response.status == 200) {
+          for (let item of extraInputs) {
+            const paragraph = new FormData();
+            if (item.image.includes('file')) {
+              const filename = item.image.split('/').pop();
+              let fileExtension = filename.split('.').pop();
+              fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
 
-            paragraph.append('paragraphPhoto', {
-              uri: item.image,
-              name: filename,
-              type: item.imageType + '/' + fileExtension,
-            });
+              paragraph.append('paragraphPhoto', {
+                uri: item.image,
+                name: filename,
+                type: item.imageType + '/' + fileExtension,
+              });
+            }
+            paragraph.append('type', item.imageType);
+            paragraph.append('photoDescription', item.imageDescription);
+            paragraph.append('content', item.content);
+            postParagraphToNews(paragraph, parseInt(response.message));
+            keys.push(item.key);
           }
-          paragraph.append('type', item.imageType);
-          paragraph.append('photoDescription', item.imageDescription);
-          paragraph.append('content', item.content);
-          postParagraphToNews(paragraph, parseInt(response.message));
-          keys.push(item.key);
-        }
 
-        Alert.alert('News added');
-        setNewsUpdate(newsUpdate + 1);
-        resetForm();
-        keys.map((key) => {
-          removeSection(key);
-        });
-        keys = [];
+          Alert.alert('News added');
+          setNewsUpdate(newsUpdate + 1);
+          resetForm();
+          keys.map((key) => {
+            removeSection(key);
+          });
+          keys = [];
+        }
+      } catch (error) {
+        console.log('Post news', error.message);
       }
-    } catch (error) {
-      console.log('Post news', error.message);
+    } else {
+      Alert.alert('Please select image');
     }
   };
 
@@ -278,27 +298,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     useCallback(() => {
       return () => reset();
     }, [])
-
-      useEffect(() => {
-    if (route.params != undefined) {
-      setValue('title', route.params.news.news_title);
-      setValue('op', route.params.news.news_op);
-      setValue('content', route.params.news.news_content);
-      setImage(`${baseUrl}/${route.params.news.photoName}`);
-      if (route.params.paragraph.length > 0) {
-        const _inputs = [...extraInputs];
-        for (let item of route.params.paragraph) {
-          _inputs.push({
-            key: '',
-            image: `${baseUrl}/${route.params.news.photoName}`,
-            imageType: 'image',
-            imageDescription: item.p_photo_description,
-            content: item.p_content,
-          });
-          setExtraInputs(_inputs);
-        }
-      }
-    }
   }, [draft]);
   ); */
 
