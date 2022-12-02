@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
+} from 'react';
 import {
   Text,
   View,
@@ -18,29 +18,34 @@ import {
   Alert,
   ScrollView,
   LogBox,
-} from "react-native";
-import { Controller, useForm } from "react-hook-form";
+} from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
 import FormInput, {
   MultilineInput,
   MultilineInputNoBorder,
-} from "../component/AppInputs";
-import { SubmitButton } from "../component/AppButtons";
-import ErrorMessage from "../component/ErrorMessage";
-import { useComment, useLike, userFavorite, useNews } from "../services/NewsService";
-import { Context } from "../contexts/Context";
-import CommentList from "../component/CommentList";
-import { baseUrl } from "../utils/variables";
-import DialogInput from "react-native-dialog-input";
+} from '../component/AppInputs';
+import { SubmitButton } from '../component/AppButtons';
+import ErrorMessage from '../component/ErrorMessage';
+import {
+  useComment,
+  useLike,
+  userFavorite,
+  useNews,
+} from '../services/NewsService';
+import { Context } from '../contexts/Context';
+import CommentList from '../component/CommentList';
+import { baseUrl } from '../utils/variables';
+import DialogInput from 'react-native-dialog-input';
 import Spinner from 'react-native-loading-spinner-overlay';
-import ParagraphList from "../component/ParagraphList";
+import ParagraphList from '../component/ParagraphList';
 
 // utils Imports
-import { formatToDate, formatToDistance } from "../utils/timestamp";
+import { formatToDate, formatToDistance } from '../utils/timestamp';
 
 // UI Imports
-import colors from "../utils/colors";
-import fontSize from "../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const SingleNews = ({ route, navigation }) => {
   const {
@@ -51,7 +56,7 @@ const SingleNews = ({ route, navigation }) => {
     setEditCommentInput,
     updateLike,
     updateFavorite,
-    updateCommentId
+    updateCommentId,
   } = useContext(Context);
   const { file } = route.params;
   const scrollViewRef = useRef();
@@ -63,7 +68,13 @@ const SingleNews = ({ route, navigation }) => {
     likedNumber,
   } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite } = userFavorite();
-  const { getAllCommentOfNews, postComment, deleteComment, comments, putComment } = useComment();
+  const {
+    getAllCommentOfNews,
+    postComment,
+    deleteComment,
+    comments,
+    putComment,
+  } = useComment();
   const { getAllParagraphOfNews, paragraph } = useNews();
 
   const {
@@ -73,17 +84,17 @@ const SingleNews = ({ route, navigation }) => {
     formState: { errors },
     setValue,
   } = useForm({
-    mode: "onChange",
-    mode: "onBlur",
+    mode: 'onChange',
+    mode: 'onBlur',
     defaultValues: {
-      content: "",
+      content: '',
     },
   });
 
   const onSubmit = async (comment) => {
     try {
       await postComment(comment, file.news_id);
-      resetField("content");
+      resetField('content');
     } catch (error) {
       console.error(error);
     }
@@ -127,14 +138,14 @@ const SingleNews = ({ route, navigation }) => {
       <View style={styles.container}>
         <DialogInput
           isDialogVisible={dialogInputVisible}
-          title={"Modify your comment"}
+          title={'Modify your comment'}
           initValueTextInput={editCommentInput}
           textInputProps={{ autoCorrect: false, autoCapitalize: false }}
           submitInput={(inputText) => {
             setEditCommentInput(inputText), setDialogInputVisible(false);
             const comment = {
-              content: inputText
-            }
+              content: inputText,
+            };
             putComment(comment, updateCommentId);
           }}
           closeDialog={() => setDialogInputVisible(false)}
@@ -226,17 +237,19 @@ const SingleNews = ({ route, navigation }) => {
             nestedScrollEnabled={true}
             renderItem={({ item }) => <ParagraphList paragraph={item} />}
           /> */}
-          {
-            paragraph.map((item) => <ParagraphList key={item.p_id} paragraph={item} />)
-          }
+          {paragraph.map((item, index) => (
+            <View key={index}>
+              <ParagraphList paragraph={item} />
+            </View>
+          ))}
         </View>
 
         <View
           style={{
             borderBottomColor: colors.light_grey,
             borderBottomWidth: 1,
-            width: "100%",
-            alignSelf: "center",
+            width: '100%',
+            alignSelf: 'center',
             marginTop: 20,
           }}
         />
@@ -269,10 +282,12 @@ const SingleNews = ({ route, navigation }) => {
             renderItem={({ item }) => <CommentList comment={item} />}
             maxHeight={400}
           /> */}
-          <ScrollView style={{maxHeight: 350}} nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
-            {
-              comments.map((comment) => <CommentList key={comment.id} comment={comment}/>)
-            }
+          <ScrollView style={{maxHeight: 350}} showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
+            {comments.map((item, index) => (
+              <View key={index}>
+                <CommentList comment={item} />
+              </View>
+            ))}
           </ScrollView>
         </View>
 
@@ -280,8 +295,8 @@ const SingleNews = ({ route, navigation }) => {
           style={{
             borderBottomColor: colors.light_grey,
             borderBottomWidth: 1,
-            width: "100%",
-            alignSelf: "center",
+            width: '100%',
+            alignSelf: 'center',
             marginTop: 20,
           }}
         />
@@ -292,11 +307,11 @@ const SingleNews = ({ route, navigation }) => {
             rules={{
               required: {
                 value: true,
-                message: "Please enter your comment",
+                message: 'Please enter your comment',
               },
               minLength: {
                 value: 3,
-                message: "Comment has to be at least 3 characters.",
+                message: 'Comment has to be at least 3 characters.',
               },
             }}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -320,7 +335,7 @@ const SingleNews = ({ route, navigation }) => {
               name="send"
               size={24}
               color={colors.primary}
-              style={{ alignSelf: "center" }}
+              style={{ alignSelf: 'center' }}
             />
           </TouchableOpacity>
         </View>
@@ -333,11 +348,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    paddingHorizontal: "5%",
-    minHeight: "100%",
+    paddingHorizontal: '5%',
+    minHeight: '100%',
   },
   image: {
-    width: "100%",
+    width: '100%',
     height: undefined,
     aspectRatio: 1.5,
   },
@@ -345,50 +360,50 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   title: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.subtitle,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
   },
   dateContainer: {
     marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   date: {
     marginLeft: 2,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.medium_grey,
   },
   dateDistanceContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dateDistance: {
     marginLeft: 2,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.medium_grey,
   },
   buttonContainer: {
-    flexDirection: "row",
-    position: "absolute",
+    flexDirection: 'row',
+    position: 'absolute',
     bottom: 2,
     right: 2,
-    alignItems: "center",
+    alignItems: 'center',
   },
   bookmarkContainer: {
     height: 30,
-    alignItems: "center",
+    alignItems: 'center',
     marginRight: 15,
   },
   likesContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   likeNumbers: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.caption,
     color: colors.dark_text,
   },
@@ -396,59 +411,59 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   op: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
     color: colors.dark_text,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     autoCapitalize: true,
   },
   contentContainer: {
     marginTop: 15,
   },
   content: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
     color: colors.dark_text,
   },
   noComments: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     height: 200,
   },
   commentContainer: {
     marginTop: 10,
   },
   commentHeaderContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
   commentHeader: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.large,
     color: colors.dark_text,
   },
   addCommentContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   addComment: {
     marginLeft: 2,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.secondary,
   },
   inputContainer: {
-    marginTop: "2%",
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
+    marginTop: '2%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
   },
   sendButton: {
     marginTop: 2,
-    alignSelf: "flex-start",
-    width: "20%",
+    alignSelf: 'flex-start',
+    width: '20%',
   },
 });
 export default SingleNews;

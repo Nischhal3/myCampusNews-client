@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   userContainer: {
-    width: '63%',
+    width: '62%',
     margin: '5%',
     marginLeft: '8%',
   },
