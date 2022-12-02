@@ -164,14 +164,19 @@ const PreviewScreen = ({ route, navigation }) => {
         </View>
 
         <View>
-          <FlatList
+          {/*   <FlatList
             data={paragraph}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
             renderItem={({ item }) => (
               <ParagraphList paragraph={item} preview={true} />
             )}
-          />
+          /> */}
+          {paragraph.map((item, index) => (
+            <View key={index}>
+              <ParagraphList paragraph={item} />
+            </View>
+          ))}
         </View>
 
         <View
