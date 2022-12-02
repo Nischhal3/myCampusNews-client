@@ -42,8 +42,6 @@ import colors from "../utils/colors";
 import fontSize from "../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-
 const SingleNews = ({ route, navigation }) => {
   const {
     updateComment,
@@ -127,11 +125,6 @@ const SingleNews = ({ route, navigation }) => {
       ref={scrollViewRef}
     >
       <View style={styles.container}>
-        {/* <Spinner
-          visible={loading}
-          textContent={'Loading...'}
-          textStyle={{color: colors.light_background}}
-        /> */}
         <DialogInput
           isDialogVisible={dialogInputVisible}
           title={"Modify your comment"}
@@ -227,12 +220,15 @@ const SingleNews = ({ route, navigation }) => {
         </View>
 
         <View>
-        <FlatList
+        {/* <FlatList
             data={paragraph}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
             renderItem={({ item }) => <ParagraphList paragraph={item} />}
-          />
+          /> */}
+          {
+            paragraph.map((item) => <ParagraphList key={item.p_id} paragraph={item} />)
+          }
         </View>
 
         <View
@@ -265,14 +261,19 @@ const SingleNews = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <FlatList
+          {/* <FlatList
             data={comments}
             ListEmptyComponent={noComments}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
             renderItem={({ item }) => <CommentList comment={item} />}
             maxHeight={400}
-          />
+          /> */}
+          <ScrollView style={{maxHeight: 350}} nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
+            {
+              comments.map((comment) => <CommentList key={comment.id} comment={comment}/>)
+            }
+          </ScrollView>
         </View>
 
         <View

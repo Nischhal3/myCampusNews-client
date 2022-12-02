@@ -587,7 +587,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   </View>
                 </View>
                 <MultilineInput
-                  name="Image description"
+                  name="Media content description"
                   textEntry={false}
                   onChange={(text) => {
                     handleImageDescription(text, key);
