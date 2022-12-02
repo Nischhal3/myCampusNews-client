@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     width: '70%',
-    marginLeft: 5,
+    marginLeft: 7,
   },
   titleContainer: {
     marginBottom: 5,

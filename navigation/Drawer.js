@@ -132,7 +132,7 @@ function CustomDrawerContent(props) {
               activeTintColor={colors.dark_text}
               focused={drawerFocus == 'Home' ? true : false}
             />
-            {/* <DrawerItem
+            <DrawerItem
               label="Manage News"
               style={styles.drawerItem}
               labelStyle={{
@@ -155,7 +155,7 @@ function CustomDrawerContent(props) {
               activeBackgroundColor={colors.light_background}
               inactiveTintColor={colors.dark_text}
               focused={drawerFocus == 'MNews' ? true : false}
-            /> */}
+            />
             <DrawerItem
               label="Manage Users"
               style={styles.drawerItem}
