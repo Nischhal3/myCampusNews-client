@@ -101,21 +101,32 @@ const Home = ({ navigation }) => {
           searchPhrase={searchPhrase}
           setSearchPhrase={setSearchPhrase}
         />
-
-        <View style={styles.highlightContainer}>
-          <Text style={styles.header}>Highlighted</Text>
-          <FlatList
-            horizontal={true}
-            data={news}
-            renderItem={({ item }) => (
-              <HighlightList navigation={navigation} news={item} />
-            )}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+        {
+          searchPhrase == "" ? (
+            <View style={styles.highlightContainer}>
+              <Text style={styles.header}>Highlighted</Text>
+              <FlatList
+                horizontal={true}
+                data={news}
+                renderItem={({ item }) => (
+                  <HighlightList navigation={navigation} news={item} />
+                )}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          ) : (
+            <></>
+          )
+        }
 
         <View style={styles.newsContainer}>
-          <Text style={styles.header}>Recent news</Text>
+          {
+            searchPhrase == "" ? (
+              <Text style={styles.header}>Recent news</Text>
+            ) : (
+              <Text style={styles.header}>Results</Text>
+            )
+          }
           {searchByCategory === false ? (
             <FlatList
               data={filteredList(news)}

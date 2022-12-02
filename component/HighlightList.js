@@ -77,10 +77,7 @@ const HighlightList = ({ navigation, news }) => {
           {/* <Text>{news.photoName}</Text> */}
         </View>
 
-        <View style={styles.headerContainer}>
-          <View style={styles.categoryContainer}>
-            <Text style={styles.category}>{news.category}</Text>
-          </View>
+        {/* <View style={styles.headerContainer}> */}
           <View style={styles.dateContainer}>
             <McIcons
               name="calendar-clock"
@@ -91,10 +88,12 @@ const HighlightList = ({ navigation, news }) => {
               {formatToOnlyDate(news.news_time)}
             </Text>
           </View>
-        </View>
+        {/* </View> */}
 
         <View style={styles.contentContainer}>
-
+          <View style={styles.categoryContainer}>
+            <Text style={styles.category}>{news.category}</Text>
+          </View>
           <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
             {news.news_title}
           </Text>
@@ -161,34 +160,37 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  headerContainer: {
-    paddingHorizontal: "2%",
-    width: "100%",
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'absolute',
-    backgroundColor: colors.nokia_blue,
-    borderWidth: 1,
-    borderColor: colors.light_background,
-    padding: 5,
-  },
+  // headerContainer: {
+  //   paddingHorizontal: "2%",
+  //   width: "100%",
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   position: 'absolute',
+  //   backgroundColor: colors.nokia_blue,
+  //   borderWidth: 1,
+  //   borderColor: colors.light_background,
+  //   padding: 5,
+  // },
   categoryContainer: {
-    width: "40%",
-    // backgroundColor: colors.nokia_blue,
-    // paddingVertical: 4,
-    // borderRadius: 3,
+    width: "37%",
+    backgroundColor: colors.nokia_blue,
+    paddingVertical: 2,
+    borderRadius: 3,
   },
   category: {
-    // textAlign: 'center',
+    textAlign: 'center',
     fontFamily: 'IBM',
-    fontSize: fontSize.medium,
+    fontSize: fontSize.small,
     color: colors.light_text,
     textTransform: 'capitalize',
   },
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    position: 'absolute',
+    top: 5,
+    left: 5,
   },
   timeStamp: {
     marginLeft: 4,
