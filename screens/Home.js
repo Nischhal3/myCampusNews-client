@@ -18,6 +18,7 @@ import {
   Dialog,
   AlertNotificationRoot,
 } from "react-native-alert-notification";
+import HighlightList from "../component/HighlightList";
 
 const Home = ({ navigation }) => {
   const [searchPhrase, setSearchPhrase] = useState("");
@@ -101,7 +102,20 @@ const Home = ({ navigation }) => {
           setSearchPhrase={setSearchPhrase}
         />
 
+        <View style={styles.highlightContainer}>
+          <Text style={styles.header}>Highlighted</Text>
+          <FlatList
+            horizontal={true}
+            data={news}
+            renderItem={({ item }) => (
+              <HighlightList navigation={navigation} news={item} />
+            )}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+
         <View style={styles.newsContainer}>
+          <Text style={styles.header}>Recent news</Text>
           {searchByCategory === false ? (
             <FlatList
               data={filteredList(news)}
@@ -109,8 +123,6 @@ const Home = ({ navigation }) => {
                 <LargeNewsList navigation={navigation} news={item} />
               )}
               showsVerticalScrollIndicator={false}
-              // showsHorizontalScrollIndicator={false}
-              // horizontal={true}
             />
           ) : (
             <FlatList
@@ -119,8 +131,6 @@ const Home = ({ navigation }) => {
                 <LargeNewsList navigation={navigation} news={item} />
               )}
               showsVerticalScrollIndicator={false}
-              // showsHorizontalScrollIndicator={false}
-              // horizontal={true}
             />
           )}
         </View>
@@ -136,6 +146,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.light_background,
     padding: "2%",
+  },
+  header:{
+    fontFamily: 'IBM',
+    fontSize: fontSize.large,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 4,
+  },
+  highlightContainer: {
+    marginBottom: "4%",
   },
   newsContainer: {
     marginBottom: "10%",
