@@ -23,10 +23,11 @@ const ManageNewsList = ({ navigation, news }) => {
     url = `${baseUrl}/${news.photoName}`;
   }
 
-  const { deleteNews } = useNews();
+  const { deleteNews,updateNewsHighlight } = useNews();
 
   const switchHighlight = () => {
-    setHighlight(!highlight);
+    news.highlighted == 0 ? updateNewsHighlight(1,news.news_id) : updateNewsHighlight(0,news.news_id)
+    // setHighlight(!highlight);
   }
 
   const newsDelete = () => {
@@ -62,7 +63,7 @@ const ManageNewsList = ({ navigation, news }) => {
         style={styles.highlightContainer}
         onPress = {() => {switchHighlight()}}
       >
-        {highlight? (
+        {news.highlighted == 1 ? (
           <Text style={[
             styles.highlight,
             { color: highlight? colors.nokia_blue : colors.primary },

@@ -1,26 +1,33 @@
-import React, { createRef, useContext, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import defaultImage from '../../assets/images/blank_image.jpg';
+import React, { createRef, useContext, useEffect, useState } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
+import defaultImage from "../../assets/images/blank_image.jpg";
 import {
   getAllNewsView,
   postNewsViews,
   useLike,
   userFavorite,
   useNews,
-} from '../../services/NewsService';
-import { Context } from '../../contexts/Context';
-import { baseUrl } from '../../utils/variables';
+} from "../../services/NewsService";
+import { Context } from "../../contexts/Context";
+import { baseUrl } from "../../utils/variables";
 import {
   formatToDate,
   formatToDistance,
   formatToOnlyDate,
-} from '../../utils/timestamp';
+} from "../../utils/timestamp";
 
 // UI Imports
-import colors from '../../utils/colors';
-import fontSize from '../../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import {de} from 'date-fns/locale';
+import colors from "../../utils/colors";
+import fontSize from "../../utils/fontSize";
+import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { de } from "date-fns/locale";
 
 const HighlightList = ({ navigation, news }) => {
   const {
@@ -35,11 +42,11 @@ const HighlightList = ({ navigation, news }) => {
   const { deleteNews } = useNews();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  var url = '';
+  var url = "";
 
   const [newsView, setNewsView] = useState([]);
   const timeInterval = 3000;
-  if (news.photoName == 'unavailable') {
+  if (news.photoName == "unavailable") {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
@@ -68,13 +75,14 @@ const HighlightList = ({ navigation, news }) => {
       style={styles.container}
       onPress={() => {
         postNewsViews(token, user.user_id, news.news_id);
-        navigation.navigate('SingleNews', { file: news });
+        navigation.navigate("SingleNews", { file: news });
       }}
     >
-      <View style={styles.mainContainer}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: url }} />
-        </View>
+      {news.highlighted == 1 && (
+        <View style={styles.mainContainer}>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={{ uri: url }} />
+          </View>
 
           <View style={styles.dateContainer}>
             <McIcons
@@ -87,15 +95,16 @@ const HighlightList = ({ navigation, news }) => {
             </Text>
           </View>
 
-        <View style={styles.contentContainer}>
-          <View style={styles.categoryContainer}>
-            <Text style={styles.category}>{news.category}</Text>
+          <View style={styles.contentContainer}>
+            <View style={styles.categoryContainer}>
+              <Text style={styles.category}>{news.category}</Text>
+            </View>
+            <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+              {news.news_title}
+            </Text>
           </View>
-          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-            {news.news_title}
-          </Text>
         </View>
-      </View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -119,16 +128,16 @@ const styles = StyleSheet.create({
     height: 200,
     marginRight: 20,
     borderRadius: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
     backgroundColor: colors.light_grey,
   },
   imageContainer: {
-    width: '100%',
+    width: "100%",
     height: "100%",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   // headerContainer: {
   //   paddingHorizontal: "2%",
@@ -151,22 +160,22 @@ const styles = StyleSheet.create({
     borderColor: colors.light_text,
   },
   category: {
-    textAlign: 'center',
-    fontFamily: 'IBM',
+    textAlign: "center",
+    fontFamily: "IBM",
     fontSize: fontSize.small,
     color: colors.light_text,
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
   dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
     top: 5,
     left: 5,
   },
   timeStamp: {
     marginLeft: 4,
-    fontFamily: 'IBM',
+    fontFamily: "IBM",
     fontSize: fontSize.small,
     color: colors.light_text,
   },
@@ -185,14 +194,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: "1%",
     marginBottom: "2%",
     // height: 75,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     paddingHorizontal: "2%",
   },
   title: {
-    fontFamily: 'IBM',
+    fontFamily: "IBM",
     fontSize: fontSize.large,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.light_text,
   },
   // readContainer: {
