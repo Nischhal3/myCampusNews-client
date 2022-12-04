@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, FlatList, Button } from "react-native";
-import SampleList from "../component/SampleList";
 import { Context } from "../contexts/Context";
-import NewsList from "../component/NewsList";
-import LargeNewsList from "../component/LargeNewsList";
+import LargeNewsList from "../component/lists/LargeNewsList";
 import { useNews } from "../services/NewsService";
 import { SearchBar } from "../component/SearchBar";
+import HighlightList from "../component/lists/HighlightList";
 
 // UI Imports
 import colors from "../utils/colors";
@@ -18,7 +17,6 @@ import {
   Dialog,
   AlertNotificationRoot,
 } from "react-native-alert-notification";
-import HighlightList from "../component/HighlightList";
 
 const Home = ({ navigation }) => {
   const [searchPhrase, setSearchPhrase] = useState("");
@@ -169,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: "4%",
   },
   newsContainer: {
-    marginBottom: "10%",
+    marginBottom: "80%",
   },
 });
 export default Home;

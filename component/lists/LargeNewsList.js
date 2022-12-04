@@ -1,26 +1,25 @@
 import React, { createRef, useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import defaultImage from '../assets/images/blank_image.jpg';
+import defaultImage from '../../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
   postNewsViews,
   useLike,
   userFavorite,
   useNews,
-} from '../services/NewsService';
-import { Context } from '../contexts/Context';
-import { baseUrl } from '../utils/variables';
+} from '../../services/NewsService';
+import { Context } from '../../contexts/Context';
+import { baseUrl } from '../../utils/variables';
 import {
   formatToDate,
   formatToDistance,
   formatToOnlyDate,
-} from '../utils/timestamp';
+} from '../../utils/timestamp';
 
 // UI Imports
-import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import {de} from 'date-fns/locale';
 
 const LargeNewsList = ({ navigation, news }) => {
   const {
@@ -105,27 +104,6 @@ const LargeNewsList = ({ navigation, news }) => {
               {formatToOnlyDate(news.news_time)}
             </Text>
           </View>
-          {/* {!favorite ? (
-          <TouchableOpacity
-            onPress={() => {
-              postAndRemoveFavorite(news.news_id);
-            }}
-          >
-            <McIcons
-              name="bookmark-outline"
-              size={24}
-              color={colors.nokia_blue}
-            />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={() => {
-              postAndRemoveFavorite(news.news_id);
-            }}
-          >
-            <McIcons name="bookmark" size={24} color={colors.nokia_blue} />
-          </TouchableOpacity>
-        )} */}
           <View style={styles.bottomRight}>
             <View style={styles.likeContainer}>
               {liked ? (
@@ -170,12 +148,6 @@ const LargeNewsList = ({ navigation, news }) => {
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {news.news_title}
         </Text>
-        {/* <Text style={styles.op} numberOfLines={2} ellipsizeMode="tail">
-          {news.news_op}
-        </Text> */}
-        {/* <Text style={styles.content} numberOfLines={1} ellipsizeMode="tail">
-          {news.news_content}
-        </Text> */}
       </View>
     </TouchableOpacity>
   );

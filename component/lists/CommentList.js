@@ -2,18 +2,17 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native";
 import { Avatar, ListItem as RNEListItem } from "react-native-elements";
 import PropTypes from "prop-types";
-import { Context } from "../contexts/Context";
-import { getUserById } from "../services/UserService";
-import { useComment } from "../services/NewsService";
-import { baseUrl } from "../utils/variables";
-import defaultImage from "../assets/images/blank_avatar.jpg";
+import { Context } from "../../contexts/Context";
+import { getUserById } from "../../services/UserService";
+import { useComment } from "../../services/NewsService";
+import { baseUrl } from "../../utils/variables";
+import defaultImage from "../../assets/images/blank_avatar.jpg";
 import { Swipeable } from "react-native-gesture-handler";
-// import { renderRightActions } from "./SwipeableActions";
 import Animated from "react-native-reanimated";
 
 // UI Imports
-import colors from "../utils/colors";
-import fontSize from "../utils/fontSize";
+import colors from "../../utils/colors";
+import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const CommentList = ({ comment }) => {

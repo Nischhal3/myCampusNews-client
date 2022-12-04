@@ -1,24 +1,24 @@
 import React, { createRef, useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
-import defaultImage from '../assets/images/blank_image.jpg';
+import defaultImage from '../../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
   postNewsViews,
   useLike,
   userFavorite,
   useNews,
-} from '../services/NewsService';
-import { Context } from '../contexts/Context';
-import { baseUrl } from '../utils/variables';
+} from '../../services/NewsService';
+import { Context } from '../../contexts/Context';
+import { baseUrl } from '../../utils/variables';
 import {
   formatToDate,
   formatToDistance,
   formatToOnlyDate,
-} from '../utils/timestamp';
+} from '../../utils/timestamp';
 
 // UI Imports
-import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {de} from 'date-fns/locale';
 
@@ -74,10 +74,8 @@ const HighlightList = ({ navigation, news }) => {
       <View style={styles.mainContainer}>
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={{ uri: url }} />
-          {/* <Text>{news.photoName}</Text> */}
         </View>
 
-        {/* <View style={styles.headerContainer}> */}
           <View style={styles.dateContainer}>
             <McIcons
               name="calendar-clock"
@@ -88,7 +86,6 @@ const HighlightList = ({ navigation, news }) => {
               {formatToOnlyDate(news.news_time)}
             </Text>
           </View>
-        {/* </View> */}
 
         <View style={styles.contentContainer}>
           <View style={styles.categoryContainer}>
@@ -97,33 +94,6 @@ const HighlightList = ({ navigation, news }) => {
           <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
             {news.news_title}
           </Text>
-
-          {/* <View style={styles.bottomRight}>
-            <View style={styles.likeContainer}>
-              {liked ? (
-                <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
-              ) : (
-                <McIcons
-                  name="thumb-up-outline"
-                  size={18}
-                  color={colors.medium_grey}
-                />
-              )}
-              <Text style={styles.likeNumber}>{likedNumber}</Text>
-            </View>
-            <View style={styles.readContainer}>
-              <McIcons
-                name="eye-outline"
-                size={18}
-                color={colors.medium_grey}
-              />
-              {newsView.length > 0 ? (
-                <Text style={styles.readNumber}>{newsView[0].count}</Text>
-              ) : (
-                ''
-              )}
-            </View>
-          </View> */}
         </View>
       </View>
     </TouchableOpacity>
@@ -177,6 +147,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.nokia_blue,
     paddingVertical: 2,
     borderRadius: 3,
+    borderWidth: 1,
+    borderColor: colors.light_text,
   },
   category: {
     textAlign: 'center',

@@ -33,11 +33,11 @@ import {
   useNews,
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
-import CommentList from '../component/CommentList';
+import CommentList from '../component/lists/CommentList';
 import { baseUrl } from '../utils/variables';
 import DialogInput from 'react-native-dialog-input';
 import Spinner from 'react-native-loading-spinner-overlay';
-import ParagraphList from '../component/ParagraphList';
+import ParagraphList from '../component/lists/ParagraphList';
 
 // utils Imports
 import { formatToDate, formatToDistance } from '../utils/timestamp';

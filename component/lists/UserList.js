@@ -1,13 +1,13 @@
 import React, { createRef, useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import defaultImage from "../assets/images/blank_avatar.jpg";
-import { Context } from "../contexts/Context";
-import { baseUrl } from "../utils/variables";
-import { useUser } from "../services/UserService";
+import defaultImage from "../../assets/images/blank_avatar.jpg";
+import { Context } from "../../contexts/Context";
+import { baseUrl } from "../../utils/variables";
+import { useUser } from "../../services/UserService";
 
 // UI Imports
-import colors from "../utils/colors";
-import fontSize from "../utils/fontSize";
+import colors from "../../utils/colors";
+import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const UserList = ({ navigation, otherUser }) => {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 4,
     flexDirection: "row",
-    padding: 2,
+    padding: 3,
   },
   imageContainer: {
     // borderWidth: 1,

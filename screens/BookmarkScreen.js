@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, FlatList, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { userFavorite } from "../services/NewsService";
 import { Context } from "../contexts/Context";
-import NewsList from '../component/NewsList';
+import NewsList from '../component/lists/NewsList';
 
 // UI Imports
 import colors from '../utils/colors';

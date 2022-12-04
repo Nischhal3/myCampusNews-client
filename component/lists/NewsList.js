@@ -1,20 +1,20 @@
 import React, { createRef, useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import defaultImage from '../assets/images/blank_image.jpg';
+import defaultImage from '../../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
   postNewsViews,
   useLike,
   userFavorite,
-} from '../services/NewsService';
-import { Context } from '../contexts/Context';
-import { baseUrl } from '../utils/variables';
+} from '../../services/NewsService';
+import { Context } from '../../contexts/Context';
+import { baseUrl } from '../../utils/variables';
 
 // UI Imports
-import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { formatToOnlyDate } from '../utils/timestamp';
+import { formatToOnlyDate } from '../../utils/timestamp';
 
 const NewsList = ({ navigation, news }) => {
   const {

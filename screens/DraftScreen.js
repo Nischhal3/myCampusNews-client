@@ -5,7 +5,7 @@ import { getAlllNews, getAlllNewsByDraft } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { FlatList } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import DraftNewsList from '../component/DraftNewsList';
+import DraftNewsList from '../component/lists/DraftNewsList';
 
 // UI Imports
 import colors from '../utils/colors';

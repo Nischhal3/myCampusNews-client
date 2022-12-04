@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import defaultImage from '../assets/images/blank_image.jpg';
-import { baseUrl } from '../utils/variables';
-import { Context } from '../contexts/Context';
+import defaultImage from '../../assets/images/blank_image.jpg';
+import { baseUrl } from '../../utils/variables';
+import { Context } from '../../contexts/Context';
 
 // UI Imports
-import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { deleteNews, useNews } from '../services/NewsService';
+import { deleteNews, useNews } from '../../services/NewsService';
 
 const DraftNewsList = ({ navigation, news }) => {
   const { setDrawerFocus, token, draft, setDraft } = useContext(Context);

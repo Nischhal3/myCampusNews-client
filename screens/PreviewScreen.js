@@ -33,10 +33,9 @@ import {
   userFavorite,
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
-import CommentList from '../component/CommentList';
 import { baseUrl } from '../utils/variables';
 import DialogInput from 'react-native-dialog-input';
-import ParagraphList from '../component/ParagraphList';
+import ParagraphList from '../component/lists/ParagraphList';
 
 // utils Imports
 import { formatToDate, formatToDistance } from '../utils/timestamp';

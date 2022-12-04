@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, FlatList, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useUser } from "../services/UserService";
 import { Context } from "../contexts/Context";
-import UserList from "../component/UserList";
+import UserList from "../component/lists/UserList";
 import { SimpleSearchBar } from "../component/SearchBar";
 
 // UI Imports
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     color: colors.dark_text,
   },
   usersContainer: {
+    marginBottom: "20%",
   },
 });
 export default ManageUsersScreen;
