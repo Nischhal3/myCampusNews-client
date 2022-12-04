@@ -118,7 +118,7 @@ const Home = ({ navigation }) => {
           )
         }
 
-        <View style={styles.newsContainer}>
+        <View style={newsInterval.filter(news => news.highlighted == 1).length ? styles.newsContainer2 : styles.newsContainer1}>
           {
             searchPhrase == "" ? (
               <Text style={styles.header}>Recent news</Text>
@@ -167,8 +167,11 @@ const styles = StyleSheet.create({
   highlightContainer: {
     marginBottom: "4%",
   },
-  newsContainer: {
-    marginBottom: "10%",
+  newsContainer1: {
+    marginBottom: "20%",
+  },
+  newsContainer2: {
+    marginBottom: "80%",
   },
 });
 export default Home;

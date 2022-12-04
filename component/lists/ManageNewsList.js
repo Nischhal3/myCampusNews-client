@@ -47,9 +47,9 @@ const ManageNewsList = ({ navigation, news }) => {
   return (
     <TouchableOpacity
       style={styles.container}
-    //   onPress={() => {
-    //     navigation.navigate("Profile", { user: otherUser });
-    //   }}
+      onPress={() => {
+        navigation.navigate('SingleNews', { file: news, path: "manageNews"}  );
+      }}
     >
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: url }} />
