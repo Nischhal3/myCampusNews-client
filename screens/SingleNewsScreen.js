@@ -58,7 +58,7 @@ const SingleNews = ({ route, navigation }) => {
     updateFavorite,
     updateCommentId,
   } = useContext(Context);
-  const { file } = route.params;
+  const { path, file } = route.params;
   const scrollViewRef = useRef();
   const {
     postAndRemoveLike,
@@ -136,6 +136,15 @@ const SingleNews = ({ route, navigation }) => {
       ref={scrollViewRef}
     >
       <View style={styles.container}>
+      <TouchableOpacity
+          onPress={() => path == "manageNews" ? navigation.navigate("MNews") : navigation.navigate("Home")}
+        >
+          <McIcons
+            name="arrow-left"
+            size={28}
+            color={colors.secondary}
+          />
+        </TouchableOpacity>
         <DialogInput
           isDialogVisible={dialogInputVisible}
           title={'Modify your comment'}
