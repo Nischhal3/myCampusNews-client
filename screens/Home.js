@@ -101,9 +101,9 @@ const Home = ({ navigation }) => {
           setSearchPhrase={setSearchPhrase}
         />
         {
-          searchPhrase == "" ? (
+          searchPhrase == "" && newsInterval.filter(news => news.highlighted == 1).length > 0 ? (
             <View style={styles.highlightContainer}>
-              <Text style={styles.header}>Highlighted</Text>
+              <Text style={styles.header}> {newsInterval.filter(news => news.highlighted == 1).length} highlighted news</Text>
               <FlatList
                 horizontal={true}
                 data={newsInterval}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: "4%",
   },
   newsContainer: {
-    marginBottom: "80%",
+    marginBottom: "10%",
   },
 });
 export default Home;
