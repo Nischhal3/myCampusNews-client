@@ -64,6 +64,7 @@ const Home = ({ navigation }) => {
       }
     }
   };
+  
   useEffect(() => {
     getAlllNews(isDraft);
   }, [newsUpdate]);
@@ -105,7 +106,7 @@ const Home = ({ navigation }) => {
               <Text style={styles.header}>Highlighted</Text>
               <FlatList
                 horizontal={true}
-                data={news}
+                data={newsInterval}
                 renderItem={({ item }) => (
                   <HighlightList navigation={navigation} news={item} />
                 )}

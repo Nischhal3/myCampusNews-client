@@ -135,6 +135,29 @@ const useNews = () => {
     }
   };
 
+  const updateNewsHighlight = async (highlight, newsId) => {
+    try {
+      const newsHighlight = {
+        highlighted: highlight,
+      };
+      const options = {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newsHighlight),
+      };
+      const response = await fetchData(
+        `${baseUrl}news/highlighted/${newsId}`,
+        options
+      );
+      response && setNewsUpdate(newsUpdate + 1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getAlllNews,
     deleteNews,
@@ -142,6 +165,7 @@ const useNews = () => {
     getAlllNewsIninterval,
     postParagraphToNews,
     getAllParagraphOfNews,
+    updateNewsHighlight,
     setNewsByCategory,
     newsByCategory,
     newsInterval,
