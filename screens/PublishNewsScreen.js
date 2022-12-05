@@ -106,12 +106,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     },
     mode: 'onBlur',
   });
-  if (route.params != undefined) {
-    console.log('tesst', route.params.paragraph);
-    /*   for (let item in route.params.newsDetail.extraInputs) {
-      console.log('test', item);
-    } */
-  }
+
   useEffect(() => {
     if (route.params != undefined) {
       setValue('title', route.params.news.news_title);
