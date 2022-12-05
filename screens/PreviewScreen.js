@@ -52,7 +52,7 @@ const PreviewScreen = ({ route, navigation }) => {
     editCommentInput,
     setEditCommentInput,
   } = useContext(Context);
-  const { token } = useContext(Context);
+  const { token, draft, setDraft } = useContext(Context);
   const { news, paragraph } = route.params;
   const scrollViewRef = useRef();
   const { postParagraphToNews } = useNews();
@@ -91,6 +91,14 @@ const PreviewScreen = ({ route, navigation }) => {
     }
   };
 
+  const navigateToPublishScreen = () => {
+    navigation.navigate('Publish', {
+      news: news,
+      paragraph: paragraph,
+      preview: true,
+    });
+    setDraft(draft + 1);
+  };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -173,7 +181,7 @@ const PreviewScreen = ({ route, navigation }) => {
           /> */}
           {paragraph.map((item, index) => (
             <View key={index}>
-              <ParagraphList paragraph={item} />
+              <ParagraphList paragraph={item} preview={true} />
             </View>
           ))}
         </View>
@@ -191,9 +199,7 @@ const PreviewScreen = ({ route, navigation }) => {
         <View style={styles.bottomButtonContainer}>
           <TouchableOpacity
             style={styles.exitButtonContainer}
-            onPress={() => {
-              navigation.navigate('Publish');
-            }}
+            onPress={navigateToPublishScreen}
           >
             <Text style={styles.exit}>Exit preview</Text>
           </TouchableOpacity>

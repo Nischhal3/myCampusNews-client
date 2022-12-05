@@ -106,26 +106,53 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     },
     mode: 'onBlur',
   });
-
+  if (route.params != undefined) {
+    console.log('tesst', route.params.paragraph);
+    /*   for (let item in route.params.newsDetail.extraInputs) {
+      console.log('test', item);
+    } */
+  }
   useEffect(() => {
     if (route.params != undefined) {
-      setValue('title', route.params.news.news_title);
-      setValue('op', route.params.news.news_op);
-      setValue('content', route.params.news.news_content);
-      setImage(`${baseUrl}/${route.params.news.photoName}`);
-      if (route.params.paragraph.length > 0) {
-        const _inputs = [...extraInputs];
-        for (let item of route.params.paragraph) {
-          _inputs.push({
-            key: '',
-            image: item.p_photo_name.includes('unavailable')
-              ? uploadDefaultUri
-              : `${baseUrl}/${item.p_photo_name}`,
-            imageType: 'image',
-            imageDescription: item.p_photo_description,
-            content: item.p_content,
-          });
-          setExtraInputs(_inputs);
+      if (route.params.preview === false) {
+        setValue('title', route.params.news.news_title);
+        setValue('op', route.params.news.news_op);
+        setValue('content', route.params.news.news_content);
+        setImage(`${baseUrl}/${route.params.news.photoName}`);
+        if (route.params.paragraph.length > 0) {
+          const _inputs = [...extraInputs];
+          for (let item of route.params.paragraph) {
+            _inputs.push({
+              key: '',
+              image: item.p_photo_name.includes('unavailable')
+                ? uploadDefaultUri
+                : `${baseUrl}/${item.p_photo_name}`,
+              imageType: 'image',
+              imageDescription: item.p_photo_description,
+              content: item.p_content,
+            });
+            setExtraInputs(_inputs);
+          }
+        }
+      } else {
+        setValue('title', route.params.news.title);
+        setValue('op', route.params.news.op);
+        setValue('content', route.params.news.content);
+        setImage(route.params.news.image);
+        if (route.params.paragraph.length > 0) {
+          const _inputs = [...extraInputs];
+          for (let item of route.params.paragraph) {
+            _inputs.push({
+              key: '',
+              image: item.p_photo_name.includes('true&hot=false')
+                ? uploadDefaultUri
+                : item.p_photo_name,
+              imageType: 'image',
+              imageDescription: item.p_photo_description,
+              content: item.p_content,
+            });
+            setExtraInputs(_inputs);
+          }
         }
       }
     }
@@ -303,12 +330,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   };
 
   // Resets form input when user is off screen
-  /* useFocusEffect(
+  useFocusEffect(
     useCallback(() => {
-      return () => reset();
+      return () => resetForm();
     }, [])
-  }, [draft]);
-  ); */
+  );
 
   return (
     <KeyboardAvoidingView
