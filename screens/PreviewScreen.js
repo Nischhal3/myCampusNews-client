@@ -118,11 +118,11 @@ const PreviewScreen = ({ route, navigation }) => {
           closeDialog={() => setDialogInputVisible(false)}
         ></DialogInput>
 
-        <Image style={styles.image} source={{ uri: news.image }} />
+        <Image style={styles.image} source={{ uri: news.photoName }} />
         {/* <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} /> */}
 
         <View style={styles.detailContainer}>
-          <Text style={styles.title}>{news.title}</Text>
+          <Text style={styles.title}>{news.news_title}</Text>
 
           <View style={styles.dateContainer}>
             <McIcons
@@ -163,11 +163,11 @@ const PreviewScreen = ({ route, navigation }) => {
         </View>
 
         <View style={styles.opContainer}>
-          <Text style={styles.op}>{news.op}</Text>
+          <Text style={styles.op}>{news.news_op}</Text>
         </View>
 
         <View style={styles.contentContainer}>
-          <Text style={styles.content}>{news.content}</Text>
+          <Text style={styles.content}>{news.news_content}</Text>
         </View>
 
         <View>
