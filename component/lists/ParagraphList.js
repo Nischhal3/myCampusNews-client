@@ -12,13 +12,6 @@ import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ParagraphList = ({ paragraph, preview }) => {
   const videoRef = useRef(null);
-
-  let isDefaultPhoto = false;
-  if (paragraph.p_photo_name.includes('true&hot=false')) {
-    isDefaultPhoto = true;
-  }
-
-  console.log(isDefaultPhoto);
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -36,7 +29,7 @@ const ParagraphList = ({ paragraph, preview }) => {
               console.error('<Video> error', error);
             }}
           ></Video>
-        ) : isDefaultPhoto ? (
+        ) : paragraph.p_photo_name.includes('true&hot=false') ? (
           <></>
         ) : (
           <Image
