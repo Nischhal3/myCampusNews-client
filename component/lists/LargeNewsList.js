@@ -93,6 +93,13 @@ const LargeNewsList = ({ navigation, news }) => {
           <View style={styles.categoryContainer}>
             <Text style={styles.category}>{news.category}</Text>
           </View>
+
+          <View style={styles.contentConatiner}>
+            <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+              {news.news_title}
+            </Text>
+          </View>
+
           <View style={styles.dateContainer}>
             <McIcons
               name="calendar-clock"
@@ -103,6 +110,7 @@ const LargeNewsList = ({ navigation, news }) => {
               {formatToOnlyDate(news.news_time)}
             </Text>
           </View>
+
           <View style={styles.bottomRight}>
             <View style={styles.likeContainer}>
               {liked ? (
@@ -130,23 +138,7 @@ const LargeNewsList = ({ navigation, news }) => {
             </View>
           </View>
 
-          {/* { user.role == 0? (
-            <TouchableOpacity style={styles.deleteNewsButton} onPress={() => newsDelete()}>
-              <McIcons name="delete" size={18} color={colors.negative} />
-              <Text style={styles.deleteNews}>Delete news</Text>
-            </TouchableOpacity>
-            ) : (
-              <>
-              </>
-            )
-          } */}
         </View>
-      </View>
-
-      <View style={styles.contentConatiner}>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {news.news_title}
-        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -155,10 +147,10 @@ const LargeNewsList = ({ navigation, news }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 20,
-    marginRight: 15,
+    marginBottom: 15,
     width: '100%',
     borderRadius: 5,
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -172,39 +164,38 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 135,
+    height: 110,
   },
   imageContainer: {
-    width: '68%',
+    width: '30%',
     height: "100%",
-    borderRadius: 5,
-    overflow: 'hidden',
   },
   image: {
     width: '100%',
     height: '100%',
   },
   sideContainer: {
-    width: '30%',
-    paddingHorizontal: 2,
+    width: '68%',
+    paddingTop: 2,
   },
   categoryContainer: {
+    width: "35%",
     backgroundColor: colors.nokia_blue,
-    paddingVertical: 4,
+    paddingVertical: 2,
     borderRadius: 3,
-    marginBottom: 5,
   },
   category: {
     textAlign: 'center',
     fontFamily: 'IBM',
-    fontSize: fontSize.small,
+    fontSize: fontSize.caption,
     color: colors.light_text,
     textTransform: 'capitalize',
   },
   dateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: "5%",
+    position: 'absolute',
+    bottom: 2,
   },
   timeStamp: {
     marginLeft: 4,
@@ -213,31 +204,17 @@ const styles = StyleSheet.create({
     color: colors.medium_grey,
   },
   bottomRight: {
-    marginTop: "2%",
-  },
-  deleteNewsButton: {
-    padding: 2,
-    marginVertical: "8%",
     flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.negative,
-    borderRadius: 3,
-  },
-  deleteNews: {
-    marginLeft: 2,
-    fontFamily: 'IBM',
-    fontSize: fontSize.small,
-    color: colors.negative,
+    position: 'absolute',
+    bottom: 2,
+    right: 5,
   },
   contentConatiner: {
-    marginTop: 5,
-    marginBottom: 20,
-    paddingHorizontal: 5,
+    marginTop: 2,
   },
   title: {
     fontFamily: 'IBM',
-    fontSize: fontSize.large,
+    fontSize: fontSize.medium,
     fontWeight: 'bold',
     color: colors.dark_text,
   },
@@ -254,7 +231,7 @@ const styles = StyleSheet.create({
   readContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // marginLeft: 10,
+    marginLeft: 10,
   },
   readNumber: {
     fontFamily: 'IBM',

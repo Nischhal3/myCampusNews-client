@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: "20%",
   },
   newsContainer2: {
-    marginBottom: "80%",
+    marginBottom: "82%",
   },
 });
 export default Home;

@@ -96,9 +96,6 @@ const HighlightList = ({ navigation, news }) => {
           </View>
 
           <View style={styles.contentContainer}>
-            <View style={styles.categoryContainer}>
-              <Text style={styles.category}>{news.category}</Text>
-            </View>
             <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
               {news.news_title}
             </Text>
@@ -114,7 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainContainer: {
-    width: 320,
+    width: 330,
     height: 180,
     marginRight: 20,
     borderRadius: 10,
@@ -129,27 +126,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  categoryContainer: {
-    width: "33%",
-    backgroundColor: colors.nokia_blue,
-    paddingVertical: 2,
-    borderRadius: 3,
-    borderWidth: 1,
-    borderColor: colors.light_text,
-  },
-  category: {
-    textAlign: "center",
-    fontFamily: "IBM",
-    fontSize: fontSize.caption,
-    color: colors.light_text,
-    textTransform: "capitalize",
-  },
   dateContainer: {
     flexDirection: "row",
     alignItems: "center",
     position: "absolute",
     top: 10,
-    left: 5,
+    left: "3%",
   },
   timeStamp: {
     marginLeft: 4,
@@ -157,24 +139,14 @@ const styles = StyleSheet.create({
     fontSize: fontSize.small,
     color: colors.light_text,
   },
-  // bottomRight: {
-  //   // marginTop: "2%",
-  //   position: 'absolute',
-  //   right: 5,
-  //   bottom: 2,
-  // },
   contentContainer: {
     width: "100%",
-    // marginTop: 5,
-    // marginBottom: 20,
-    // paddingHorizontal: 5,
     paddingTop: 2,
-    paddingHorizontal: "1%",
+    paddingBottom: "2%",
     marginBottom: "2%",
-    // height: 75,
     position: "absolute",
     bottom: 0,
-    paddingHorizontal: "2%",
+    paddingHorizontal: "3%",
   },
   title: {
     fontFamily: "IBM",
@@ -182,27 +154,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.light_text,
   },
-  // readContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   // marginLeft: 10,
-  // },
-  // readNumber: {
-  //   fontFamily: 'IBM',
-  //   fontSize: fontSize.caption,
-  //   color: colors.medium_grey,
-  //   marginLeft: 4,
-  // },
-  // likeContainer: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  // },
-  // likeNumber: {
-  //   fontFamily: 'IBM',
-  //   fontSize: fontSize.caption,
-  //   color: colors.medium_grey,
-  //   marginLeft: 4,
-  // },
 });
 
 export default HighlightList;

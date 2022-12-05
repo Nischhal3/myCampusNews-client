@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: "IBM",
     fontSize: fontSize.large,
-    color: colors.dark_text,
+    color: colors.primary,
   },
   listContainer: {
   },
