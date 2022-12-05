@@ -75,9 +75,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   imageContainer: {
-    width: '20%',
-    height: '100%',
-    // borderWidth: 1,
+    width: 70,
+    height: 65,
   },
   image: {
     width: '100%',
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     width: '70%',
-    marginLeft: 7,
+    marginLeft: 10,
   },
   titleContainer: {
     marginBottom: 5,

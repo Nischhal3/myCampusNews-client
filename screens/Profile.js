@@ -7,6 +7,7 @@ import {
   Button,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { Context } from "../contexts/Context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -28,6 +29,20 @@ const Profile = ({ navigation, route = {} }) => {
   const [imageSelected, setImageSelected] = useState(false);
   const baseUrl = "http://10.0.2.2:3000/";
   var url = "";
+
+  const userDelete = () => {
+    Alert.alert(
+      `Delete user ${route.params.user.full_name}?`,
+      'This action cannot be undo.',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel button clicked'), style: 'cancel'},
+        {text: 'Delete', onPress: () => {navigation.navigate("MUsers"); deleteUser(route.params.user.user_id)}, style: 'destructive'},
+      ],
+      { 
+        cancelable: true 
+      }
+    );
+  }
 
   if (route.params == undefined) {
     if (user.avatar_name == "unavailable") {
@@ -137,12 +152,12 @@ const Profile = ({ navigation, route = {} }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.deleteUserIcon}
-          onPress={() => {navigation.navigate("MUsers");deleteUser(route.params.user.user_id)}}
+          onPress={() => userDelete()}
         >
           <McIcons
             name="delete-outline"
             size={28}
-            color={colors.secondary}
+            color={colors.negative}
           />
         </TouchableOpacity>
         <Image style={styles.avatar} source={{ uri: url }} />

@@ -66,7 +66,6 @@ const NewsList = ({ navigation, news }) => {
     >
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: url }} />
-        {/* <Text>{news.photoName}</Text> */}
       </View>
 
       <View style={styles.contentConatiner}>
