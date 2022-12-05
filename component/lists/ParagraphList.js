@@ -60,13 +60,14 @@ const styles = StyleSheet.create({
     aspectRatio: 1.5,
   },
   imageDescription: {
-    padding: 2,
+    paddingTop: 5,
     fontFamily: "IBM",
     fontSize: fontSize.small,
     color: colors.dark_grey,
   },
   paragraphContainer: {
     // borderWidth: 1
+    paddingHorizontal: '3%',
   },
   paragraph: {
     fontFamily: "IBM",

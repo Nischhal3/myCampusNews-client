@@ -12,8 +12,6 @@ import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const ManageNewsList = ({ navigation, news }) => {
-  const [highlight, setHighlight] = useState([true]);
-  const { user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = "";
 
@@ -27,7 +25,6 @@ const ManageNewsList = ({ navigation, news }) => {
 
   const switchHighlight = () => {
     news.highlighted == 0 ? updateNewsHighlight(1,news.news_id) : updateNewsHighlight(0,news.news_id)
-    // setHighlight(!highlight);
   }
 
   const newsDelete = () => {
@@ -66,14 +63,14 @@ const ManageNewsList = ({ navigation, news }) => {
         {news.highlighted == 1 ? (
           <Text style={[
             styles.highlight,
-            { color: highlight? colors.nokia_blue : colors.primary },
+            { color: news.highlighted == 0 ? colors.primary : colors.nokia_blue },
           ]}>
             Highlight
           </Text>
         ) : (
           <Text style={[
             styles.highlight,
-            { color: highlight? colors.nokia_blue : colors.primary },
+            { color: news.highlighted == 0 ? colors.primary : colors.nokia_blue },
           ]}>
             Regular
           </Text>

@@ -112,16 +112,6 @@ const HighlightList = ({ navigation, news }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // borderRadius: 5,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3,
-    // elevation: 4,
-    // backgroundColor: colors.light_background,
   },
   mainContainer: {
     width: 320,
@@ -152,7 +142,7 @@ const styles = StyleSheet.create({
   //   padding: 5,
   // },
   categoryContainer: {
-    width: "37%",
+    width: "33%",
     backgroundColor: colors.nokia_blue,
     paddingVertical: 2,
     borderRadius: 3,
@@ -162,7 +152,7 @@ const styles = StyleSheet.create({
   category: {
     textAlign: "center",
     fontFamily: "IBM",
-    fontSize: fontSize.small,
+    fontSize: fontSize.caption,
     color: colors.light_text,
     textTransform: "capitalize",
   },

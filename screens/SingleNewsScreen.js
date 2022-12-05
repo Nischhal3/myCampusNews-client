@@ -108,24 +108,12 @@ const SingleNews = ({ route, navigation }) => {
     onPressCloseButton: () => closePanel(),
   });
 
-  const noComments = () => {
-    return (
-      <View style={styles.noComments}>
-        <Text style={{}}>No comments found</Text>
-      </View>
-    );
-  };
-
   useEffect(() => {
-    // setLoading(true);
     getAllCommentOfNews(file.news_id);
     checkFavorite(file.news_id);
     getUserLike(file.news_id);
     getNumberOfLike(file.news_id);
     getAllParagraphOfNews(file.news_id);
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 1000);
   }, [file.news_id, updateComment, updateLike, updateFavorite]);
 
   return (
@@ -136,12 +124,10 @@ const SingleNews = ({ route, navigation }) => {
       ref={scrollViewRef}
     >
       <View style={styles.container}>
-      <TouchableOpacity
-          onPress={() => path == "manageNews" ? navigation.navigate("MNews") : navigation.navigate("Home")}
-        >
+        <TouchableOpacity style={styles.backButton} onPress={() => path == "manageNews" ? navigation.navigate("MNews") : navigation.navigate("Home")}>
           <McIcons
-            name="arrow-left"
-            size={28}
+            name="chevron-left"
+            size={32}
             color={colors.secondary}
           />
         </TouchableOpacity>
@@ -357,8 +343,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    paddingHorizontal: '5%',
     minHeight: '100%',
+  },
+  backButton: {
+    marginBottom: 5,
   },
   image: {
     width: '100%',
@@ -367,6 +355,7 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     marginVertical: 10,
+    paddingHorizontal: '3%',
   },
   title: {
     fontFamily: 'IBM',
@@ -399,7 +388,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 2,
-    right: 2,
+    right: 15,
     alignItems: 'center',
   },
   bookmarkContainer: {
@@ -418,6 +407,7 @@ const styles = StyleSheet.create({
   },
   opContainer: {
     marginVertical: 20,
+    paddingHorizontal: '3%',
   },
   op: {
     fontFamily: 'IBM',
@@ -428,19 +418,16 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: 15,
+    paddingHorizontal: '3%',
   },
   content: {
     fontFamily: 'IBM',
     fontSize: fontSize.medium,
     color: colors.dark_text,
   },
-  noComments: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 200,
-  },
   commentContainer: {
     marginTop: 10,
+    paddingHorizontal: '3%',
   },
   commentHeaderContainer: {
     flexDirection: 'row',

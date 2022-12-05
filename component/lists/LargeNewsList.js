@@ -87,7 +87,6 @@ const LargeNewsList = ({ navigation, news }) => {
       <View style={styles.mainContainer}>
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={{ uri: url }} />
-          {/* <Text>{news.photoName}</Text> */}
         </View>
 
         <View style={styles.sideContainer}>
@@ -131,7 +130,7 @@ const LargeNewsList = ({ navigation, news }) => {
             </View>
           </View>
 
-          { user.role == 0? (
+          {/* { user.role == 0? (
             <TouchableOpacity style={styles.deleteNewsButton} onPress={() => newsDelete()}>
               <McIcons name="delete" size={18} color={colors.negative} />
               <Text style={styles.deleteNews}>Delete news</Text>
@@ -140,7 +139,7 @@ const LargeNewsList = ({ navigation, news }) => {
               <>
               </>
             )
-          }
+          } */}
         </View>
       </View>
 
