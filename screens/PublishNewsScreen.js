@@ -112,18 +112,26 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);
       setValue('content', route.params.news.news_content);
-      setImage(`${baseUrl}/${route.params.news.photoName}`);
+      route.params.preview
+        ? setImage(route.params.news.photoName)
+        : setImage(`${baseUrl}/${route.params.news.photoName}`);
+
       if (route.params.paragraph.length > 0) {
         const _inputs = [...extraInputs];
         for (let item of route.params.paragraph) {
           _inputs.push({
             key: '',
-            image: item.p_photo_name.includes('unavailable')
-              ? uploadDefaultUri
-              : `${baseUrl}/${item.p_photo_name}`,
             imageType: 'image',
             imageDescription: item.p_photo_description,
             content: item.p_content,
+            image:
+              route.params.preview &&
+              !item.p_photo_name.includes('true&hot=false')
+                ? item.p_photo_name
+                : !route.params.preview &&
+                  !item.p_photo_name.includes('unavailable')
+                ? `${baseUrl}/${item.p_photo_name}`
+                : uploadDefaultUri,
           });
           setExtraInputs(_inputs);
         }
@@ -134,9 +142,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   // Passing data to preview
   const preview = (data) => {
     const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('op', data.op);
-    formData.append('content', data.content);
+    formData.append('news_title', data.title);
+    formData.append('news_op', data.op);
+    formData.append('news_content', data.content);
     formData.append('draft', 1);
     formData.append('category', category);
 
@@ -179,10 +187,10 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     }
 
     const value = {
-      title: data.title,
-      op: data.op,
-      content: data.content,
-      image: image,
+      news_title: data.title,
+      news_op: data.op,
+      news_content: data.content,
+      photoName: image,
       draft: 1,
     };
 
@@ -239,9 +247,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const onSubmit = async (data) => {
     let keys = [];
     const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('op', data.op);
-    formData.append('content', data.content);
+    formData.append('news_title', data.title);
+    formData.append('news_op', data.op);
+    formData.append('news_content', data.content);
     formData.append('draft', 0);
     formData.append('category', category);
 
@@ -303,12 +311,11 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   };
 
   // Resets form input when user is off screen
-  /* useFocusEffect(
+  useFocusEffect(
     useCallback(() => {
-      return () => reset();
+      return () => resetForm();
     }, [])
-  }, [draft]);
-  ); */
+  );
 
   return (
     <KeyboardAvoidingView

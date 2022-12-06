@@ -52,7 +52,7 @@ const PreviewScreen = ({ route, navigation }) => {
     editCommentInput,
     setEditCommentInput,
   } = useContext(Context);
-  const { token } = useContext(Context);
+  const { token, draft, setDraft } = useContext(Context);
   const { news, paragraph } = route.params;
   const scrollViewRef = useRef();
   const { postParagraphToNews } = useNews();
@@ -91,6 +91,14 @@ const PreviewScreen = ({ route, navigation }) => {
     }
   };
 
+  const navigateToPublishScreen = () => {
+    navigation.navigate('Publish', {
+      news: news,
+      paragraph: paragraph,
+      preview: true,
+    });
+    setDraft(draft + 1);
+  };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -110,11 +118,11 @@ const PreviewScreen = ({ route, navigation }) => {
           closeDialog={() => setDialogInputVisible(false)}
         ></DialogInput>
 
-        <Image style={styles.image} source={{ uri: news.image }} />
+        <Image style={styles.image} source={{ uri: news.photoName }} />
         {/* <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} /> */}
 
         <View style={styles.detailContainer}>
-          <Text style={styles.title}>{news.title}</Text>
+          <Text style={styles.title}>{news.news_title}</Text>
 
           <View style={styles.dateContainer}>
             <McIcons
@@ -155,11 +163,11 @@ const PreviewScreen = ({ route, navigation }) => {
         </View>
 
         <View style={styles.opContainer}>
-          <Text style={styles.op}>{news.op}</Text>
+          <Text style={styles.op}>{news.news_op}</Text>
         </View>
 
         <View style={styles.contentContainer}>
-          <Text style={styles.content}>{news.content}</Text>
+          <Text style={styles.content}>{news.news_content}</Text>
         </View>
 
         <View>
@@ -173,7 +181,7 @@ const PreviewScreen = ({ route, navigation }) => {
           /> */}
           {paragraph.map((item, index) => (
             <View key={index}>
-              <ParagraphList paragraph={item} />
+              <ParagraphList paragraph={item} preview={true} />
             </View>
           ))}
         </View>
@@ -191,9 +199,7 @@ const PreviewScreen = ({ route, navigation }) => {
         <View style={styles.bottomButtonContainer}>
           <TouchableOpacity
             style={styles.exitButtonContainer}
-            onPress={() => {
-              navigation.navigate('Publish');
-            }}
+            onPress={navigateToPublishScreen}
           >
             <Text style={styles.exit}>Exit preview</Text>
           </TouchableOpacity>
