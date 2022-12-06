@@ -18,13 +18,6 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { Controller, useForm } from 'react-hook-form';
-import FormInput, {
-  MultilineInput,
-  MultilineInputNoBorder,
-} from '../component/AppInputs';
-import { SubmitButton } from '../component/AppButtons';
-import ErrorMessage from '../component/ErrorMessage';
 import {
   postNews,
   useComment,
@@ -119,7 +112,6 @@ const PreviewScreen = ({ route, navigation }) => {
         ></DialogInput>
 
         <Image style={styles.image} source={{ uri: news.photoName }} />
-        {/* <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} /> */}
 
         <View style={styles.detailContainer}>
           <Text style={styles.title}>{news.news_title}</Text>
@@ -171,14 +163,6 @@ const PreviewScreen = ({ route, navigation }) => {
         </View>
 
         <View>
-          {/*   <FlatList
-            data={paragraph}
-            showsVerticalScrollIndicator={false}
-            nestedScrollEnabled={true}
-            renderItem={({ item }) => (
-              <ParagraphList paragraph={item} preview={true} />
-            )}
-          /> */}
           {paragraph.map((item, index) => (
             <View key={index}>
               <ParagraphList paragraph={item} preview={true} />
@@ -198,17 +182,49 @@ const PreviewScreen = ({ route, navigation }) => {
 
         <View style={styles.bottomButtonContainer}>
           <TouchableOpacity
-            style={styles.exitButtonContainer}
+            style={styles.singleButtonContainer}
             onPress={navigateToPublishScreen}
           >
-            <Text style={styles.exit}>Exit preview</Text>
+            <View
+              style={[
+                styles.buttonTextContainer,
+                { backgroundColor: colors.primary },
+              ]}
+            >
+              <Text style={styles.preview}>Exit preview</Text>
+            </View>
+            <View style={styles.buttonIconBackground} />
+            <View style={styles.buttonIconContainer}>
+              <McIcons
+                name="exit-to-app"
+                size={24}
+                color={colors.primary}
+              />
+            </View>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.draftButtonContainer}
+            style={styles.singleButtonContainer}
             onPress={saveAsDraft}
           >
-            <Text style={styles.draft}>Save as draft</Text>
+            <View
+              style={[
+                styles.buttonTextContainer,
+                { backgroundColor: colors.positive },
+              ]}
+            >
+              <Text style={styles.draft}>Save as draft</Text>
+            </View>
+            <View style={styles.buttonIconBackground} />
+            <View style={styles.buttonIconContainer}>
+              <McIcons
+                name="file-send-outline"
+                size={24}
+                color={colors.positive}
+              />
+            </View>
           </TouchableOpacity>
+
         </View>
       </View>
     </ScrollView>
@@ -300,31 +316,59 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  exitButtonContainer: {
-    width: '42%',
-    padding: 8,
+  singleButtonContainer: {
+    flex: 1,
+    // borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 40,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: colors.light_grey,
+    overflow: 'hidden',
+  },
+  buttonTextContainer: {
+    paddingLeft: '10%',
+    width: '100%',
+    height: '100%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: colors.secondary,
+  },
+  buttonIconBackground: {
+    position: 'absolute',
+    right: 0,
+    height: '100%',
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderRightWidth: 25,
+    borderLeftWidth: 22,
+    borderBottomWidth: 50,
+    borderLeftColor: 'transparent',
+    borderRightColor: colors.container,
+    borderBottomColor: colors.container,
+  },
+  buttonIconContainer: {
+    position: 'absolute',
+    right: '3%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
-    backgroundColor: colors.primary,
   },
-  exit: {
+  preview: {
+    marginLeft: '2%',
+    textAlign: 'center',
     fontFamily: 'IBM',
-    fontSize: fontSize.medium,
-    color: colors.light_text,
-  },
-  draftButtonContainer: {
-    width: '42%',
-    padding: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    backgroundColor: colors.positive,
+    fontSize: fontSize.regular,
+    color: colors.light_background,
   },
   draft: {
+    textAlign: 'center',
     fontFamily: 'IBM',
-    fontSize: fontSize.medium,
-    color: colors.light_text,
+    fontSize: fontSize.regular,
+    color: colors.light_background,
   },
 });
 export default PreviewScreen;

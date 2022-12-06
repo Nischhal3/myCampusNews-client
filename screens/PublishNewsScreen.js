@@ -475,16 +475,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                 items={newsCategory}
               />
             </View>
-            {/* <View style={styles.notificationContainer}>
-                <Text style={styles.notification}>Notification</Text>
-                <Switch
-                  trackColor={{ false: colors.dark_grey, true: colors.secondary }}
-                  thumbColor={isEnabled ? colors.nokia_blue : "#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch}
-                  value={isEnabled}
-                />
-              </View> */}
           </View>
 
           <View style={styles.titleContainer}>
@@ -799,29 +789,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  notificationContainer: {
-    width: '50%',
-    flexDirection: 'row',
-    paddingLeft: 10,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    // borderWidth: 1,
-  },
-  notification: {
-    textAlign: 'center',
-    fontFamily: 'IBM',
-    fontSize: fontSize.regular,
-    color: colors.dark_text,
-  },
-  // titleContainer:{
-  //   borderWidth: 1,
-  // },
-  // leadContainer:{
-  //   borderWidth: 1,
-  // },
-  // contentContainer:{
-  //   borderWidth: 1,
-  // },
   extraInputsSectionContainer: {
     marginVertical: 10,
   },
