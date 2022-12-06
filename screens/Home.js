@@ -91,15 +91,9 @@ const Home = ({ navigation }) => {
     }
   };
 
-  return (
-    <AlertNotificationRoot>
-      <View style={styles.container}>
-        <SearchBar
-          searching={searching}
-          setSearching={setSearching}
-          searchPhrase={searchPhrase}
-          setSearchPhrase={setSearchPhrase}
-        />
+  const header = () => {
+    return (
+      <View>
         {
           searchPhrase == "" && newsInterval.filter(news => news.highlighted == 1).length > 0 ? (
             <View style={styles.highlightContainer}>
@@ -117,17 +111,31 @@ const Home = ({ navigation }) => {
             <></>
           )
         }
+        {
+          searchPhrase == "" ? (
+            <Text style={styles.header}>Recent news</Text>
+          ) : (
+            <Text style={styles.header}>Results</Text>
+          )
+        }
+      </View>
+    )
+  }
 
-        <View style={newsInterval.filter(news => news.highlighted == 1).length ? styles.newsContainer2 : styles.newsContainer1}>
-          {
-            searchPhrase == "" ? (
-              <Text style={styles.header}>Recent news</Text>
-            ) : (
-              <Text style={styles.header}>Results</Text>
-            )
-          }
+  return (
+    <AlertNotificationRoot>
+      <View style={styles.container}>
+        <SearchBar
+          searching={searching}
+          setSearching={setSearching}
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+        />
+
+        <View style={newsInterval.filter(news => news.highlighted == 1).length ? styles.newsContainer1 : styles.newsContainer1}>
           {searchByCategory === false ? (
             <FlatList
+              ListHeaderComponent={header}
               data={filteredList(news)}
               renderItem={({ item }) => (
                 <LargeNewsList navigation={navigation} news={item} />
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   newsContainer1: {
-    marginBottom: "20%",
+    marginBottom: "12%",
   },
   newsContainer2: {
     marginBottom: "82%",

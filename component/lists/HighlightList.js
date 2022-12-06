@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     width: 330,
-    height: 180,
+    height: 200,
     marginRight: 20,
     borderRadius: 10,
     overflow: "hidden",

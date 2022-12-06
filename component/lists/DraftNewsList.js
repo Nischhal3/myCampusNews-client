@@ -19,6 +19,7 @@ const DraftNewsList = ({ navigation, news }) => {
     navigation.navigate('Publish', {
       news: news,
       paragraph: response,
+      preview: false,
     }),
       setDrawerFocus('Publish');
     setDraft(draft + 1);

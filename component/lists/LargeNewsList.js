@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'IBM',
-    fontSize: fontSize.medium,
+    fontSize: fontSize.large,
     fontWeight: 'bold',
     color: colors.dark_text,
   },
