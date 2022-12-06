@@ -49,7 +49,6 @@ const PreviewScreen = ({ route, navigation }) => {
   const { news, paragraph } = route.params;
   const scrollViewRef = useRef();
   const { postParagraphToNews } = useNews();
-
   const saveAsDraft = async () => {
     try {
       const response = await postNews(route.params.formData, token);
@@ -89,6 +88,7 @@ const PreviewScreen = ({ route, navigation }) => {
       news: news,
       paragraph: paragraph,
       preview: true,
+      fromDraft: news.photoName.includes('http') ? true : false,
     });
     setDraft(draft + 1);
   };
@@ -195,11 +195,7 @@ const PreviewScreen = ({ route, navigation }) => {
             </View>
             <View style={styles.buttonIconBackground} />
             <View style={styles.buttonIconContainer}>
-              <McIcons
-                name="exit-to-app"
-                size={24}
-                color={colors.primary}
-              />
+              <McIcons name="exit-to-app" size={24} color={colors.primary} />
             </View>
           </TouchableOpacity>
 
@@ -224,7 +220,6 @@ const PreviewScreen = ({ route, navigation }) => {
               />
             </View>
           </TouchableOpacity>
-
         </View>
       </View>
     </ScrollView>
