@@ -273,9 +273,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
         if (response.status == 200) {
           /**
            * When navigation is done from draft list to publish news screen
-           * After news is posted, then that draft news is deleted automatically
+           * After news is posted, draft news is deleted automatically
            * Also deletes draft news when navigating from draft->publish->preview then preview->publish
-           * Only in condition that cover photo remains the same
+           * Only in condition that cover photo remains the same when user navigates to draft->publish->preview
            */
           if (route.params !== undefined && route.params.fromDraft === true) {
             try {

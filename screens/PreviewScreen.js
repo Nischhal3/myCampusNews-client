@@ -49,6 +49,7 @@ const PreviewScreen = ({ route, navigation }) => {
   const { news, paragraph } = route.params;
   const scrollViewRef = useRef();
   const { postParagraphToNews } = useNews();
+
   const saveAsDraft = async () => {
     try {
       const response = await postNews(route.params.formData, token);
