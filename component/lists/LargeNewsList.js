@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -17,11 +17,7 @@ import {
 } from '../../services/NewsService';
 import { Context } from '../../contexts/Context';
 import { baseUrl } from '../../utils/variables';
-import {
-  formatToDate,
-  formatToDistance,
-  formatToOnlyDate,
-} from '../../utils/timestamp';
+import { formatToOnlyDate } from '../../utils/timestamp';
 
 // UI Imports
 import colors from '../../utils/colors';
@@ -30,14 +26,12 @@ import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const LargeNewsList = ({ navigation, news }) => {
   const {
-    postAndRemoveLike,
     getNumberOfLike,
     getUserLike,
     liked,
     likedNumber,
   } = useLike();
-  const { checkFavorite, postAndRemoveFavorite, favorite, getFavoriteList } =
-    userFavorite();
+  const { checkFavorite } = userFavorite();
   const { deleteNews } = useNews();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
@@ -49,30 +43,7 @@ const LargeNewsList = ({ navigation, news }) => {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
-    // url = uploadDefaultUri;
   }
-
-  const newsDelete = () => {
-    Alert.alert(
-      `Delete news ${news.news_content}?`,
-      'This action cannot be undo.',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel button clicked'),
-          style: 'cancel',
-        },
-        {
-          text: 'Delete',
-          onPress: () => deleteNews(news.news_id),
-          style: 'destructive',
-        },
-      ],
-      {
-        cancelable: true,
-      }
-    );
-  };
 
   useEffect(() => {
     checkFavorite(news.news_id);
@@ -195,14 +166,10 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
   categoryContainer: {
-<<<<<<< HEAD
-    height: "18%",
+    height: "20%",
   },
   categoryBorder: {
     position: 'absolute',
-=======
-    width: '35%',
->>>>>>> c40d92375a604d774dd9671d672437e2fac890c8
     backgroundColor: colors.nokia_blue,
     paddingVertical: 2,
     paddingHorizontal: 4,
