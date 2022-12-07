@@ -91,7 +91,9 @@ const LargeNewsList = ({ navigation, news }) => {
 
         <View style={styles.sideContainer}>
           <View style={styles.categoryContainer}>
-            <Text style={styles.category}>{news.category}</Text>
+            <View style={styles.categoryBorder}>
+              <Text style={styles.category}>{news.category}</Text>
+            </View>
           </View>
 
           <View style={styles.contentConatiner}>
@@ -179,17 +181,23 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
   categoryContainer: {
-    width: "35%",
+    height: "18%",
+  },
+  categoryBorder: {
+    position: 'absolute',
     backgroundColor: colors.nokia_blue,
     paddingVertical: 2,
+    paddingHorizontal: 4,
     borderRadius: 3,
+    minWidth: "15%",
   },
   category: {
     textAlign: 'center',
     fontFamily: 'IBM',
-    fontSize: fontSize.caption,
+    fontSize: fontSize.small,
     color: colors.light_text,
     textTransform: 'capitalize',
+    fontWeight: 'bold',
   },
   dateContainer: {
     flexDirection: 'row',
