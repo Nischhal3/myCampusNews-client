@@ -91,6 +91,10 @@ const Home = ({ navigation }) => {
     }
   };
 
+  const _renderitem = ({ item }) => (
+    <LargeNewsList navigation={navigation} news={item} />
+  )
+
   const header = () => {
     return (
       <View>
@@ -135,20 +139,18 @@ const Home = ({ navigation }) => {
         <View style={newsInterval.filter(news => news.highlighted == 1).length ? styles.newsContainer1 : styles.newsContainer1}>
           {searchByCategory === false ? (
             <FlatList
-              ListHeaderComponent={header}
+              ListHeaderComponent={header()}
               data={filteredList(news)}
-              renderItem={({ item }) => (
-                <LargeNewsList navigation={navigation} news={item} />
-              )}
+              renderItem={_renderitem}
               showsVerticalScrollIndicator={false}
+              keyExtractor={item => item.news_id}
             />
           ) : (
             <FlatList
               data={newsByCategory}
-              renderItem={({ item }) => (
-                <LargeNewsList navigation={navigation} news={item} />
-              )}
+              renderItem={_renderitem}
               showsVerticalScrollIndicator={false}
+              keyExtractor={item => item.news_id}
             />
           )}
         </View>

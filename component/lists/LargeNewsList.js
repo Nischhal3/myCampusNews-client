@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useState } from 'react';
+import React, { createRef, useContext, useEffect, useState, memo } from 'react';
 import {
   Text,
   View,
@@ -195,14 +195,7 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
   categoryContainer: {
-<<<<<<< HEAD
-    height: "18%",
-  },
-  categoryBorder: {
-    position: 'absolute',
-=======
     width: '35%',
->>>>>>> c40d92375a604d774dd9671d672437e2fac890c8
     backgroundColor: colors.nokia_blue,
     paddingVertical: 2,
     paddingHorizontal: 4,
@@ -277,4 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LargeNewsList;
+export default memo(LargeNewsList);
