@@ -107,6 +107,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     mode: 'onBlur',
   });
 
+  // Bug: paragraph duplicates when going from draft to publish for the very first time
   useEffect(() => {
     if (route.params != undefined) {
       setValue('title', route.params.news.news_title);
@@ -166,7 +167,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
         const filename = item.image.split('/').pop();
         let fileExtension = filename.split('.').pop();
         fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-
         paragraph.append('paragraphPhoto', {
           uri: item.image,
           name: filename,
@@ -186,7 +186,10 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       paragraphList.push(paragraphValue);
     }
 
+    const news_id =
+      route.params !== undefined ? route.params.news.news_id : null;
     const value = {
+      news_id: news_id,
       news_title: data.title,
       news_op: data.op,
       news_content: data.content,
@@ -268,6 +271,23 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       try {
         const response = await postNews(formData, token);
         if (response.status == 200) {
+          /**
+           * When navigation is done from draft list to publish news screen
+           * After news is posted, draft news is deleted automatically
+           * Also deletes draft news when navigating from draft->publish->preview then preview->publish
+           * Only in condition that cover photo remains the same when user navigates to draft->publish->preview
+           */
+          if (route.params !== undefined && route.params.fromDraft === true) {
+            try {
+              const deleteDraftNews = await deleteNews(
+                token,
+                route.params.news.news_id
+              );
+              console.log('delete', deleteDraftNews);
+            } catch (error) {
+              console.log('Post news', error.message);
+            }
+          }
           for (let item of extraInputs) {
             const paragraph = new FormData();
             // Checking image file if it is from database or phone

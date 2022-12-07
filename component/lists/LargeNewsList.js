@@ -1,5 +1,12 @@
 import React, { createRef, useContext, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import defaultImage from '../../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
@@ -50,14 +57,22 @@ const LargeNewsList = ({ navigation, news }) => {
       `Delete news ${news.news_content}?`,
       'This action cannot be undo.',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel button clicked'), style: 'cancel'},
-        {text: 'Delete', onPress: () => deleteNews(news.news_id), style: 'destructive'},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel button clicked'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => deleteNews(news.news_id),
+          style: 'destructive',
+        },
       ],
-      { 
-        cancelable: true 
+      {
+        cancelable: true,
       }
     );
-  }
+  };
 
   useEffect(() => {
     checkFavorite(news.news_id);
@@ -137,7 +152,6 @@ const LargeNewsList = ({ navigation, news }) => {
               )}
             </View>
           </View>
-
         </View>
       </View>
     </TouchableOpacity>
@@ -168,7 +182,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '30%',
-    height: "100%",
+    height: '100%',
   },
   image: {
     width: '100%',
@@ -179,7 +193,7 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
   categoryContainer: {
-    width: "35%",
+    width: '35%',
     backgroundColor: colors.nokia_blue,
     paddingVertical: 2,
     borderRadius: 3,
