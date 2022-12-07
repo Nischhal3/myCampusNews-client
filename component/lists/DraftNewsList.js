@@ -20,6 +20,7 @@ const DraftNewsList = ({ navigation, news }) => {
       news: news,
       paragraph: response,
       preview: false,
+      fromDraft: true,
     }),
       setDrawerFocus('Publish');
     setDraft(draft + 1);
