@@ -36,7 +36,7 @@ const DraftNewsList = ({ navigation, news }) => {
   const deleteDraftNews = async () => {
     Alert.alert(
       `Delete news ${news.news_content}?`,
-      'This action cannot be undo.',
+      'This action cannot be undone.',
       [
         {
           text: 'Cancel',
