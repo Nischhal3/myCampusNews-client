@@ -33,7 +33,7 @@ const DraftNewsList = ({ navigation, news }) => {
     setDraft(draft + 1);
   };
 
-  const deleteDraftNews = async () => {
+  const deleteDraftNews = () => {
     Alert.alert(
       `Delete news ${news.news_content}?`,
       'This action cannot be undone.',
@@ -45,7 +45,7 @@ const DraftNewsList = ({ navigation, news }) => {
         },
         {
           text: 'Delete',
-          onPress: () => deleteNews(token, news.news_id),
+          onPress: async () => await deleteNews(token, news.news_id),
           style: 'destructive',
         },
       ],
