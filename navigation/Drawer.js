@@ -32,7 +32,6 @@ function CustomDrawerContent(props) {
     useContext(Context);
   const [extended, setExtended] = useState([false]);
 
-  const baseUrl = 'http://10.0.2.2:3000/';
   var url = '';
 
   if (user.avatar_name == 'unavailable') {

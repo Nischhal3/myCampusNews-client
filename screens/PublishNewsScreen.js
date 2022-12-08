@@ -1,6 +1,12 @@
 // npx expo install expo-image-picker
 // npx expo install expo-av
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Text,
   View,
@@ -43,9 +49,9 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [isDraft, setIsDraft] = useState(false);
   const { postParagraphToNews } = useNews();
   const [category, setCategory] = useState('');
-
   // Testing multiple inputs
   const [extraInputs, setExtraInputs] = useState([]);
+  const isFirstRender = useRef(true);
 
   const addExtraSection = () => {
     const _inputs = [...extraInputs];
@@ -107,8 +113,13 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     mode: 'onBlur',
   });
 
-  // Bug: paragraph duplicates when going from draft to publish for the very first time
+  // Setting values to the fields if use re-directs from draft screen
   useEffect(() => {
+    // return early if it is first render
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (route.params != undefined) {
       setValue('title', route.params.news.news_title);
       setValue('op', route.params.news.news_op);

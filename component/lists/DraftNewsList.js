@@ -1,5 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import defaultImage from '../../assets/images/blank_image.jpg';
 import { baseUrl } from '../../utils/variables';
 import { Context } from '../../contexts/Context';
@@ -26,13 +33,26 @@ const DraftNewsList = ({ navigation, news }) => {
     setDraft(draft + 1);
   };
 
-  const deleteDraftNews = async () => {
-    try {
-      const deleteDraftNews = await deleteNews(token, news.news_id);
-      console.log('delete', deleteDraftNews);
-    } catch (error) {
-      console.log('Post news', error.message);
-    }
+  const deleteDraftNews = () => {
+    Alert.alert(
+      `Delete news ${news.news_content}?`,
+      'This action cannot be undone.',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel button clicked'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: async () => await deleteNews(token, news.news_id),
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
   };
 
   return (
@@ -60,7 +80,7 @@ const DraftNewsList = ({ navigation, news }) => {
         <View style={styles.sideContainer}>
           <TouchableOpacity
             style={styles.deleteContainer}
-            onPress={deleteDraftNews}
+            onPress={() => deleteDraftNews()}
           >
             <McIcons name="delete-outline" size={24} color={colors.negative} />
           </TouchableOpacity>
