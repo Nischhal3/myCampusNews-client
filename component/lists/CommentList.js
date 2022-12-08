@@ -37,22 +37,13 @@ const CommentList = ({ comment }) => {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${commentOwner.avatar_name}`;
-    // url = uploadDefaultUri;
   }
 
   const swipeableRef = useRef(null);
   const closeSwipeable = () => {
     swipeableRef.current.close();
   }
-  const renderRightActions = (
-    progress = Animated.AnimatedInterpolation,
-    dragAnimatedValue = Animated.AnimatedInterpolation
-  ) => {
-    const opacity = dragAnimatedValue.interpolate({
-      inputRange: [-150, 0],
-      outputRange: [1, 0],
-      extrapolate: "clamp",
-    });
+  const renderRightActions = () => {
     return (
       <View style={styles.swipedRow}>
         <Animated.View style={styles.deleteButton}>
@@ -80,14 +71,11 @@ const CommentList = ({ comment }) => {
         >
           <TouchableOpacity style={styles.imageContainer}>
             <Image style={styles.avatar} source={{ uri: url }} />
-            {/* <Text>{news.photoName}</Text> */}
           </TouchableOpacity>
 
           <View style={styles.contentConatiner}>
             <Text style={styles.username}>{commentOwner.full_name}</Text>
             <Text style={styles.comment}>{comment.comment_content}</Text>
-            {/* <Text>{news.news_id}</Text> */}
-            {/* <Text style={styles.timeStamp}>xx/xx/xxxx</Text> */}
           </View>
 
           <View style={styles.sideContainer}>
@@ -122,21 +110,18 @@ const CommentList = ({ comment }) => {
       >
         <TouchableOpacity style={styles.imageContainer}>
           <Image style={styles.avatar} source={{ uri: url }} />
-          {/* <Text>{news.photoName}</Text> */}
         </TouchableOpacity>
 
         <View style={styles.contentConatiner}>
           <Text style={styles.username}>{commentOwner.full_name}</Text>
           <Text style={styles.comment}>{comment.comment_content}</Text>
-          {/* <Text>{news.news_id}</Text> */}
-          {/* <Text style={styles.timeStamp}>xx/xx/xxxx</Text> */}
         </View>
 
         <View style={styles.sideContainer}>
           {commentOwner.user_id == user.user_id ? (
             <TouchableOpacity
               onPress={() => {
-                /* delete comment */
+                /* nothing for this condition */
               }}
             >
               <McIcons name="lead-pencil" size={22} color={colors.secondary} />

@@ -316,7 +316,7 @@ const SingleNews = ({ route, navigation }) => {
                 onChange={onChange}
                 onBlur={onBlur}
                 value={value}
-                textAlign="top"
+                textAlign="center"
                 width="85%"
               />
             )}
@@ -451,14 +451,13 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   inputContainer: {
-    marginTop: '2%',
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
+    marginBottom: 5,
   },
   sendButton: {
-    marginTop: 2,
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     width: '20%',
   },
 });

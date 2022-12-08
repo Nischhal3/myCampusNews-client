@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, memo } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
 } from 'react-native';
 import defaultImage from '../../assets/images/blank_image.jpg';
 import {
@@ -13,7 +12,6 @@ import {
   postNewsViews,
   useLike,
   userFavorite,
-  useNews,
 } from '../../services/NewsService';
 import { Context } from '../../contexts/Context';
 import { baseUrl } from '../../utils/variables';
@@ -32,7 +30,6 @@ const LargeNewsList = ({ navigation, news }) => {
     likedNumber,
   } = useLike();
   const { checkFavorite } = userFavorite();
-  const { deleteNews } = useNews();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = '';
@@ -244,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LargeNewsList;
+export default memo(LargeNewsList);
