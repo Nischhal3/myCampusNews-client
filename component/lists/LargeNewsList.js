@@ -208,16 +208,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.dark_text,
   },
-  op: {
-    fontFamily: 'IBM',
-    fontSize: fontSize.medium,
-    color: colors.dark_grey,
-  },
-  content: {
-    fontFamily: 'IBM',
-    fontSize: fontSize.medium,
-    color: colors.dark_grey,
-  },
   readContainer: {
     flexDirection: 'row',
     alignItems: 'center',

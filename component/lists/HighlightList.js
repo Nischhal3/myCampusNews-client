@@ -1,11 +1,10 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Text,
   View,
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
 } from "react-native";
 import defaultImage from "../../assets/images/blank_image.jpg";
 import {
@@ -13,44 +12,31 @@ import {
   postNewsViews,
   useLike,
   userFavorite,
-  useNews,
 } from "../../services/NewsService";
 import { Context } from "../../contexts/Context";
 import { baseUrl } from "../../utils/variables";
-import {
-  formatToDate,
-  formatToDistance,
-  formatToOnlyDate,
-} from "../../utils/timestamp";
+import { formatToOnlyDate } from "../../utils/timestamp";
 
 // UI Imports
 import colors from "../../utils/colors";
 import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { de } from "date-fns/locale";
 
 const HighlightList = ({ navigation, news }) => {
   const {
-    postAndRemoveLike,
     getNumberOfLike,
     getUserLike,
-    liked,
-    likedNumber,
   } = useLike();
-  const { checkFavorite, postAndRemoveFavorite, favorite, getFavoriteList } =
-    userFavorite();
-  const { deleteNews } = useNews();
+  const { checkFavorite} = userFavorite();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = "";
 
-  const [newsView, setNewsView] = useState([]);
   const timeInterval = 3000;
   if (news.photoName == "unavailable") {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
-    // url = uploadDefaultUri;
   }
 
   useEffect(() => {

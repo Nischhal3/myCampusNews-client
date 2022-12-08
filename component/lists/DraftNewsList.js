@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Alert,
   Image,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import defaultImage from '../../assets/images/blank_image.jpg';
 import { baseUrl } from '../../utils/variables';
 import { Context } from '../../contexts/Context';
 

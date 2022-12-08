@@ -74,7 +74,7 @@ const FormInput = (props) => {
         width: "100%",
     },
     formInputText: {
-        marginLeft: 5,
+        marginBottom: 2,
     },
     multilineInputContainer: {
         borderWidth: 1,

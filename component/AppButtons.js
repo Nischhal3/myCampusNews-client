@@ -77,5 +77,4 @@ const styles = StyleSheet.create({
     fontFamily: "Goldman-regular",
   },
 })
-export {WelcomeScreenButton, SubmitButton};
-// export default WelcomeScreenButton;
+export { WelcomeScreenButton, SubmitButton };
