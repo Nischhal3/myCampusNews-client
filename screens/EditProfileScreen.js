@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   SafeAreaView,
   Platform,
@@ -16,30 +16,30 @@ import {
   ScrollView,
   useWindowDimensions,
   TouchableOpacity,
-} from "react-native";
-import { Controller, useForm } from "react-hook-form";
-import { FormInput } from "../component/AppInputs";
-import ErrorMessage from "../component/ErrorMessage";
-import { SubmitButton } from "../component/AppButtons";
-import { Context } from "../contexts/Context";
-import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { putUser, getUserByToken, getUserById } from "../services/UserService";
-import defaultAvatar from "../assets/images/blank_avatar.jpg";
+} from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
+import { FormInput } from '../component/AppInputs';
+import ErrorMessage from '../component/ErrorMessage';
+import { SubmitButton } from '../component/AppButtons';
+import { Context } from '../contexts/Context';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { putUser, getUserByToken, getUserById } from '../services/UserService';
+import defaultAvatar from '../assets/images/blank_avatar.jpg';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { baseUrl } from '../utils/variables';
 
 const EditProfileScreen = ({ navigation }) => {
   const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
   const { user, setUser } = useContext(Context);
-  const [type, setType] = useState("image");
-  const baseUrl = "http://10.0.2.2:3000/";
-  var url = "";
+  const [type, setType] = useState('image');
+  var url = '';
 
-  if (user.avatar_name == "unavailable") {
+  if (user.avatar_name == 'unavailable') {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${user.avatar_name}`;
@@ -67,7 +67,7 @@ const EditProfileScreen = ({ navigation }) => {
     formState: { errors },
     getValues,
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
       fullName: user.full_name,
       contactNumber: user.contact_n,
@@ -75,32 +75,32 @@ const EditProfileScreen = ({ navigation }) => {
       employeeNumber: user.employee_n,
       departmentLocation: user.department_l,
     },
-    mode: "onBlur",
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append("fullName", data.fullName);
-    formData.append("email", data.email);
-    formData.append("contactNumber", data.contactNumber);
-    formData.append("employeeNumber", data.employeeNumber);
-    formData.append("departmentLocation", data.departmentLocation);
-    const filename = image.split("/").pop();
-    let fileExtension = filename.split(".").pop();
-    fileExtension = fileExtension === "jpg" ? "jpeg" : fileExtension;
-    formData.append("avatar", {
+    formData.append('fullName', data.fullName);
+    formData.append('email', data.email);
+    formData.append('contactNumber', data.contactNumber);
+    formData.append('employeeNumber', data.employeeNumber);
+    formData.append('departmentLocation', data.departmentLocation);
+    const filename = image.split('/').pop();
+    let fileExtension = filename.split('.').pop();
+    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+    formData.append('avatar', {
       uri: image,
       name: filename,
-      type: type + "/" + fileExtension,
+      type: type + '/' + fileExtension,
     });
     try {
-      const token = await AsyncStorage.getItem("userToken");
+      const token = await AsyncStorage.getItem('userToken');
       const response = await putUser(formData, token);
       Alert.alert(response.message);
-      if (response.message == "User info updated") {
+      if (response.message == 'User info updated') {
         const userData = await getUserById(user.user_id, token);
         setUser(userData);
-        navigation.navigate("Profile");
+        navigation.navigate('Profile');
       }
     } catch (error) {
       console.error(error);
@@ -108,19 +108,19 @@ const EditProfileScreen = ({ navigation }) => {
   };
 
   const onCancel = () => {
-    resetField("fullName");
-    resetField("contactNumber");
-    resetField("email");
-    resetField("employeeNumber");
-    resetField("departmentLocation");
-    navigation.navigate("Profile");
+    resetField('fullName');
+    resetField('contactNumber');
+    resetField('email');
+    resetField('employeeNumber');
+    resetField('departmentLocation');
+    navigation.navigate('Profile');
   };
 
   return (
     <SafeAreaView style={styles.androidSafeArea}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : ""}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -130,31 +130,35 @@ const EditProfileScreen = ({ navigation }) => {
             <McIcons name="arrow-left" size={32} color={colors.negative} />
           </TouchableOpacity>
           <Text style={styles.header}>Edit Profile</Text>
-          <TouchableOpacity style={styles.saveContainer} onPress={handleSubmit(onSubmit)}>
-            <McIcons name="content-save-edit-outline" size={32} color={colors.positive} />
+          <TouchableOpacity
+            style={styles.saveContainer}
+            onPress={handleSubmit(onSubmit)}
+          >
+            <McIcons
+              name="content-save-edit-outline"
+              size={32}
+              color={colors.positive}
+            />
           </TouchableOpacity>
 
           <View style={styles.container}>
-
             <TouchableOpacity onPress={pickImage}>
               <Image style={styles.avatar} source={{ uri: image }} />
             </TouchableOpacity>
 
             <View style={styles.inputContainer}>
-
               <View style={styles.inputItemContainer}>
-
-              <Text style={styles.inputItemHeader}>USERNAME</Text>
+                <Text style={styles.inputItemHeader}>USERNAME</Text>
                 <Controller
                   control={control}
                   rules={{
                     required: {
                       value: true,
-                      message: "Please enter your username",
+                      message: 'Please enter your username',
                     },
                     minLength: {
                       value: 3,
-                      message: "Username has to be at least 3 characters.",
+                      message: 'Username has to be at least 3 characters.',
                     },
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
@@ -199,10 +203,13 @@ const EditProfileScreen = ({ navigation }) => {
                 <Controller
                   control={control}
                   rules={{
-                    required: { value: true, message: "Please enter your email" },
+                    required: {
+                      value: true,
+                      message: 'Please enter your email',
+                    },
                     pattern: {
                       value: /\S+@\b(\w*nokia)\b\.\b(\w*com)+$/,
-                      message: "Not valid email.",
+                      message: 'Not valid email.',
                     },
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
@@ -261,9 +268,7 @@ const EditProfileScreen = ({ navigation }) => {
                   name="departmentLocation"
                 />
               </View>
-
             </View>
-
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -274,20 +279,20 @@ const EditProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   androidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   cancelContainer: {
     position: 'absolute',
-    left: "4%",
-    top: "2%",
+    left: '4%',
+    top: '2%',
   },
   saveContainer: {
     position: 'absolute',
-    right: "4%",
-    top: "2%",
+    right: '4%',
+    top: '2%',
   },
   header: {
-    marginTop: "4%",
+    marginTop: '4%',
     textAlign: 'center',
     fontSize: fontSize.regular,
     fontWeight: 'bold',
@@ -295,29 +300,29 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: "5%",
-    padding: "5%",
+    marginTop: '5%',
+    padding: '5%',
   },
   avatar: {
     width: 125,
     height: 125,
     borderRadius: 200,
-    resizeMode: "contain",
-    alignSelf: "center",
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
   inputContainer: {
     flex: 1,
-    margin: "5%",
-    justifyContent: "space-evenly",
+    margin: '5%',
+    justifyContent: 'space-evenly',
     // borderWidth: 1,
   },
   inputItemContainer: {
     marginBottom: 5,
   },
   inputItemHeader: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
   },
 });

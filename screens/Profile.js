@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -8,44 +8,55 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
-} from "react-native";
-import { Context } from "../contexts/Context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import * as ImagePicker from "expo-image-picker";
-import defaultAvatar from "../assets/images/blank_avatar.jpg";
-import { useUser } from "../services/UserService";
+} from 'react-native';
+import { Context } from '../contexts/Context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as ImagePicker from 'expo-image-picker';
+import defaultAvatar from '../assets/images/blank_avatar.jpg';
+import { useUser } from '../services/UserService';
 
 // UI Imports
-import colors from "../utils/colors";
-import fontSize from "../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { baseUrl } from '../utils/variables';
 
 const Profile = ({ navigation, route = {} }) => {
   const { deleteUser } = useUser();
   const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
   const { user, setIsLoggedIn } = useContext(Context);
-  const [type, setType] = useState("image");
+  const [type, setType] = useState('image');
   const [imageSelected, setImageSelected] = useState(false);
-  const baseUrl = "http://10.0.2.2:3000/";
-  var url = "";
+  var url = '';
 
   const userDelete = () => {
     Alert.alert(
       `Delete user ${route.params.user.full_name}?`,
       'This action cannot be undo.',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel button clicked'), style: 'cancel'},
-        {text: 'Delete', onPress: () => {navigation.navigate("MUsers"); deleteUser(route.params.user.user_id)}, style: 'destructive'},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel button clicked'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            navigation.navigate('MUsers');
+            deleteUser(route.params.user.user_id);
+          },
+          style: 'destructive',
+        },
       ],
-      { 
-        cancelable: true 
+      {
+        cancelable: true,
       }
     );
-  }
+  };
 
   if (route.params == undefined) {
-    if (user.avatar_name == "unavailable") {
+    if (user.avatar_name == 'unavailable') {
       url = uploadDefaultUri;
     } else {
       url = `${baseUrl}avatar/${user.avatar_name}`;
@@ -54,7 +65,7 @@ const Profile = ({ navigation, route = {} }) => {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.editProfileIcon}
-          onPress={() => navigation.navigate("EditProfile")}
+          onPress={() => navigation.navigate('EditProfile')}
         >
           <McIcons
             name="account-edit-outline"
@@ -67,15 +78,15 @@ const Profile = ({ navigation, route = {} }) => {
 
         <View style={styles.userContainer}>
           <Text style={styles.username}>{user.full_name}</Text>
-          <Text style={styles.role}>{user.role == 0 ? "Admin" : "User"}</Text>
+          <Text style={styles.role}>{user.role == 0 ? 'Admin' : 'User'}</Text>
         </View>
 
         <View
           style={{
             borderBottomColor: colors.light_grey,
             borderBottomWidth: 1,
-            width: "100%",
-            alignSelf: "center",
+            width: '100%',
+            alignSelf: 'center',
           }}
         />
 
@@ -133,39 +144,31 @@ const Profile = ({ navigation, route = {} }) => {
       </View>
     );
   } else {
-    if (route.params.user.avatar_name == "unavailable") {
+    if (route.params.user.avatar_name == 'unavailable') {
       url = uploadDefaultUri;
     } else {
       url = `${baseUrl}avatar/${route.params.user.avatar_name}`;
     }
     return (
       <View style={styles.container}>
-         <TouchableOpacity
+        <TouchableOpacity
           style={styles.backArrowIcon}
-          onPress={() => navigation.navigate("MUsers")}
+          onPress={() => navigation.navigate('MUsers')}
         >
-          <McIcons
-            name="arrow-left"
-            size={28}
-            color={colors.secondary}
-          />
+          <McIcons name="arrow-left" size={28} color={colors.secondary} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.deleteUserIcon}
           onPress={() => userDelete()}
         >
-          <McIcons
-            name="delete-outline"
-            size={28}
-            color={colors.negative}
-          />
+          <McIcons name="delete-outline" size={28} color={colors.negative} />
         </TouchableOpacity>
         <Image style={styles.avatar} source={{ uri: url }} />
 
         <View style={styles.userContainer}>
           <Text style={styles.username}>{route.params.user.full_name}</Text>
           <Text style={styles.role}>
-            {route.params.user.role == 0 ? "Admin" : "User"}
+            {route.params.user.role == 0 ? 'Admin' : 'User'}
           </Text>
         </View>
 
@@ -173,8 +176,8 @@ const Profile = ({ navigation, route = {} }) => {
           style={{
             borderBottomColor: colors.light_grey,
             borderBottomWidth: 1,
-            width: "100%",
-            alignSelf: "center",
+            width: '100%',
+            alignSelf: 'center',
           }}
         />
 
@@ -240,20 +243,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    paddingHorizontal: "5%",
+    paddingHorizontal: '5%',
   },
   editProfileIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     right: 15,
   },
   backArrowIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 15,
   },
   deleteUserIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     right: 15,
   },
@@ -261,51 +264,51 @@ const styles = StyleSheet.create({
     width: 125,
     height: 125,
     borderRadius: 200,
-    resizeMode: "contain",
-    alignSelf: "center",
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
   userContainer: {
-    paddingTop: "5%",
-    alignSelf: "center",
-    paddingBottom: "10%",
+    paddingTop: '5%',
+    alignSelf: 'center',
+    paddingBottom: '10%',
   },
   username: {
     fontSize: fontSize.subtitle,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
   },
   role: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.regular,
     color: colors.nokia_blue,
   },
   infoContainer: {
-    marginTop: "5%",
-    margin: "3%",
+    marginTop: '5%',
+    margin: '3%',
   },
   contactInfo: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.large,
     color: colors.dark_grey,
-    marginBottom: "8%",
+    marginBottom: '8%',
   },
   infoItemContainer: {
-    margin: "2%",
-    marginBottom: "8%",
+    margin: '2%',
+    marginBottom: '8%',
   },
   infoItemIconText: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   infoItemText: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
-    marginLeft: "5%",
+    marginLeft: '5%',
   },
   infoItem: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
     color: colors.primary,
     marginTop: 5,
