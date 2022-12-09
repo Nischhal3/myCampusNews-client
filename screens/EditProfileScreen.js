@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   SafeAreaView,
   Platform,
@@ -7,31 +7,25 @@ import {
   Image,
   StyleSheet,
   View,
-  TextInput,
-  Button,
   Alert,
-  Pressable,
-  TouchableWithoutFeedback,
   KeyboardAvoidingView,
   ScrollView,
-  useWindowDimensions,
   TouchableOpacity,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import { FormInput } from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
-import { SubmitButton } from '../component/AppButtons';
 import { Context } from '../contexts/Context';
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { putUser, getUserByToken, getUserById } from '../services/UserService';
-import defaultAvatar from '../assets/images/blank_avatar.jpg';
+import { putUser, getUserById } from '../services/UserService';
+import { baseUrl } from '../utils/variables';
 
 // UI Imports
+import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { baseUrl } from '../utils/variables';
 
 const EditProfileScreen = ({ navigation }) => {
   const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
@@ -43,7 +37,6 @@ const EditProfileScreen = ({ navigation }) => {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${user.avatar_name}`;
-    // url = uploadDefaultUri;
   }
 
   const [image, setImage] = useState(url);
@@ -65,7 +58,6 @@ const EditProfileScreen = ({ navigation }) => {
     resetField,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm({
     mode: 'onChange',
     defaultValues: {

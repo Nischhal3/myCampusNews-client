@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAlllNews, getAlllNewsByDraft } from '../services/NewsService';
+import { getAlllNewsByDraft } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { FlatList } from 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
+
+// Import list component
 import DraftNewsList from '../component/lists/DraftNewsList';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const DraftScreen = ({ route, navigation }) => {
   const { token } = useContext(Context);
@@ -60,8 +59,6 @@ const styles = StyleSheet.create({
     fontFamily: "IBM",
     fontSize: fontSize.large,
     color: colors.primary,
-  },
-  listContainer: {
   },
 });
 

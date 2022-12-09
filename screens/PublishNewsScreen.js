@@ -1,5 +1,3 @@
-// npx expo install expo-image-picker
-// npx expo install expo-av
 import React, {
   useCallback,
   useContext,
@@ -16,14 +14,11 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  StatusBar,
   KeyboardAvoidingView,
-  SafeAreaView,
-  Switch,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import defaultImage from '../assets/images/blank_image.png';
-import { FormInput, MultilineInput } from '../component/AppInputs';
+import { MultilineInput } from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
 import * as ImagePicker from 'expo-image-picker';
 import { Video } from 'expo-av';
@@ -31,7 +26,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import { deleteNews, postNews, useNews } from '../services/NewsService';
 import { Context } from '../contexts/Context';
 import { useFocusEffect } from '@react-navigation/native';
-import { useValue } from 'react-native-reanimated';
 
 // UI Imports
 import colors from '../utils/colors';
@@ -44,12 +38,8 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   const [image, setImage] = useState(uploadDefaultUri);
   const [type, setType] = useState('image');
-  const [item, setItem] = useState();
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [isDraft, setIsDraft] = useState(false);
   const { postParagraphToNews } = useNews();
   const [category, setCategory] = useState('');
-  // Testing multiple inputs
   const [extraInputs, setExtraInputs] = useState([]);
   const isFirstRender = useRef(true);
 
@@ -471,16 +461,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
               <>
                 <View style={styles.imageWrap}>
                   <TouchableOpacity onPress={pickOnlyImage}>
-                    {/*  {isDraft == true ? (
-                      <Image
-                        source={{
-                          uri: `${`${baseUrl}/${route.params.news.photoName}`}`,
-                        }}
-                        style={styles.image}
-                      />
-                    ) : (
-                      <Image source={{ uri: image }} style={styles.image} />
-                    )} */}
                     <Image source={{ uri: image }} style={styles.image} />
                   </TouchableOpacity>
                 </View>
@@ -533,7 +513,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   onBlur={onBlur}
                   value={value}
                   textAlign="center"
-                  // leftIcon="pencil-outline"
                 />
               )}
               name="title"
@@ -567,7 +546,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   value={value}
                   height={150}
                   textAlign="top"
-                  // leftIcon="file-document-edit-outline"
                 />
               )}
               name="op"
@@ -598,7 +576,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
                   value={value}
                   height={250}
                   textAlign="top"
-                  // leftIcon="file-document-edit-outline"
                 />
               )}
               name="content"
@@ -730,7 +707,6 @@ const styles = StyleSheet.create({
   },
   topButtonContainer: {
     flex: 1,
-    // borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -797,12 +773,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     padding: 1,
   },
-  imageWrap: {
-    // height: 200,
-    // borderWidth: 1,
-  },
   image: {
-    // zIndex: 2,
     width: '100%',
     height: undefined,
     aspectRatio: 1.5,

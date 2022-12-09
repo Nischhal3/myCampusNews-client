@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Alert,
-  useWindowDimensions,
   StyleSheet,
   View,
   Image,
@@ -13,15 +12,14 @@ import { Context } from '../contexts/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   DrawerContentScrollView,
-  DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { baseUrl } from '../utils/variables';
-import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import LocalAuth from '../screens/LocalAuth';
 
 // UI Imports
+import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -30,7 +28,6 @@ function CustomDrawerContent(props) {
   const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
   const { user, setIsLoggedIn, drawerFocus, setDrawerFocus } =
     useContext(Context);
-  const [extended, setExtended] = useState([false]);
 
   var url = '';
 
@@ -39,7 +36,6 @@ function CustomDrawerContent(props) {
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7HrjlxizejA_sfkfPhIaAdv5Cxy6A-HGFzA&usqp=CAU';
   } else {
     url = `${baseUrl}avatar/${user.avatar_name}`;
-    // url = uploadDefaultUri;
   }
 
   const logout = () => {
@@ -67,7 +63,6 @@ function CustomDrawerContent(props) {
     <LinearGradient
       start={{ x: 1, y: 0 }}
       end={{ x: 0, y: 1 }}
-      // locations={[0, 0.24, 0.45, 1]}
       colors={['#004D9B', '#80A5CA']}
       style={styles.linearBackground}
     >
@@ -97,7 +92,6 @@ function CustomDrawerContent(props) {
                 style={{ position: 'absolute', right: 5, top: 0 }}
               />
             </TouchableOpacity>
-            {/* <DrawerItemList {...props} /> */}
             <View
               style={{
                 borderBottomColor: colors.light_background,
@@ -301,7 +295,6 @@ function CustomDrawerContent(props) {
                 </Text>
               </View>
             </TouchableOpacity>
-            {/* <DrawerItemList {...props} /> */}
             <View
               style={{
                 borderBottomColor: colors.light_background,
@@ -362,53 +355,6 @@ function CustomDrawerContent(props) {
               activeTintColor={colors.dark_text}
               focused={drawerFocus == 'Bookmark' ? true : false}
             />
-            {/* <DrawerItem
-              label="Notifications"
-              style={styles.drawerItem}
-              labelStyle={{
-                color:
-                  drawerFocus == 'Notification'
-                    ? colors.primary
-                    : colors.light_text,
-              }}
-              icon={() => (
-                <McIcons
-                  name="bell-outline"
-                  size={24}
-                  color={
-                    drawerFocus == 'Notification'
-                      ? colors.primary
-                      : colors.light_text
-                  }
-                />
-              )}
-              onPress={() => {
-                props.navigation.navigate('Notification');
-                setDrawerFocus('Notification');
-              }}
-              activeBackgroundColor={colors.light_background}
-              inactiveTintColor={colors.dark_text}
-              focused={drawerFocus == 'Notification' ? true : false}
-            /> */}
-            {/* <TouchableOpacity
-              style={styles.bookmarksContainer}
-              onPress={() => {
-                setExtended(!extended);
-              }}
-            >
-              <McIcons
-                name="bookmark-multiple-outline"
-                size={24}
-                color={colors.light_text}
-              />
-              <Text style={styles.bookmarks}>Bookmarks</Text>
-              <McIcons
-                name={extended ? 'chevron-up' : 'chevron-down'}
-                size={24}
-                color={colors.light_text}
-                style={{ marginLeft: '34%' }}
-              />
-            </TouchableOpacity> */}
           </DrawerContentScrollView>
           <View
             style={{

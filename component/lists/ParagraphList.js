@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet, Image } from 'react-native';
+import React, { useRef } from 'react';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { baseUrl } from '../../utils/variables';
-import defaultImage from '../../assets/images/blank_avatar.jpg';
-import Animated from 'react-native-reanimated';
 import { Video } from 'expo-av';
 
 // UI Imports
 import colors from '../../utils/colors';
 import fontSize from '../../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ParagraphList = ({ paragraph, preview }) => {
   const videoRef = useRef(null);
@@ -74,7 +71,6 @@ const styles = StyleSheet.create({
     color: colors.dark_grey,
   },
   paragraphContainer: {
-    // borderWidth: 1
     paddingHorizontal: '3%',
   },
   paragraph: {

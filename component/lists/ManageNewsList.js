@@ -1,7 +1,6 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
+import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
 import defaultImage from '../../assets/images/blank_image.jpg';
-import { Context } from "../../contexts/Context";
 import { baseUrl } from "../../utils/variables";
 import { useNews } from '../../services/NewsService';
 import { formatToOnlyDate } from '../../utils/timestamp';
@@ -100,9 +99,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 3,
   },
-  imageContainer: {
-    // borderWidth: 1,
-  },
   image: {
     width: 60,
     height: 60,
@@ -118,7 +114,6 @@ const styles = StyleSheet.create({
     fontSize: fontSize.caption,
     fontWeight: "bold",
     color: colors.dark_grey,
-    // marginBottom: 2,
   },
   title: {
     fontFamily: "IBM",

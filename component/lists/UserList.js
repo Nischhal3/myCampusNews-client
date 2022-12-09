@@ -1,11 +1,11 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import defaultImage from "../../assets/images/blank_avatar.jpg";
 import { Context } from "../../contexts/Context";
 import { baseUrl } from "../../utils/variables";
 import { useUser } from "../../services/UserService";
 
 // UI Imports
+import defaultImage from "../../assets/images/blank_avatar.jpg";
 import colors from "../../utils/colors";
 import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -16,12 +16,14 @@ const UserList = ({ navigation, otherUser }) => {
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = "";
 
+  // Set image url
   if (otherUser.avatar_name == "unavailable") {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${otherUser.avatar_name}`;
   }
 
+  // Changing user role
   const changeUserRole = () => {
     otherUser.role == 0
       ? updateUserRole(1, otherUser.user_id)
@@ -81,7 +83,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 10,
-    // borderRadius: 20,
     backgroundColor: colors.light_background,
     shadowColor: "#000",
     shadowOffset: {
@@ -94,9 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 3,
   },
-  imageContainer: {
-    // borderWidth: 1,
-  },
   image: {
     width: 50,
     height: 50,
@@ -105,7 +103,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     marginLeft: "4%",
     paddingVertical: 2,
-    // borderWidth: 1,
   },
   username: {
     fontFamily: "IBM",

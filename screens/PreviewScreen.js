@@ -1,42 +1,28 @@
-import React, {
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useContext, useRef } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   Image,
-  Button,
-  Input,
   TouchableOpacity,
-  Icon,
-  FlatList,
   Alert,
   ScrollView,
 } from 'react-native';
 import {
   postNews,
-  useComment,
-  useLike,
   useNews,
-  userFavorite,
 } from '../services/NewsService';
 import { Context } from '../contexts/Context';
-import { baseUrl } from '../utils/variables';
 import DialogInput from 'react-native-dialog-input';
-import ParagraphList from '../component/lists/ParagraphList';
 
-// utils Imports
-import { formatToDate, formatToDistance } from '../utils/timestamp';
+//  Import list component
+import ParagraphList from '../component/lists/ParagraphList';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { formatToDate, formatToDistance } from '../utils/timestamp';
 
 const PreviewScreen = ({ route, navigation }) => {
   const {
@@ -314,7 +300,6 @@ const styles = StyleSheet.create({
   },
   singleButtonContainer: {
     flex: 1,
-    // borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

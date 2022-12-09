@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import defaultImage from '../../assets/images/blank_image.jpg';
 import {
@@ -18,11 +18,8 @@ import { formatToOnlyDate } from '../../utils/timestamp';
 
 const NewsList = ({ navigation, news }) => {
   const {
-    postAndRemoveLike,
     getNumberOfLike,
     getUserLike,
-    liked,
-    likedNumber,
   } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite, getFavoriteList } =
     userFavorite();
@@ -36,7 +33,6 @@ const NewsList = ({ navigation, news }) => {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
-    // url = uploadDefaultUri;
   }
 
   useEffect(() => {
@@ -76,8 +72,6 @@ const NewsList = ({ navigation, news }) => {
         <Text style={styles.content} numberOfLines={1} ellipsizeMode="tail">
           {news.news_content}
         </Text>
-        {/* <Text>{news.news_id}</Text> */}
-        {/* <Text style={styles.timeStamp}>{formatToOnlyDate(news.news_time)}</Text> */}
       </View>
 
       <View style={styles.sideContainer}>

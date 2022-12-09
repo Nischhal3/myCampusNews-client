@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useUser } from "../services/UserService";
 import { Context } from "../contexts/Context";
@@ -9,7 +9,6 @@ import { SimpleSearchBar } from "../component/SearchBar";
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ManageUsersScreen = ({ navigation }) => {
   const { getAllUsers, userList } = useUser();

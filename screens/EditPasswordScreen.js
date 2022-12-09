@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text,
   View,
   StyleSheet,
   StatusBar,
   SafeAreaView,
-  TouchableWithoutFeedback,
   KeyboardAvoidingView,
   ScrollView,
   Image,
@@ -13,13 +12,7 @@ import {
 } from "react-native";
 import { Context } from "../contexts/Context";
 import { SubmitButton } from "../component/AppButtons";
-import {
-  putUser,
-  getUserByToken,
-  getUserById,
-  putUserPassword,
-} from "../services/UserService";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { putUserPassword } from "../services/UserService";
 import { Controller, useForm } from "react-hook-form";
 import fontSize from "../utils/fontSize";
 import colors from "../utils/colors";
@@ -27,8 +20,7 @@ import ErrorMessage from "../component/ErrorMessage";
 import { FormInput } from "../component/AppInputs";
 
 const EditPasswordScreen = ({ navigation }) => {
-  const { user, setIsLoggedIn, token } = useContext(Context);
-  const [currentPassword, setCurrentPassword] = useState(false);
+  const { user, token } = useContext(Context);
 
   const {
     control,

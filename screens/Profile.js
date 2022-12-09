@@ -1,33 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Text,
   View,
   Image,
   StyleSheet,
-  Button,
-  Pressable,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import { Context } from '../contexts/Context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as ImagePicker from 'expo-image-picker';
-import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import { useUser } from '../services/UserService';
+import { baseUrl } from '../utils/variables';
 
 // UI Imports
+import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { baseUrl } from '../utils/variables';
 
 const Profile = ({ navigation, route = {} }) => {
   const { deleteUser } = useUser();
   const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
-  const { user, setIsLoggedIn } = useContext(Context);
-  const [type, setType] = useState('image');
-  const [imageSelected, setImageSelected] = useState(false);
+  const { user } = useContext(Context);
   var url = '';
 
   const userDelete = () => {

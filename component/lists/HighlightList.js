@@ -15,12 +15,12 @@ import {
 } from "../../services/NewsService";
 import { Context } from "../../contexts/Context";
 import { baseUrl } from "../../utils/variables";
-import { formatToOnlyDate } from "../../utils/timestamp";
 
 // UI Imports
 import colors from "../../utils/colors";
 import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { formatToOnlyDate } from "../../utils/timestamp";
 
 const HighlightList = ({ navigation, news }) => {
   const {

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from '../utils/colors';
-import fontSize from '../utils/fontSize';
 
 const FormInput = (props) => {
     const {leftIcon, rightIcon, textColor} = props;

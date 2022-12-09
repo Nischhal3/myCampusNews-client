@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList, Button } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import { Context } from "../contexts/Context";
-import LargeNewsList from "../component/lists/LargeNewsList";
 import { useNews } from "../services/NewsService";
+
+// Import searchbar component
 import { SearchBar } from "../component/SearchBar";
+
+// Import list components
 import HighlightList from "../component/lists/HighlightList";
+import LargeNewsList from "../component/lists/LargeNewsList";
 
 // UI Imports
 import colors from "../utils/colors";
 import fontSize from "../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import {
   ALERT_TYPE,
@@ -28,7 +31,6 @@ const Home = ({ navigation }) => {
     searchUpdate,
     searchOptions,
     newsByCategory,
-    setNewsByCategory,
   } = useContext(Context);
   const {
     getAlllNews,

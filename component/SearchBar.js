@@ -1,18 +1,15 @@
-// SearchBar.js
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   TextInput,
   View,
   Keyboard,
-  Button,
   TouchableOpacity,
   Text,
 } from "react-native";
-import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
+import { Menu, MenuItem } from "react-native-material-menu";
 import { SelectList } from "react-native-dropdown-select-list";
-import { baseUrl, newsCategory } from '../utils/variables';
-import { useNews } from '../services/NewsService';
+import { newsCategory } from '../utils/variables';
 import { Context } from '../contexts/Context';
 
 // UI Imports
@@ -26,8 +23,7 @@ const SearchBar = ({
   searchPhrase,
   setSearchPhrase,
 }) => {
-  const { setNewsUpdate, newsUpdate,setSearchByCategory ,setSearchUpdate,searchUpdate,setSearchOptions,newsByCategory, setNewsByCategory} = useContext(Context);
-  const { getAlllNewsByCategory} = useNews();
+  const { setSearchByCategory ,setSearchUpdate,searchUpdate,setSearchOptions,newsByCategory, setNewsByCategory} = useContext(Context);
   const [visible, setVisible] = useState(false);
   const [searchOption, setSearchOption] = useState(1);
   const hideMenu = () => setVisible(false);
@@ -114,7 +110,6 @@ const SearchBar = ({
             fontFamily="IBM"
             placeholder="Select a category"
             searchPlaceholder="Search"
-            // search={false}
             inputStyles={{textTransform: "capitalize"}}
             boxStyles={{left: 10, width: 250, borderWidth: 0, textTransform: "capitalize"}}
             dropdownStyles={{left: 10, width: "100%", borderWidth: 0}}
@@ -180,15 +175,10 @@ const SimpleSearchBar = ({searching, setSearching, searchPhrase, setSearchPhrase
 
 const styles = StyleSheet.create({
   container: {
-    // margin: 15,
-    // justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    // height: 50,
     marginBottom: 15,
-    // overflow: "hidden",
-    // borderWidth: 1,
   },
   notSearchingInputContainer: {
     padding: 10,

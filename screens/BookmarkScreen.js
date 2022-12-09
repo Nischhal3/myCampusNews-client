@@ -1,14 +1,15 @@
-import React,  { useContext, useEffect, useState } from "react";
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
+import React,  { useContext, useEffect } from "react";
+import { Text, View, StyleSheet, FlatList } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { userFavorite } from "../services/NewsService";
 import { Context } from "../contexts/Context";
+
+// Import list component
 import NewsList from '../component/lists/NewsList';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const BookmarkScreen = ({navigation}) => {
   const { getFavoriteList, favoriteList,favorite } = userFavorite();
@@ -50,8 +51,6 @@ const styles = StyleSheet.create({
     fontFamily: "IBM",
     fontSize: fontSize.large,
     color: colors.primary,
-  },
-  newsContainer: {
   },
 });
 export default BookmarkScreen;

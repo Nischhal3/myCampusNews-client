@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNews } from "../services/NewsService";
 import { Context } from "../contexts/Context";
@@ -9,29 +9,15 @@ import { SimpleSearchBar } from "../component/SearchBar";
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ManageNewsScreen = ({ navigation }) => {
   const [searchPhrase, setSearchPhrase] = useState("");
   const [searching, setSearching] = useState(false);
-  const {
-    setNewsUpdate,
-    newsUpdate,
-    searchByCategory,
-    searchUpdate,
-    searchOptions,
-    newsByCategory,
-    setNewsByCategory,
-  } = useContext(Context);
+  const { newsUpdate } = useContext(Context);
   const {
     getAlllNews,
-    getAlllNewsIninterval,
-    newsInterval,
     news,
-    getAlllNewsByCategory,
   } = useNews();
-  const [notificationState, setNotificationState] = useState(true);
-  const timeInterval = 3000;
   const isDraft = 0;
 
   const filteredNews = (news) => {

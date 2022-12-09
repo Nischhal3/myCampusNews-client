@@ -1,8 +1,4 @@
-// npm install @react-navigation/native @react-navigation/native-stack
-// npm install react-native-screens react-native-safe-area-context
-import React, { useContext, useEffect, useState } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useContext, useEffect } from 'react';
 
 // Import Navigations
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,7 +15,6 @@ import Register from '../screens/RegisterScreen';
 import Home from '../screens/Home';
 import SingleNewsScreen from '../screens/SingleNewsScreen';
 import Profile from '../screens/Profile';
-import NotificationScreen from '../screens/NotificationScreen';
 import SettingScreen from '../screens/SettingScreen';
 import ManageNewsScreen from '../screens/ManageNewsScreen';
 import ManageUsersScreen from '../screens/ManageUsersScreen';
@@ -32,7 +27,6 @@ import DraftScreen from '../screens/DraftScreen';
 
 // UI Imports
 import colors from '../utils/colors';
-import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 // Import Custom Drawer
 import CustomDrawerContent from './Drawer';
@@ -73,14 +67,11 @@ const DrawerScreen = () => {
         drawerType: 'front',
         headerTitleAlign: 'center',
         headerStyle: {
-          // minHeight: '13%',
           maxHeight: 100,
           backgroundColor: colors.backgroundColor,
         },
         headerTitle: (props) => <Header {...props} />,
         drawerActiveBackgroundColor: colors.light_background,
-        // drawerActiveTintColor: colors.light_text,
-        // headerShown: false,
       }}
     >
       <Drawer.Screen name="Profile" component={Profile} />
@@ -91,7 +82,6 @@ const DrawerScreen = () => {
       />
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="SingleNews" component={SingleNewsScreen} />
-      <Drawer.Screen name="Notification" component={NotificationScreen} />
       <Drawer.Screen name="Setting" component={SettingScreen} />
       <Drawer.Screen name="MNews" component={ManageNewsScreen} />
       <Drawer.Screen name="MUsers" component={ManageUsersScreen} />

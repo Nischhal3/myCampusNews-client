@@ -1,5 +1,4 @@
-// npm install react-hook-form
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   SafeAreaView,
   Platform,
@@ -8,10 +7,7 @@ import {
   Image,
   StyleSheet,
   View,
-  TextInput,
-  Button,
   Alert,
-  Pressable,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   ScrollView,
@@ -19,15 +15,17 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { Context } from '../contexts/Context';
 import ErrorMessage from '../component/ErrorMessage';
-import { getUserByToken, login, getUserById } from '../services/UserService';
+import { login, getUserById } from '../services/UserService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // Components
 import { FormInput } from "../component/AppInputs";
 import { SubmitButton } from '../component/AppButtons';
+
 // UI
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   // Password visible
@@ -43,7 +41,6 @@ const LoginScreen = ({ navigation }) => {
     handleSubmit,
     resetField,
     formState: { errors },
-    getValues,
   } = useForm({
     defaultValues: {
       email: '',
