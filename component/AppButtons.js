@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     fontSize: fontSize.subtitle,
     fontFamily: "Goldman-regular",
+    alignSelf: 'center',
   },
   submitBtnContainer: {
     backgroundColor: "#124191",

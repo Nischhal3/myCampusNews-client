@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -15,28 +15,30 @@ import {
 } from "../../services/NewsService";
 import { Context } from "../../contexts/Context";
 import { baseUrl } from "../../utils/variables";
+import { formatToOnlyDate } from "../../utils/timestamp";
 
 // UI Imports
 import colors from "../../utils/colors";
 import fontSize from "../../utils/fontSize";
 import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { formatToOnlyDate } from "../../utils/timestamp";
 
 const HighlightList = ({ navigation, news }) => {
   const {
     getNumberOfLike,
     getUserLike,
   } = useLike();
-  const { checkFavorite} = userFavorite();
+  const { checkFavorite } = userFavorite();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
   var url = "";
 
+  const [newsView, setNewsView] = useState([]);
   const timeInterval = 3000;
   if (news.photoName == "unavailable") {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
+    // url = uploadDefaultUri;
   }
 
   useEffect(() => {
