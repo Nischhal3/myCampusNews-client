@@ -73,7 +73,8 @@ const FormInput = (props) => {
         width: "100%",
     },
     formInputText: {
-        marginBottom: 2,
+        marginBottom: 1,
+        marginLeft: 3,
     },
     multilineInputContainer: {
         borderWidth: 1,
@@ -89,7 +90,7 @@ const FormInput = (props) => {
         padding: 4,
     },
     multilineInputText: {
-        marginLeft: 5,
+        marginLeft: 3,
     },
   })
   

@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import {
   SafeAreaView,
   Platform,
-  StatusBar,
   Text,
   Image,
   StyleSheet,
@@ -56,7 +55,6 @@ const LoginScreen = ({ navigation }) => {
         // Storing token to async storage
         await AsyncStorage.setItem('userToken', userData.token);
         const user = await getUserById(userData.user.user_id,userData.token);
-        console.log(user)
         setUser(user);
         setToken(userData.token);
         setIsLoggedIn(true);
@@ -187,7 +185,6 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   androidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,

@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   Platform,
-  StatusBar,
   Text,
   Image,
   StyleSheet,
   View,
-  TextInput,
-  Button,
   Alert,
-  Pressable,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   ScrollView,
-  useWindowDimensions,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import { FormInput } from "../component/AppInputs";
 import ErrorMessage from '../component/ErrorMessage';
-import { getAllEmail, getAllUsers, register } from '../services/UserService';
+import { register } from '../services/UserService';
 import fontSize from '../utils/fontSize';
 import colors from '../utils/colors';
 import { SubmitButton } from '../component/AppButtons';
@@ -232,7 +227,6 @@ const Register = ({ navigation }) => {
 const styles = StyleSheet.create({
   androidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,

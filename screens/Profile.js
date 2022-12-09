@@ -274,6 +274,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBM',
     fontSize: fontSize.regular,
     color: colors.nokia_blue,
+    textAlign: 'center',
   },
   infoContainer: {
     marginTop: '5%',
