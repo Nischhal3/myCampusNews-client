@@ -1,7 +1,7 @@
-const baseUrl = 'http://10.0.2.2:3000/';
+// const baseUrl = 'http://10.0.2.2:3000/';
 //const baseUrl = 'http://localhost:3000/';
 // Server url
-// const baseUrl = 'http://10.114.32.10/app/';
+const baseUrl = 'http://10.114.32.10/app/';
 
 const newsCategory = [
   { label: 'General News', value: 'general' },
