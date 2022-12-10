@@ -1,28 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import { Context } from "../contexts/Context";
-import { useNews } from "../services/NewsService";
+import React, { useContext, useEffect, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { Context } from '../contexts/Context';
+import { useNews } from '../services/NewsService';
 
 // Import searchbar component
-import { SearchBar } from "../component/SearchBar";
+import { SearchBar } from '../component/SearchBar';
 
 // Import list components
-import HighlightList from "../component/lists/HighlightList";
-import LargeNewsList from "../component/lists/LargeNewsList";
+import HighlightList from '../component/lists/HighlightList';
+import LargeNewsList from '../component/lists/LargeNewsList';
 
 // UI Imports
-import colors from "../utils/colors";
-import fontSize from "../utils/fontSize";
+import colors from '../utils/colors';
+import fontSize from '../utils/fontSize';
 
 import {
   ALERT_TYPE,
   Dialog,
   AlertNotificationRoot,
-} from "react-native-alert-notification";
+} from 'react-native-alert-notification';
 
 const Home = ({ navigation }) => {
-  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchPhrase, setSearchPhrase] = useState('');
   const [searching, setSearching] = useState(false);
   const {
     setNewsUpdate,
@@ -51,8 +51,8 @@ const Home = ({ navigation }) => {
           Dialog.show(
             {
               type: ALERT_TYPE.WARNING,
-              textBody: "Admin has just published a news!",
-              button: "close",
+              textBody: 'Admin has just published a news!',
+              button: 'close',
               onHide: () => {
                 setNewsUpdate(newsUpdate + 1);
                 setNotificationState(true);
@@ -66,7 +66,7 @@ const Home = ({ navigation }) => {
       }
     }
   };
-  
+
   useEffect(() => {
     getAlllNews(isDraft);
   }, [newsUpdate]);
@@ -82,8 +82,9 @@ const Home = ({ navigation }) => {
     return () => clearInterval(interval);
   }, [newsInterval, searchByCategory]);
 
+  // Filtering news with searched value
   const filteredList = (news) => {
-    if (searchPhrase == "") {
+    if (searchPhrase == '') {
       return news;
     } else {
       const filtered = news.filter((i) =>
@@ -95,38 +96,38 @@ const Home = ({ navigation }) => {
 
   const _renderitem = ({ item }) => (
     <LargeNewsList navigation={navigation} news={item} />
-  )
+  );
 
   const header = () => {
     return (
       <View>
-        {
-          searchPhrase == "" && newsInterval.filter(news => news.highlighted == 1).length > 0 ? (
-            <View style={styles.highlightContainer}>
-              <Text style={styles.header}>{newsInterval.filter(news => news.highlighted == 1).length} Highlighted news</Text>
-              <FlatList
-                horizontal={true}
-                data={newsInterval}
-                renderItem={({ item }) => (
-                  <HighlightList navigation={navigation} news={item} />
-                )}
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-          ) : (
-            <></>
-          )
-        }
-        {
-          searchPhrase == "" ? (
-            <Text style={styles.header}>Recent news</Text>
-          ) : (
-            <Text style={styles.header}>Results</Text>
-          )
-        }
+        {searchPhrase == '' &&
+        newsInterval.filter((news) => news.highlighted == 1).length > 0 ? (
+          <View style={styles.highlightContainer}>
+            <Text style={styles.header}>
+              {newsInterval.filter((news) => news.highlighted == 1).length}{' '}
+              Highlighted news
+            </Text>
+            <FlatList
+              horizontal={true}
+              data={newsInterval}
+              renderItem={({ item }) => (
+                <HighlightList navigation={navigation} news={item} />
+              )}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <></>
+        )}
+        {searchPhrase == '' ? (
+          <Text style={styles.header}>Recent news</Text>
+        ) : (
+          <Text style={styles.header}>Results</Text>
+        )}
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <AlertNotificationRoot>
@@ -138,21 +139,27 @@ const Home = ({ navigation }) => {
           setSearchPhrase={setSearchPhrase}
         />
 
-        <View style={newsInterval.filter(news => news.highlighted == 1).length ? styles.newsContainer1 : styles.newsContainer1}>
+        <View
+          style={
+            newsInterval.filter((news) => news.highlighted == 1).length
+              ? styles.newsContainer1
+              : styles.newsContainer1
+          }
+        >
           {searchByCategory === false ? (
             <FlatList
               ListHeaderComponent={header()}
               data={filteredList(news)}
               renderItem={_renderitem}
               showsVerticalScrollIndicator={false}
-              keyExtractor={item => item.news_id}
+              keyExtractor={(item) => item.news_id}
             />
           ) : (
             <FlatList
               data={newsByCategory}
               renderItem={_renderitem}
               showsVerticalScrollIndicator={false}
-              keyExtractor={item => item.news_id}
+              keyExtractor={(item) => item.news_id}
             />
           )}
         </View>
@@ -167,9 +174,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    padding: "2%",
+    padding: '2%',
   },
-  header:{
+  header: {
     fontFamily: 'IBM',
     fontSize: fontSize.large,
     fontWeight: 'bold',
@@ -177,13 +184,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   highlightContainer: {
-    marginBottom: "5%",
+    marginBottom: '5%',
   },
   newsContainer1: {
-    marginBottom: "12%",
+    marginBottom: '12%',
   },
   newsContainer2: {
-    marginBottom: "82%",
+    marginBottom: '82%',
   },
 });
 export default Home;

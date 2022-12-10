@@ -18,6 +18,7 @@ const DraftScreen = ({ navigation }) => {
   const is_draft = 1;
   const timeInterval = 1000;
 
+  // Fetching draft news fro database every second
   useEffect(() => {
     const interval = setInterval(() => {
       async function fetchNews() {
