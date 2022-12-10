@@ -11,7 +11,8 @@ import DraftNewsList from '../component/lists/DraftNewsList';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 
-const DraftScreen = ({ route, navigation }) => {
+// Screen to display draft news
+const DraftScreen = ({ navigation }) => {
   const { token } = useContext(Context);
   const [news, setNews] = useState([]);
   const is_draft = 1;
@@ -50,13 +51,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light_background,
-    paddingHorizontal: "4%",
+    paddingHorizontal: '4%',
   },
   headerContainer: {
-    marginBottom: "5%",
+    marginBottom: '5%',
   },
   header: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.large,
     color: colors.primary,
   },

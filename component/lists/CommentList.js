@@ -1,48 +1,56 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native";
-import { Avatar, ListItem as RNEListItem } from "react-native-elements";
-import PropTypes from "prop-types";
-import { Context } from "../../contexts/Context";
-import { getUserById } from "../../services/UserService";
-import { useComment } from "../../services/NewsService";
-import { baseUrl } from "../../utils/variables";
-import defaultImage from "../../assets/images/blank_avatar.jpg";
-import { Swipeable } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import { Text, TouchableOpacity, View, StyleSheet, Image } from 'react-native';
+import { Avatar, ListItem as RNEListItem } from 'react-native-elements';
+import PropTypes from 'prop-types';
+import { Context } from '../../contexts/Context';
+import { getUserById } from '../../services/UserService';
+import { useComment } from '../../services/NewsService';
+import { baseUrl } from '../../utils/variables';
+import defaultImage from '../../assets/images/blank_avatar.jpg';
+import { Swipeable } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 
 // UI Imports
-import colors from "../../utils/colors";
-import fontSize from "../../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const CommentList = ({ comment }) => {
-  const { token, user, setDialogInputVisible, setEditCommentInput,setUpdateCommentId } =
-    useContext(Context);
+  const {
+    token,
+    user,
+    setDialogInputVisible,
+    setEditCommentInput,
+    setUpdateCommentId,
+  } = useContext(Context);
   const { deleteComment } = useComment();
   const [commentOwner, setCommentOwner] = useState([]);
+  const swipeableRef = useRef(null);
+  const uploadDefaultUri = Image.resolveAssetSource.uri;
+  // In use?
+  const commentId = comment.comment_id;
+  var url = '';
+
+  // Fetching user from database by user id in comment field
   const getUser = async () => {
     const user = await getUserById(comment.u_id, token);
     setCommentOwner(user);
+  };
+
+  if (commentOwner.avatar_name == 'unavailable') {
+    url = uploadDefaultUri;
+  } else {
+    url = `${baseUrl}avatar/${commentOwner.avatar_name}`;
+  }
+
+  const closeSwipeable = () => {
+    swipeableRef.current.close();
   };
 
   useEffect(() => {
     getUser();
   }, [comment.u_id]);
 
-  const uploadDefaultUri = Image.resolveAssetSource.uri;
-  var url = "";
-  const commentId = comment.comment_id;
-
-  if (commentOwner.avatar_name == "unavailable") {
-    url = uploadDefaultUri;
-  } else {
-    url = `${baseUrl}avatar/${commentOwner.avatar_name}`;
-  }
-
-  const swipeableRef = useRef(null);
-  const closeSwipeable = () => {
-    swipeableRef.current.close();
-  }
   const renderRightActions = () => {
     return (
       <View style={styles.swipedRow}>
@@ -83,8 +91,8 @@ const CommentList = ({ comment }) => {
               <TouchableOpacity
                 onPress={() => {
                   setDialogInputVisible(true),
-                  setEditCommentInput(comment.comment_content);
-                  setUpdateCommentId(comment.comment_id);         
+                    setEditCommentInput(comment.comment_content);
+                  setUpdateCommentId(comment.comment_id);
                 }}
               >
                 <McIcons
@@ -142,42 +150,42 @@ CommentList.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 10,
-    width: "100%",
+    width: '100%',
     backgroundColor: colors.light_background,
   },
   imageContainer: {
     marginVertical: 5,
-    width: "20%",
+    width: '20%',
   },
   avatar: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   contentConatiner: {
     marginLeft: 5,
     marginVertical: 5,
-    width: "70%",
+    width: '70%',
   },
   username: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
   },
   comment: {
     marginTop: 2,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
     color: colors.dark_text,
   },
   timeStamp: {
     // position: 'absolute',
     bottom: 0,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.caption,
     color: colors.medium_grey,
   },
@@ -186,23 +194,23 @@ const styles = StyleSheet.create({
   },
   swipedRow: {
     flex: 1,
-    alignSelf: "center",
-    marginLeft: "20%",
-    height: "50%",
+    alignSelf: 'center',
+    marginLeft: '20%',
+    height: '50%',
     // borderWidth: 1,
   },
   deleteButton: {
     flex: 1,
     backgroundColor: colors.negative,
-    flexDirection: "column",
-    justifyContent: "center",
-    height: "100%",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100%',
     borderRadius: 10,
   },
   deleteText: {
-    textAlign: "center",
+    textAlign: 'center',
     color: colors.light_text,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     padding: 3,
   },
 });

@@ -1,23 +1,24 @@
-import React, { useContext } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { Context } from "../../contexts/Context";
-import { baseUrl } from "../../utils/variables";
-import { useUser } from "../../services/UserService";
+import React, { useContext } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Context } from '../../contexts/Context';
+import { baseUrl } from '../../utils/variables';
+import { useUser } from '../../services/UserService';
 
 // UI Imports
-import defaultImage from "../../assets/images/blank_avatar.jpg";
-import colors from "../../utils/colors";
-import fontSize from "../../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import defaultImage from '../../assets/images/blank_avatar.jpg';
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
+// Screen where admin can see and manage all the users
 const UserList = ({ navigation, otherUser }) => {
   const { user } = useContext(Context);
   const { updateUserRole } = useUser();
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  var url = "";
+  var url = '';
 
   // Set image url
-  if (otherUser.avatar_name == "unavailable") {
+  if (otherUser.avatar_name == 'unavailable') {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}avatar/${otherUser.avatar_name}`;
@@ -34,7 +35,7 @@ const UserList = ({ navigation, otherUser }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        navigation.navigate("Profile", { user: otherUser });
+        navigation.navigate('Profile', { user: otherUser });
       }}
     >
       <View style={styles.imageContainer}>
@@ -51,7 +52,7 @@ const UserList = ({ navigation, otherUser }) => {
             { color: otherUser.role == 0 ? colors.nokia_blue : colors.primary },
           ]}
         >
-          {otherUser.role == 0 ? "Admin" : "User"}
+          {otherUser.role == 0 ? 'Admin' : 'User'}
         </Text>
       </View>
       <TouchableOpacity
@@ -60,20 +61,20 @@ const UserList = ({ navigation, otherUser }) => {
           changeUserRole();
         }}
       >
-        {user.user_id != otherUser.user_id && (otherUser.role == 0 ? (
-          <McIcons
-            name="account-arrow-down-outline"
-            size={24}
-            color={colors.negative}
-          />
-        ) : (
-          <McIcons
-            name="account-arrow-up-outline"
-            size={24}
-            color={colors.positive}
-          />
-        ))}
-        
+        {user.user_id != otherUser.user_id &&
+          (otherUser.role == 0 ? (
+            <McIcons
+              name="account-arrow-down-outline"
+              size={24}
+              color={colors.negative}
+            />
+          ) : (
+            <McIcons
+              name="account-arrow-up-outline"
+              size={24}
+              color={colors.positive}
+            />
+          ))}
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     backgroundColor: colors.light_background,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3,
     elevation: 4,
-    flexDirection: "row",
+    flexDirection: 'row',
     padding: 3,
   },
   image: {
@@ -101,41 +102,41 @@ const styles = StyleSheet.create({
     borderRadius: 200,
   },
   contentContainer: {
-    marginLeft: "4%",
+    marginLeft: '4%',
     paddingVertical: 2,
   },
   username: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
     marginBottom: 2,
   },
   email: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.small,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_grey,
   },
   roleContainer: {
-    position: "absolute",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    right: "15%",
+    position: 'absolute',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: '15%',
   },
   userrole: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.nokia_blue,
   },
   icon: {
-    position: "absolute",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    right: "2%",
+    position: 'absolute',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: '2%',
   },
 });
 

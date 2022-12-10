@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useState, memo } from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import defaultImage from '../../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
@@ -22,34 +16,29 @@ import fontSize from '../../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { formatToOnlyDate } from '../../utils/timestamp';
 
+// Displays all news
 const LargeNewsList = ({ navigation, news }) => {
-  const {
-    getNumberOfLike,
-    getUserLike,
-    liked,
-    likedNumber,
-  } = useLike();
+  const { getNumberOfLike, getUserLike, liked, likedNumber } = useLike();
   const { checkFavorite } = userFavorite();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  var url = '';
-
   const [newsView, setNewsView] = useState([]);
   const timeInterval = 3000;
+  var url = '';
+
   if (news.photoName == 'unavailable') {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
   }
 
+  // Fetching data from database
   useEffect(() => {
     checkFavorite(news.news_id);
     getNumberOfLike(news.news_id);
     getUserLike(news.news_id);
-  }, [updateFavorite, updateLike]);
 
-  // Fetching total news view every 3 second interval
-  useEffect(() => {
+    // Fetching total news view every 3 second interval
     const interval = setInterval(() => {
       async function fetchNewsView() {
         setNewsView(await getAllNewsView(token, news.news_id));
@@ -57,7 +46,7 @@ const LargeNewsList = ({ navigation, news }) => {
       fetchNewsView();
     }, timeInterval);
     return () => clearInterval(interval);
-  }, []);
+  }, [updateFavorite, updateLike]);
 
   return (
     <TouchableOpacity
@@ -163,7 +152,7 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
   categoryContainer: {
-    height: "20%",
+    height: '20%',
   },
   categoryBorder: {
     position: 'absolute',
@@ -171,7 +160,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     paddingHorizontal: 4,
     borderRadius: 3,
-    minWidth: "15%",
+    minWidth: '15%',
   },
   category: {
     textAlign: 'center',

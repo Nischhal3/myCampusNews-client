@@ -1,54 +1,43 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import defaultImage from "../../assets/images/blank_image.jpg";
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import defaultImage from '../../assets/images/blank_image.jpg';
 import {
   getAllNewsView,
   postNewsViews,
   useLike,
   userFavorite,
-} from "../../services/NewsService";
-import { Context } from "../../contexts/Context";
-import { baseUrl } from "../../utils/variables";
-import { formatToOnlyDate } from "../../utils/timestamp";
+} from '../../services/NewsService';
+import { Context } from '../../contexts/Context';
+import { baseUrl } from '../../utils/variables';
+import { formatToOnlyDate } from '../../utils/timestamp';
 
 // UI Imports
-import colors from "../../utils/colors";
-import fontSize from "../../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const HighlightList = ({ navigation, news }) => {
-  const {
-    getNumberOfLike,
-    getUserLike,
-  } = useLike();
+  const { getNumberOfLike, getUserLike } = useLike();
   const { checkFavorite } = userFavorite();
   const { updateFavorite, updateLike, token, user } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  var url = "";
+  var url = '';
 
   const [newsView, setNewsView] = useState([]);
   const timeInterval = 3000;
-  if (news.photoName == "unavailable") {
+  if (news.photoName == 'unavailable') {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
-    // url = uploadDefaultUri;
   }
 
+  // Fetching data from database
   useEffect(() => {
     checkFavorite(news.news_id);
     getNumberOfLike(news.news_id);
     getUserLike(news.news_id);
-  }, [updateFavorite, updateLike]);
 
-  // Fetching total news view every 3 second interval
-  useEffect(() => {
+    // Fetching total news view every 3 second interval
     const interval = setInterval(() => {
       async function fetchNewsView() {
         setNewsView(await getAllNewsView(token, news.news_id));
@@ -56,14 +45,14 @@ const HighlightList = ({ navigation, news }) => {
       fetchNewsView();
     }, timeInterval);
     return () => clearInterval(interval);
-  }, []);
+  }, [updateFavorite, updateLike]);
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
         postNewsViews(token, user.user_id, news.news_id);
-        navigation.navigate("SingleNews", { file: news });
+        navigation.navigate('SingleNews', { file: news });
       }}
     >
       {news.highlighted == 1 && (
@@ -103,43 +92,43 @@ const styles = StyleSheet.create({
     height: 200,
     marginRight: 20,
     borderRadius: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
     backgroundColor: colors.light_grey,
   },
   imageContainer: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   dateContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    position: "absolute",
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
     top: 10,
-    left: "3%",
+    left: '3%',
   },
   timeStamp: {
     marginLeft: 4,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.light_text,
   },
   contentContainer: {
-    width: "100%",
+    width: '100%',
     paddingTop: 2,
-    paddingBottom: "2%",
-    marginBottom: "2%",
-    position: "absolute",
+    paddingBottom: '2%',
+    marginBottom: '2%',
+    position: 'absolute',
     bottom: 0,
-    paddingHorizontal: "3%",
+    paddingHorizontal: '3%',
   },
   title: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.large,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.light_text,
   },
 });

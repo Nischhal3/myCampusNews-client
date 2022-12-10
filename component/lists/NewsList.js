@@ -17,10 +17,7 @@ import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { formatToOnlyDate } from '../../utils/timestamp';
 
 const NewsList = ({ navigation, news }) => {
-  const {
-    getNumberOfLike,
-    getUserLike,
-  } = useLike();
+  const { getNumberOfLike, getUserLike } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite, getFavoriteList } =
     userFavorite();
   const { updateFavorite, updateLike, token, user } = useContext(Context);

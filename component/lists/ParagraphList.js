@@ -7,6 +7,7 @@ import { Video } from 'expo-av';
 import colors from '../../utils/colors';
 import fontSize from '../../utils/fontSize';
 
+// Screen displays extra section of the news
 const ParagraphList = ({ paragraph, preview }) => {
   const videoRef = useRef(null);
   return (
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   imageDescription: {
     paddingTop: 5,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.small,
     color: colors.dark_grey,
   },

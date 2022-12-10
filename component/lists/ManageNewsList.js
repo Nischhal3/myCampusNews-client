@@ -1,50 +1,69 @@
-import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
+import React from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import defaultImage from '../../assets/images/blank_image.jpg';
-import { baseUrl } from "../../utils/variables";
+import { baseUrl } from '../../utils/variables';
 import { useNews } from '../../services/NewsService';
 import { formatToOnlyDate } from '../../utils/timestamp';
 
 // UI Imports
-import colors from "../../utils/colors";
-import fontSize from "../../utils/fontSize";
-import McIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import colors from '../../utils/colors';
+import fontSize from '../../utils/fontSize';
+import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
+// Screen where admin manage news eg: delete, mark news as highlight or regular
 const ManageNewsList = ({ navigation, news }) => {
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
-  var url = "";
+  const { deleteNews, updateNewsHighlight } = useNews();
+  var url = '';
 
-  if (news.photoName == "unavailable") {
+  if (news.photoName == 'unavailable') {
     url = uploadDefaultUri;
   } else {
     url = `${baseUrl}/${news.photoName}`;
   }
 
-  const { deleteNews,updateNewsHighlight } = useNews();
-
+  // Marking news as highlight or regular
   const switchHighlight = () => {
-    news.highlighted == 0 ? updateNewsHighlight(1,news.news_id) : updateNewsHighlight(0,news.news_id)
-  }
+    news.highlighted == 0
+      ? updateNewsHighlight(1, news.news_id)
+      : updateNewsHighlight(0, news.news_id);
+  };
 
+  // Deleting news from database
   const newsDelete = () => {
     Alert.alert(
       `Delete news ${news.news_content}?`,
       'This action cannot be undo.',
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel button clicked'), style: 'cancel'},
-        {text: 'Delete', onPress: () => deleteNews(news.news_id), style: 'destructive'},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel button clicked'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => deleteNews(news.news_id),
+          style: 'destructive',
+        },
       ],
-      { 
-        cancelable: true 
+      {
+        cancelable: true,
       }
     );
-  }
+  };
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        navigation.navigate('SingleNews', { file: news, path: "manageNews"}  );
+        navigation.navigate('SingleNews', { file: news, path: 'manageNews' });
       }}
     >
       <View style={styles.imageContainer}>
@@ -52,32 +71,46 @@ const ManageNewsList = ({ navigation, news }) => {
       </View>
       <View style={styles.contentContainer}>
         <Text style={styles.date}>{formatToOnlyDate(news.news_time)}</Text>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">{news.news_title}</Text>
+        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+          {news.news_title}
+        </Text>
       </View>
 
       <TouchableOpacity
         style={styles.highlightContainer}
-        onPress = {() => {switchHighlight()}}
+        onPress={() => {
+          switchHighlight();
+        }}
       >
         {news.highlighted == 1 ? (
-          <Text style={[
-            styles.highlight,
-            { color: news.highlighted == 0 ? colors.primary : colors.nokia_blue },
-          ]}>
+          <Text
+            style={[
+              styles.highlight,
+              {
+                color:
+                  news.highlighted == 0 ? colors.primary : colors.nokia_blue,
+              },
+            ]}
+          >
             Highlight
           </Text>
         ) : (
-          <Text style={[
-            styles.highlight,
-            { color: news.highlighted == 0 ? colors.primary : colors.nokia_blue },
-          ]}>
+          <Text
+            style={[
+              styles.highlight,
+              {
+                color:
+                  news.highlighted == 0 ? colors.primary : colors.nokia_blue,
+              },
+            ]}
+          >
             Regular
           </Text>
         )}
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.icon} onPress={() => newsDelete()}>
-        <McIcons name="delete" size={18} color={colors.negative} />   
+        <McIcons name="delete" size={18} color={colors.negative} />
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -88,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
     backgroundColor: colors.light_background,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -96,7 +129,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3,
     elevation: 4,
-    flexDirection: "row",
+    flexDirection: 'row',
     padding: 3,
   },
   image: {
@@ -105,41 +138,41 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   contentContainer: {
-    marginLeft: "4%",
+    marginLeft: '4%',
     paddingVertical: 2,
-    width: "45%",
+    width: '45%',
   },
   date: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.caption,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_grey,
   },
   title: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.dark_text,
   },
   highlightContainer: {
-    position: "absolute",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    right: "10%",
+    position: 'absolute',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: '10%',
   },
   highlight: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     fontSize: fontSize.medium,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: colors.positive,
   },
   icon: {
-    position: "absolute",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    right: "1%",
+    position: 'absolute',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: '1%',
   },
 });
 
