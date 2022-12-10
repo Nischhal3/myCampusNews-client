@@ -20,6 +20,9 @@ const DraftNewsList = ({ navigation, news }) => {
   const { setDrawerFocus, token, draft, setDraft } = useContext(Context);
   const { getAllParagraphOfNews } = useNews();
 
+  /**
+   * Navigating to publish news screen with taking values for news
+   */
   const navigatioToPubishNews = async () => {
     const response = await getAllParagraphOfNews(news.news_id);
     navigation.navigate('Publish', {
@@ -32,6 +35,9 @@ const DraftNewsList = ({ navigation, news }) => {
     setDraft(draft + 1);
   };
 
+  /**
+   * Deleting draft news from server
+   */
   const deleteDraftNews = () => {
     Alert.alert(
       `Delete news ${news.news_content}?`,

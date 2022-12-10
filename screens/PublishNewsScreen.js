@@ -33,6 +33,7 @@ import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { baseUrl, newsCategory } from '../utils/variables';
 
+// Screen to publish news
 const PublishNewsScreen = ({ navigation, route = {} }) => {
   const { token, newsUpdate, setNewsUpdate, draft } = useContext(Context);
   const uploadDefaultUri = Image.resolveAssetSource(defaultImage).uri;
@@ -43,6 +44,7 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
   const [extraInputs, setExtraInputs] = useState([]);
   const isFirstRender = useRef(true);
 
+  // Extra section data
   const addExtraSection = () => {
     const _inputs = [...extraInputs];
     _inputs.push({
@@ -55,12 +57,29 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     setExtraInputs(_inputs);
   };
 
+  // Form data
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    defaultValues: {
+      title: '',
+      op: '',
+      content: '',
+    },
+    mode: 'onBlur',
+  });
+
+  // Removes section if admin clicks remove section button
   const removeSection = (key) => {
     const index = extraInputs.findIndex((it) => it.key == key);
     extraInputs.splice(index, 1);
     setExtraInputs((input) => input.filter((item) => item.key !== key));
   };
 
+  // Setting input image to extraInputs state
   const handleImage = async (key) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -76,12 +95,16 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       setExtraInputs(_imageInput);
     }
   };
+
+  // Setting input text to extraInputs state
   const handleImageDescription = (input, key) => {
     const _descInput = [...extraInputs];
     _descInput[key].key = key;
     _descInput[key].imageDescription = input;
     setExtraInputs(_descInput);
   };
+
+  // Setting input text to extraInputs state
   const handleContent = (input, key) => {
     const _contentInput = [...extraInputs];
     _contentInput[key].key = key;
@@ -89,19 +112,197 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
     setExtraInputs(_contentInput);
   };
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm({
-    defaultValues: {
-      title: '',
-      op: '',
-      content: '',
-    },
-    mode: 'onBlur',
-  });
+  // Resets form inputs
+  const resetForm = () => {
+    setImage(uploadDefaultUri);
+    setValue('title', '');
+    setValue('op', '');
+    setValue('content', '');
+    setType('image');
+    setExtraInputs([]);
+  };
+
+  const pickOnlyImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.5,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      setType(result.type);
+    }
+  };
+
+  // Passing data to preview
+  const preview = (data) => {
+    const formData = new FormData();
+    formData.append('news_title', data.title);
+    formData.append('news_op', data.op);
+    formData.append('news_content', data.content);
+    formData.append('draft', 1);
+    formData.append('category', category);
+
+    // Storing returned values from splitImage function
+    const file = splitImage(image);
+
+    formData.append('newsPhoto', {
+      uri: image,
+      name: file[0],
+      type: type + '/' + file[1],
+    });
+
+    const paragraphList = [];
+
+    for (let item of extraInputs) {
+      const paragraph = new FormData();
+      if (item.image.includes('file')) {
+        // Storing returned values from splitImage function
+        const file = splitImage(image);
+
+        paragraph.append('paragraphPhoto', {
+          uri: item.image,
+          name: file[0],
+          type: item.imageType + '/' + file[1],
+        });
+      }
+      paragraph.append('type', item.imageType);
+      paragraph.append('photoDescription', item.imageDescription);
+      paragraph.append('content', item.content);
+      // keys.push(item.key);
+
+      const paragraphValue = {
+        p_photo_name: item.image,
+        p_photo_description: item.imageDescription,
+        p_content: item.content,
+      };
+      paragraphList.push(paragraphValue);
+    }
+
+    // Creating news_id attribute if admin is coming from draft screen
+    const news_id =
+      route.params !== undefined ? route.params.news.news_id : null;
+
+    // Inserting values that will be passed if admin navigates to preview screen
+    const value = {
+      news_id: news_id,
+      news_title: data.title,
+      news_op: data.op,
+      news_content: data.content,
+      photoName: image,
+      draft: 1,
+    };
+
+    /**
+     * if cover photo is default image then admin gets alert message
+     * Else admin navigates to preview screen
+     */
+    if (!image.includes('=true&hot=false')) {
+      navigation.navigate('Preview', {
+        news: value,
+        paragraph: paragraphList,
+        formData: formData,
+        extraInputs: extraInputs,
+      });
+    } else {
+      Alert.alert('Please select image');
+    }
+  };
+
+  // Posting news to server
+  const onSubmit = async (data) => {
+    let keys = [];
+    const formData = new FormData();
+    formData.append('news_title', data.title);
+    formData.append('news_op', data.op);
+    formData.append('news_content', data.content);
+    formData.append('draft', 0);
+    formData.append('category', category);
+
+    // Checking if user is using default image
+    if (!image.includes('=true&hot=false')) {
+      // Storing returned values from splitImage function
+      const file = splitImage(image);
+
+      formData.append('newsPhoto', {
+        uri: image,
+        name: file[0],
+        type: type + '/' + file[1],
+      });
+
+      try {
+        const response = await postNews(formData, token);
+        if (response.status == 200) {
+          /**
+           * When navigation is done from draft list to publish news screen
+           * After news is posted, draft news is deleted automatically
+           * Also deletes draft news when navigating from draft->publish->preview then preview->publish
+           * Only in condition that cover photo remains the same when user navigates to draft->publish->preview
+           */
+          if (route.params !== undefined && route.params.fromDraft === true) {
+            try {
+              const deleteDraftNews = await deleteNews(
+                token,
+                route.params.news.news_id
+              );
+              console.log('delete', deleteDraftNews);
+            } catch (error) {
+              console.log('Post news', error.message);
+            }
+          }
+          for (let item of extraInputs) {
+            const paragraph = new FormData();
+            // Checking image file if it is from database or phone
+            if (
+              item.image.includes('file') ||
+              (item.image.includes('http') &&
+                !item.image.includes('unavailable') &&
+                !item.image.includes('=true&hot=false'))
+            ) {
+              // Storing returned values from splitImage function
+              const file = splitImage(item.image);
+
+              paragraph.append('paragraphPhoto', {
+                uri: item.image,
+                name: file[0],
+                type: item.imageType + '/' + file[1],
+              });
+            }
+            paragraph.append('type', item.imageType);
+            paragraph.append('photoDescription', item.imageDescription);
+            paragraph.append('content', item.content);
+            postParagraphToNews(paragraph, parseInt(response.message));
+            keys.push(item.key);
+          }
+
+          Alert.alert('News added');
+          setNewsUpdate(newsUpdate + 1);
+          resetForm();
+          keys.map((key) => {
+            removeSection(key);
+          });
+          keys = [];
+        }
+      } catch (error) {
+        console.log('Post news', error.message);
+      }
+    } else {
+      Alert.alert('Please select image');
+    }
+  };
+
+  /**
+   *
+   * @param {*} image
+   * @returns array containing image filename and fileExtension
+   */
+  const splitImage = (image) => {
+    const filename = image.split('/').pop();
+    let fileExtension = filename.split('.').pop();
+    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
+    return [filename, fileExtension];
+  };
 
   // Setting values to the fields if use re-directs from draft screen
   useEffect(() => {
@@ -140,196 +341,6 @@ const PublishNewsScreen = ({ navigation, route = {} }) => {
       }
     }
   }, [draft]);
-
-  // Passing data to preview
-  const preview = (data) => {
-    const formData = new FormData();
-    formData.append('news_title', data.title);
-    formData.append('news_op', data.op);
-    formData.append('news_content', data.content);
-    formData.append('draft', 1);
-    formData.append('category', category);
-
-    const filename = image.split('/').pop();
-    let fileExtension = filename.split('.').pop();
-    fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-
-    formData.append('newsPhoto', {
-      uri: image,
-      name: filename,
-      type: type + '/' + fileExtension,
-    });
-
-    const paragraphList = [];
-
-    for (let item of extraInputs) {
-      const paragraph = new FormData();
-      if (item.image.includes('file')) {
-        const filename = item.image.split('/').pop();
-        let fileExtension = filename.split('.').pop();
-        fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-        paragraph.append('paragraphPhoto', {
-          uri: item.image,
-          name: filename,
-          type: item.imageType + '/' + fileExtension,
-        });
-      }
-      paragraph.append('type', item.imageType);
-      paragraph.append('photoDescription', item.imageDescription);
-      paragraph.append('content', item.content);
-      // keys.push(item.key);
-
-      const paragraphValue = {
-        p_photo_name: item.image,
-        p_photo_description: item.imageDescription,
-        p_content: item.content,
-      };
-      paragraphList.push(paragraphValue);
-    }
-
-    const news_id =
-      route.params !== undefined ? route.params.news.news_id : null;
-    const value = {
-      news_id: news_id,
-      news_title: data.title,
-      news_op: data.op,
-      news_content: data.content,
-      photoName: image,
-      draft: 1,
-    };
-
-    if (!image.includes('=true&hot=false')) {
-      navigation.navigate('Preview', {
-        news: value,
-        paragraph: paragraphList,
-        formData: formData,
-        extraInputs: extraInputs,
-      });
-    } else {
-      Alert.alert('Please select image');
-    }
-  };
-
-  // Resets form inputs
-  const resetForm = () => {
-    setImage(uploadDefaultUri);
-    setValue('title', '');
-    setValue('op', '');
-    setValue('content', '');
-    setType('image');
-    setExtraInputs([]);
-  };
-
-  // Picks image for news data
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 0.5,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-      setType(result.type);
-    }
-  };
-
-  const pickOnlyImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 0.5,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-      setType(result.type);
-    }
-  };
-
-  // Posting news to server
-  const onSubmit = async (data) => {
-    let keys = [];
-    const formData = new FormData();
-    formData.append('news_title', data.title);
-    formData.append('news_op', data.op);
-    formData.append('news_content', data.content);
-    formData.append('draft', 0);
-    formData.append('category', category);
-
-    // Checking if user is using default image
-    if (!image.includes('=true&hot=false')) {
-      const filename = image.split('/').pop();
-      let fileExtension = filename.split('.').pop();
-      fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-
-      formData.append('newsPhoto', {
-        uri: image,
-        name: filename,
-        type: type + '/' + fileExtension,
-      });
-
-      try {
-        const response = await postNews(formData, token);
-        if (response.status == 200) {
-          /**
-           * When navigation is done from draft list to publish news screen
-           * After news is posted, draft news is deleted automatically
-           * Also deletes draft news when navigating from draft->publish->preview then preview->publish
-           * Only in condition that cover photo remains the same when user navigates to draft->publish->preview
-           */
-          if (route.params !== undefined && route.params.fromDraft === true) {
-            try {
-              const deleteDraftNews = await deleteNews(
-                token,
-                route.params.news.news_id
-              );
-              console.log('delete', deleteDraftNews);
-            } catch (error) {
-              console.log('Post news', error.message);
-            }
-          }
-          for (let item of extraInputs) {
-            const paragraph = new FormData();
-            // Checking image file if it is from database or phone
-            if (
-              item.image.includes('file') ||
-              (item.image.includes('http') &&
-                !item.image.includes('unavailable') &&
-                !item.image.includes('=true&hot=false'))
-            ) {
-              const filename = item.image.split('/').pop();
-              let fileExtension = filename.split('.').pop();
-              fileExtension = fileExtension === 'jpg' ? 'jpeg' : fileExtension;
-
-              paragraph.append('paragraphPhoto', {
-                uri: item.image,
-                name: filename,
-                type: item.imageType + '/' + fileExtension,
-              });
-            }
-            paragraph.append('type', item.imageType);
-            paragraph.append('photoDescription', item.imageDescription);
-            paragraph.append('content', item.content);
-            postParagraphToNews(paragraph, parseInt(response.message));
-            keys.push(item.key);
-          }
-
-          Alert.alert('News added');
-          setNewsUpdate(newsUpdate + 1);
-          resetForm();
-          keys.map((key) => {
-            removeSection(key);
-          });
-          keys = [];
-        }
-      } catch (error) {
-        console.log('Post news', error.message);
-      }
-    } else {
-      Alert.alert('Please select image');
-    }
-  };
 
   // Resets form input when user is off screen
   useFocusEffect(
