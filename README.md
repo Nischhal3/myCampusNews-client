@@ -1,6 +1,6 @@
 # myCampusNews-client
 
-Frontend servive for Nokia My Campus news project - Autumn 2022 - Metropolia
+Frontend service for Nokia My Campus news project - Autumn 2022 - Metropolia
 
 ## API 
 
