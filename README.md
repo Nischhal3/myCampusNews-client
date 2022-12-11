@@ -84,6 +84,9 @@ Drafted news and bookmarked news screen
 <img src="assets/bookmarked_news_screen.png" width="30%">
 </p>
 
+Notification
+<img src="assets/notification.png" width="30%">
+
 Setting screens
 
 <p  align="row">
@@ -91,11 +94,6 @@ Setting screens
 <img src="assets/setting_screen_2.png" width="30%">
 <img src="assets/setting_screen_3.png" width="30%">
 </p>
-
-
-
-
- 
 
 ## CONTRIBUTORS
 
