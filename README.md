@@ -44,7 +44,7 @@ Splash, Login and Registration screen
 <img src="assets/login_screen.png" width="30%">
 </p>
 
-Draweer navigation
+Drawer navigation
 
 <p  align="row">
 <img src="assets/admin_drawer.png" width="30%">
