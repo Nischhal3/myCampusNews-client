@@ -10,22 +10,16 @@ import {
 } from 'react-native';
 import { Context } from '../contexts/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  DrawerContentScrollView,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { baseUrl } from '../utils/variables';
-import LocalAuth from '../screens/LocalAuth';
 
 // UI Imports
-import defaultAvatar from '../assets/images/blank_avatar.jpg';
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
 import McIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 function CustomDrawerContent(props) {
-  const uploadDefaultUri = Image.resolveAssetSource(defaultAvatar).uri;
   const { user, setIsLoggedIn, drawerFocus, setDrawerFocus } =
     useContext(Context);
 
@@ -369,7 +363,6 @@ function CustomDrawerContent(props) {
             <TouchableOpacity
               style={styles.settingContainer}
               onPress={() => {
-                LocalAuth();
                 props.navigation.navigate('Setting');
                 setDrawerFocus('Setting');
               }}

@@ -94,29 +94,6 @@ const NewsList = ({ navigation, news }) => {
           </TouchableOpacity>
         )}
       </View>
-
-      {/* <View style={styles.bottomRight}>
-        <View style={styles.likeContainer}>
-          {liked ? (
-            <McIcons name="thumb-up" size={18} color={colors.medium_grey} />
-          ) : (
-            <McIcons
-              name="thumb-up-outline"
-              size={18}
-              color={colors.medium_grey}
-            />
-          )}
-          <Text style={styles.likeNumber}>{likedNumber}</Text>
-        </View>
-        <View style={styles.readContainer}>
-          <McIcons name="eye-outline" size={18} color={colors.medium_grey} />
-          {newsView.length > 0 ? (
-            <Text style={styles.readNumber}>{newsView[0].count}</Text>
-          ) : (
-            ''
-          )}
-        </View>
-      </View> */}
     </TouchableOpacity>
   );
 };

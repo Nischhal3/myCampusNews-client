@@ -12,5 +12,5 @@ const styles = StyleSheet.create({
     fontFamily: 'IBM',
     marginBottom: 5,
   },
-})
+});
 export default ErrorMessage;

@@ -1,31 +1,14 @@
-import React, {
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   Image,
-  Button,
-  Input,
   TouchableOpacity,
-  Icon,
-  FlatList,
-  Alert,
   ScrollView,
-  LogBox,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
-import FormInput, {
-  MultilineInput,
-  MultilineInputNoBorder,
-} from '../component/AppInputs';
-import { SubmitButton } from '../component/AppButtons';
-import ErrorMessage from '../component/ErrorMessage';
+import { MultilineInputNoBorder } from '../component/AppInputs';
 import {
   useComment,
   useLike,
@@ -36,7 +19,6 @@ import { Context } from '../contexts/Context';
 import CommentList from '../component/lists/CommentList';
 import { baseUrl } from '../utils/variables';
 import DialogInput from 'react-native-dialog-input';
-import Spinner from 'react-native-loading-spinner-overlay';
 import ParagraphList from '../component/lists/ParagraphList';
 
 // utils Imports
@@ -68,13 +50,8 @@ const SingleNews = ({ route, navigation }) => {
     likedNumber,
   } = useLike();
   const { checkFavorite, postAndRemoveFavorite, favorite } = userFavorite();
-  const {
-    getAllCommentOfNews,
-    postComment,
-    deleteComment,
-    comments,
-    putComment,
-  } = useComment();
+  const { getAllCommentOfNews, postComment, comments, putComment } =
+    useComment();
   const { getAllParagraphOfNews, paragraph } = useNews();
 
   const {
@@ -82,7 +59,6 @@ const SingleNews = ({ route, navigation }) => {
     handleSubmit,
     resetField,
     formState: { errors },
-    setValue,
   } = useForm({
     mode: 'onChange',
     mode: 'onBlur',
@@ -124,12 +100,15 @@ const SingleNews = ({ route, navigation }) => {
       ref={scrollViewRef}
     >
       <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton} onPress={() => path == "manageNews" ? navigation.navigate("MNews") : navigation.navigate("Home")}>
-          <McIcons
-            name="chevron-left"
-            size={32}
-            color={colors.secondary}
-          />
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() =>
+            path == 'manageNews'
+              ? navigation.navigate('MNews')
+              : navigation.navigate('Home')
+          }
+        >
+          <McIcons name="chevron-left" size={32} color={colors.secondary} />
         </TouchableOpacity>
         <DialogInput
           isDialogVisible={dialogInputVisible}
@@ -150,7 +129,6 @@ const SingleNews = ({ route, navigation }) => {
           style={styles.image}
           source={{ uri: `${baseUrl}/${file.photoName}` }}
         />
-        {/* <Image style={styles.image} source={require('../assets/images/blank_image.jpg')} /> */}
 
         <View style={styles.detailContainer}>
           <Text style={styles.title}>{file.news_title}</Text>
@@ -212,7 +190,6 @@ const SingleNews = ({ route, navigation }) => {
               >
                 {likedNumber}
               </Text>
-              {/* <Text>{file.likes}</Text> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -226,12 +203,6 @@ const SingleNews = ({ route, navigation }) => {
         </View>
 
         <View>
-        {/* <FlatList
-            data={paragraph}
-            showsVerticalScrollIndicator={false}
-            nestedScrollEnabled={true}
-            renderItem={({ item }) => <ParagraphList paragraph={item} />}
-          /> */}
           {paragraph.map((item, index) => (
             <View key={index}>
               <ParagraphList paragraph={item} />
@@ -269,15 +240,11 @@ const SingleNews = ({ route, navigation }) => {
             </TouchableOpacity>
           </View>
 
-          {/* <FlatList
-            data={comments}
-            ListEmptyComponent={noComments}
+          <ScrollView
+            style={{ maxHeight: 350 }}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
-            renderItem={({ item }) => <CommentList comment={item} />}
-            maxHeight={400}
-          /> */}
-          <ScrollView style={{maxHeight: 350}} showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
+          >
             {comments.map((item, index) => (
               <View key={index}>
                 <CommentList comment={item} />

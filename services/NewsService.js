@@ -1,5 +1,4 @@
 import { fetchData } from './ApiService';
-import { getToken } from './UserService';
 import { baseUrl } from '../utils/variables';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from '../contexts/Context';
@@ -14,6 +13,7 @@ const getAlllNewsByDraft = async (token, draft) => {
   return await fetchData(`${baseUrl}news/draft/${draft}`, options);
 };
 
+// News functionality
 const useNews = () => {
   const [news, setNews] = useState([]);
   const [paragraph, setParagraph] = useState([]);
@@ -26,6 +26,7 @@ const useNews = () => {
     setNewsUpdate,
   } = useContext(Context);
 
+  // Fetching news by draft number
   const getAlllNews = async (draft) => {
     try {
       const options = {
@@ -45,6 +46,7 @@ const useNews = () => {
     }
   };
 
+  // Deleting news
   const deleteNews = async (newsId) => {
     try {
       const options = {
@@ -60,6 +62,7 @@ const useNews = () => {
     }
   };
 
+  // Fetching news by category
   const getAlllNewsByCategory = async (category) => {
     try {
       const options = {
@@ -80,6 +83,7 @@ const useNews = () => {
     }
   };
 
+  // Fetching news by draft number in certain interval
   const getAlllNewsIninterval = async (draft) => {
     try {
       const options = {
@@ -99,6 +103,7 @@ const useNews = () => {
     }
   };
 
+  // Posting section news
   const postParagraphToNews = async (formData, newsId) => {
     try {
       const options = {
@@ -115,6 +120,7 @@ const useNews = () => {
     }
   };
 
+  // Fetching all sections of news
   const getAllParagraphOfNews = async (newsId) => {
     try {
       const options = {
@@ -135,6 +141,7 @@ const useNews = () => {
     }
   };
 
+  // Updating news high-light
   const updateNewsHighlight = async (highlight, newsId) => {
     try {
       const newsHighlight = {
@@ -187,6 +194,7 @@ const postNews = async (formData, token) => {
   return await fetchData(`${baseUrl}news`, options);
 };
 
+// Deleting news by news id
 const deleteNews = async (token, newsId) => {
   const options = {
     method: 'DELETE',
@@ -195,10 +203,13 @@ const deleteNews = async (token, newsId) => {
 
   return await fetchData(`${baseUrl}news/${newsId}`, options);
 };
+
+// News comment functionality
 const useComment = () => {
   const { token, updateComment, setUpdateComment } = useContext(Context);
   const [comments, setComments] = useState([]);
 
+  // Fetching all the news comment by news id
   const getAllCommentOfNews = async (newsId) => {
     try {
       const options = {
@@ -216,6 +227,7 @@ const useComment = () => {
     }
   };
 
+  // Posting comment to the  news by news id
   const postComment = async (comment, newsId) => {
     try {
       const options = {
@@ -236,6 +248,7 @@ const useComment = () => {
     }
   };
 
+  // Deleting commment if the news by comment id
   const deleteComment = async (commentId) => {
     try {
       const options = {
@@ -254,6 +267,7 @@ const useComment = () => {
     }
   };
 
+  // Updating comment of the news by comment id
   const putComment = async (comment, commentId) => {
     try {
       const options = {
@@ -283,11 +297,13 @@ const useComment = () => {
   };
 };
 
+// News bookmark functionality
 const userFavorite = () => {
   const [favorite, setFavorite] = useState(false);
   const [favoriteList, setFavoriteList] = useState([]);
   const { token, updateFavorite, setUpdateFavorite } = useContext(Context);
 
+  // Adding news to book mark or removing bookmarked news
   const postAndRemoveFavorite = async (newsId) => {
     try {
       if (!favorite) {
@@ -338,6 +354,7 @@ const userFavorite = () => {
     }
   };
 
+  // Fetching book marked news
   const getFavoriteList = async () => {
     try {
       const options = {
@@ -375,12 +392,14 @@ const userFavorite = () => {
   };
 };
 
+// User like functionality
 const useLike = () => {
   const [likedNumber, setLikedNumber] = useState(0);
   const [liked, setLiked] = useState(false);
   const { token, updateComment, setUpdateComment, updateLike, setUpdateLike } =
     useContext(Context);
 
+  // Adding or Removing user like from news by news id
   const postAndRemoveLike = async (newsId) => {
     try {
       if (!liked) {
@@ -413,6 +432,7 @@ const useLike = () => {
     }
   };
 
+  // Fecthing total number of likes by news id
   const getNumberOfLike = async (newsId) => {
     try {
       const options = {
@@ -458,6 +478,7 @@ const useLike = () => {
   };
 };
 
+// Fetching total number of views of news by news id
 const getAllNewsView = async (token, newsId) => {
   const options = {
     method: 'GET',
@@ -467,6 +488,7 @@ const getAllNewsView = async (token, newsId) => {
   return await fetchData(`${baseUrl}news/all/newsViews/${newsId}`, options);
 };
 
+// Posting views to the news if user clicks for the first time
 const postNewsViews = async (token, user_id, news_id) => {
   const newsViewObject = {
     newsId: news_id,

@@ -1,25 +1,14 @@
 // npx expo install expo-linear-gradient
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  ImageBackground,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  Pressable,
-  Button,
-} from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { WelcomeScreenButton } from '../component/AppButtons';
-import LocalAuth from './LocalAuth';
 import { Context } from '../contexts/Context';
 import { getToken } from '../services/UserService';
 
 // UI Imports
 import colors from '../utils/colors';
 import fontSize from '../utils/fontSize';
-
 
 const WelcomeScreen = ({ navigation }) => {
   const { setToken } = useContext(Context);
@@ -47,11 +36,6 @@ const WelcomeScreen = ({ navigation }) => {
           </Text>
         </View>
         <View style={styles.buttonContainer}>
-          {/* <Button 
-                        title="Register" 
-                        style={styles.registerBtn} 
-                        onPress={() => navigation.navigate("Register")} 
-                    /> */}
           <WelcomeScreenButton
             title="Register"
             color="transparent"

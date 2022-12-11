@@ -4,6 +4,7 @@ import { fetchData } from './ApiService';
 import { Context } from '../contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
+// Fetching all users from database
 const getAllUsers = async (setUser) => {
   try {
     const response = await fetch(`${baseUrl}user`);
@@ -14,11 +15,14 @@ const getAllUsers = async (setUser) => {
   }
 };
 
+// Fetching and posting data for users
 const useUser = () => {
-  const {token,setUpdateUserList,updateUserList} = useContext(Context);
+  const { token, setUpdateUserList, updateUserList } = useContext(Context);
   const [userList, setUserList] = useState([]);
   const [userrole, setUserRole] = useState([]);
-  const getAllUsers = async () => { 
+
+  //Fetching all users from database
+  const getAllUsers = async () => {
     try {
       const options = {
         method: 'GET',
@@ -26,16 +30,14 @@ const useUser = () => {
           Authorization: 'Bearer ' + token,
         },
       };
-      const response = await fetchData(
-        `${baseUrl}user`,
-        options
-      );
+      const response = await fetchData(`${baseUrl}user`, options);
       response && setUserList(response.reverse());
     } catch (error) {
       console.error(error);
     }
   };
 
+  // Updating user role(only admin have this funtionality)
   const updateUserRole = async (role, userId) => {
     try {
       const userRole = {
@@ -59,6 +61,7 @@ const useUser = () => {
     }
   };
 
+  // Deleting user (only admin have this funtionality)
   const deleteUser = async (userId) => {
     try {
       const options = {
@@ -81,12 +84,9 @@ const useUser = () => {
     getAllUsers,
     updateUserRole,
     deleteUser,
-    userList
+    userList,
   };
-
 };
-
-
 
 // Function for user registration
 const register = async (data) => {
@@ -152,6 +152,7 @@ const putUser = async (formData, token) => {
   return result;
 };
 
+// Updating user password
 const putUserPassword = async (data, token) => {
   const options = {
     method: 'PUT',
@@ -173,5 +174,5 @@ export {
   putUser,
   getUserById,
   putUserPassword,
-  useUser
+  useUser,
 };

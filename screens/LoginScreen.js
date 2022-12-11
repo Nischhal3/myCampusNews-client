@@ -18,7 +18,7 @@ import { login, getUserById } from '../services/UserService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Components
-import { FormInput } from "../component/AppInputs";
+import { FormInput } from '../component/AppInputs';
 import { SubmitButton } from '../component/AppButtons';
 
 // UI
@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
       if (userData) {
         // Storing token to async storage
         await AsyncStorage.setItem('userToken', userData.token);
-        const user = await getUserById(userData.user.user_id,userData.token);
+        const user = await getUserById(userData.user.user_id, userData.token);
         setUser(user);
         setToken(userData.token);
         setIsLoggedIn(true);

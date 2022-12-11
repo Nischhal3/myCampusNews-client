@@ -21,7 +21,6 @@ const MainProvider = ({ children }) => {
   const [searchUpdate, setSearchUpdate] = useState(0);
   const [searchOptions, setSearchOptions] = useState('');
   const [newsByCategory, setNewsByCategory] = useState([]);
-  // const [userList, setUserList] = useState([]);
   const [updateUserList, setUpdateUserList] = useState(0);
   return (
     <Context.Provider
@@ -62,10 +61,8 @@ const MainProvider = ({ children }) => {
         setSearchOptions,
         newsByCategory,
         setNewsByCategory,
-        // userList,
-        // setUserList,
         updateUserList,
-        setUpdateUserList
+        setUpdateUserList,
       }}
     >
       {children}

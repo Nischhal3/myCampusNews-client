@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
-import { FormInput } from "../component/AppInputs";
+import { FormInput } from '../component/AppInputs';
 import ErrorMessage from '../component/ErrorMessage';
 import { register } from '../services/UserService';
 import fontSize from '../utils/fontSize';

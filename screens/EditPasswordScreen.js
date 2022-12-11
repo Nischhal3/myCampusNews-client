@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from 'react';
 import {
   Text,
   View,
@@ -9,16 +9,17 @@ import {
   ScrollView,
   Image,
   Alert,
-} from "react-native";
-import { Context } from "../contexts/Context";
-import { SubmitButton } from "../component/AppButtons";
-import { putUserPassword } from "../services/UserService";
-import { Controller, useForm } from "react-hook-form";
-import fontSize from "../utils/fontSize";
-import colors from "../utils/colors";
-import ErrorMessage from "../component/ErrorMessage";
-import { FormInput } from "../component/AppInputs";
+} from 'react-native';
+import { Context } from '../contexts/Context';
+import { SubmitButton } from '../component/AppButtons';
+import { putUserPassword } from '../services/UserService';
+import { Controller, useForm } from 'react-hook-form';
+import fontSize from '../utils/fontSize';
+import colors from '../utils/colors';
+import ErrorMessage from '../component/ErrorMessage';
+import { FormInput } from '../component/AppInputs';
 
+// Screen to edit password
 const EditPasswordScreen = ({ navigation }) => {
   const { user, token } = useContext(Context);
 
@@ -29,13 +30,13 @@ const EditPasswordScreen = ({ navigation }) => {
     formState: { errors },
     getValues,
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
-      currentPassword: "",
-      password: "",
-      confirmNewPassword: "",
+      currentPassword: '',
+      password: '',
+      confirmNewPassword: '',
     },
-    mode: "onBlur",
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data) => {
@@ -44,15 +45,15 @@ const EditPasswordScreen = ({ navigation }) => {
         delete data.currentPassword;
         delete data.confirmNewPassword;
         const userData = await putUserPassword(data, token);
-        if (userData.message == "User password updated true") {
-          resetField("currentPassword");
-          resetField("password");
-          resetField("confirmNewPassword");
-          Alert.alert("Password updated!");
-          navigation.navigate("Setting");
+        if (userData.message == 'User password updated true') {
+          resetField('currentPassword');
+          resetField('password');
+          resetField('confirmNewPassword');
+          Alert.alert('Password updated!');
+          navigation.navigate('Setting');
         }
       } else {
-        Alert.alert("Current password incorrect!");
+        Alert.alert('Current password incorrect!');
       }
     } catch (error) {
       console.error(error);
@@ -60,17 +61,17 @@ const EditPasswordScreen = ({ navigation }) => {
   };
 
   const onCancel = () => {
-    resetField("currentPassword");
-    resetField("password");
-    resetField("confirmNewPassword");
-    navigation.navigate("Setting");
+    resetField('currentPassword');
+    resetField('password');
+    resetField('confirmNewPassword');
+    navigation.navigate('Setting');
   };
 
   return (
     <SafeAreaView style={styles.androidSafeArea}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : ""}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -86,13 +87,13 @@ const EditPasswordScreen = ({ navigation }) => {
                 control={control}
                 rules={{
                   required: {
-                    required: { value: true, message: "Password not match" },
-                    message: "Password cannot be empty",
+                    required: { value: true, message: 'Password not match' },
+                    message: 'Password cannot be empty',
                     validate: (value) => {
                       if (value === user.password) {
                         return true;
                       } else {
-                        return "Passwords do not match.";
+                        return 'Passwords do not match.';
                       }
                     },
                   },
@@ -103,7 +104,7 @@ const EditPasswordScreen = ({ navigation }) => {
                      *  Atleast 1 upper case of lower case character
                      */
                     value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-                    message: "Min 8 characters, uppercase & number",
+                    message: 'Min 8 characters, uppercase & number',
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -129,7 +130,7 @@ const EditPasswordScreen = ({ navigation }) => {
                 rules={{
                   required: {
                     value: true,
-                    message: "Password cannot be empty",
+                    message: 'Password cannot be empty',
                   },
                   pattern: {
                     /**
@@ -138,7 +139,7 @@ const EditPasswordScreen = ({ navigation }) => {
                      *  Atleast 1 upper case of lower case character
                      */
                     value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-                    message: "Min 8 characters, uppercase & number",
+                    message: 'Min 8 characters, uppercase & number',
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -162,13 +163,13 @@ const EditPasswordScreen = ({ navigation }) => {
               <Controller
                 control={control}
                 rules={{
-                  required: { value: true, message: "Password not match" },
+                  required: { value: true, message: 'Password not match' },
                   validate: (value) => {
                     const { password } = getValues();
                     if (value === password) {
                       return true;
                     } else {
-                      return "Passwords do not match.";
+                      return 'Passwords do not match.';
                     }
                   },
                 }}
@@ -196,7 +197,7 @@ const EditPasswordScreen = ({ navigation }) => {
             <View style={styles.footerContainer}>
               <Image
                 style={styles.footerImage}
-                source={require("../assets/nokia/nokia.png")}
+                source={require('../assets/nokia/nokia.png')}
               />
             </View>
           </View>
@@ -209,47 +210,47 @@ const EditPasswordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   androidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
-    marginHorizontal: "12%",
+    marginHorizontal: '12%',
   },
   headerContainer: {
-    marginTop: "25%",
-    height: "10%",
+    marginTop: '25%',
+    height: '10%',
   },
   headerTitle: {
     fontSize: fontSize.ultra,
-    fontWeight: "bold",
-    fontFamily: "IBM",
+    fontWeight: 'bold',
+    fontFamily: 'IBM',
     color: colors.dark_text,
     marginBottom: 5,
   },
   headerContent: {
     fontSize: fontSize.small,
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     color: colors.dark_grey,
   },
   inputContainer: {
     height: 350,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   footerContainer: {
-    marginTop: "35%",
-    alignItems: "center",
+    marginTop: '35%',
+    alignItems: 'center',
   },
   footerImage: {
     height: 35,
-    width: "30%",
-    resizeMode: "contain",
+    width: '30%',
+    resizeMode: 'contain',
   },
   footerText1: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     color: colors.dark_text,
   },
   footerText2: {
-    fontFamily: "IBM",
+    fontFamily: 'IBM',
     color: colors.nokia_blue,
   },
 });
