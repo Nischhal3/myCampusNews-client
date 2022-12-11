@@ -53,7 +53,10 @@ Drawer navigation
 
 Home screen
 
+<p  align="row">
 <img src="assets/home_screen.png" width="30%">
+<img src="assets/notification.png" width="30%">
+</p>
 
 Single news screen
 <p  align="row">
@@ -83,9 +86,6 @@ Drafted news and bookmarked news screen
 <img src="assets/drafted_news_screen.png" width="30%">
 <img src="assets/bookmarked_news_screen.png" width="30%">
 </p>
-
-Notification
-<img src="assets/notification.png" width="30%">
 
 Setting screens
 
