@@ -53,6 +53,7 @@ const DrawerScreen = () => {
       }
     }
   };
+
   // Biometric authentication and token based auto-login
   useEffect(() => {
     LocalAuth();
