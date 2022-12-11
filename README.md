@@ -38,47 +38,59 @@ expo start
 
 Splash, Login and Registration screen
 
+<p  align="row">
 <img src="assets/splash_screen.png" width="30%">
 <img src="assets/registration_screen.png" width="30%">
 <img src="assets/login_screen.png" width="30%">
+</p>
 
 Draweer navigation
 
+<p  align="row">
 <img src="assets/admin_drawer.png" width="30%">
 <img src="assets/regular_user_drawer.png" width="30%">
+</p>
 
 Home screen
 
 <img src="assets/home_screen.png" width="30%">
 
 Single news screen
-
+<p  align="row">
 <img src="assets/single_news_screen_1.png" width="30%">
 <img src="assets/single_news_screen_2.png" width="30%">
+</p>
 
 News publishing screen
 
+<p  align="row">
 <img src="assets/news_publish_screen_1.png" width="30%">
 <img src="assets/news_publish_screen_2.png" width="30%">
 <img src="assets/news_publish_screen_3.png" width="30%">
+</p>
 
 Manage user and news screen
 
+<p  align="row">
 <img src="assets/manage_news_screen.png" width="30%">
 <img src="assets/manage_user_screen.png" width="30%">
 <img src="assets/user_profile_screen_1.png" width="30%">
+</p>
 
 Drafted news and bookmarked news screen
 
+<p  align="row">
 <img src="assets/drafted_news_screen.png" width="30%">
 <img src="assets/bookmarked_news_screen.png" width="30%">
+</p>
 
 Setting screens
 
+<p  align="row">
 <img src="assets/setting_screen_1.png" width="30%">
 <img src="assets/setting_screen_2.png" width="30%">
 <img src="assets/setting_screen_3.png" width="30%">
-
+</p>
 
 
 
