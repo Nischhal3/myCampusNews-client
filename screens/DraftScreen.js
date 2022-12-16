@@ -31,7 +31,7 @@ const DraftScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>Drafted news ( {news.length} )</Text>
+        <Text style={styles.header}>Drafted news {  news.length ? news.length : 0 }</Text>
       </View>
       <View style={styles.listContainer}>
         <FlatList
@@ -40,6 +40,7 @@ const DraftScreen = ({ route, navigation }) => {
             <DraftNewsList navigation={navigation} news={item} />
           )}
           showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.news_id}
         />
       </View>
     </View>
