@@ -227,6 +227,7 @@ const Register = ({ navigation }) => {
 const styles = StyleSheet.create({
   androidSafeArea: {
     flex: 1,
+    backgroundColor: colors.light_background,
   },
   container: {
     flex: 1,

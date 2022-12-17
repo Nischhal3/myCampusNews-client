@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Text,
   View,
   StyleSheet,
-  StatusBar,
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
@@ -191,8 +190,10 @@ const EditPasswordScreen = ({ navigation }) => {
               />
             </View>
 
-            <SubmitButton title="Save" onPress={handleSubmit(onSubmit)} />
-            <SubmitButton title="Cancel" onPress={onCancel} />
+            <View style={styles.buttonContainer}>
+              <SubmitButton title="Save" onPress={handleSubmit(onSubmit)} />
+              <SubmitButton title="Cancel" onPress={onCancel} />
+            </View>
             <View style={styles.footerContainer}>
               <Image
                 style={styles.footerImage}
@@ -209,14 +210,14 @@ const EditPasswordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   androidSafeArea: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: colors.light_background,
   },
   container: {
     flex: 1,
     marginHorizontal: "12%",
   },
   headerContainer: {
-    marginTop: "25%",
+    marginTop: "10%",
     height: "10%",
   },
   headerTitle: {
@@ -232,11 +233,15 @@ const styles = StyleSheet.create({
     color: colors.dark_grey,
   },
   inputContainer: {
-    height: 350,
+    height: 300,
     justifyContent: "center",
   },
+  buttonContainer: {
+    height: 120,
+    justifyContent: "space-between",
+  },
   footerContainer: {
-    marginTop: "35%",
+    marginVertical: "15%",
     alignItems: "center",
   },
   footerImage: {

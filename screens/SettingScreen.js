@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Button, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 
 // UI Imports
 import colors from "../utils/colors";
